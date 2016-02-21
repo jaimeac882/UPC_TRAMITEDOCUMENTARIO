@@ -1,0 +1,52 @@
+Iteraciones:
+select * from tb_tramite_iteracion;
+select * from dbo.tb_t_iteracion_detalle;
+
+ESTADOS:
+select * from dbo.tb_tip_estado_tramite
+
+Activar:
+
+Cambiar de estado al tramite.
+EST004 --->
+INSERT -> tb_flujo_tramite_real
+
+Rechazar:
+
+Cambiar de estado al tramite.
+EST999 --->
+
+  -- ANALISTA DE TRAMIE --- ACTIVACION DE TRAMITE
+
+  
+  
+  select * from tb_user
+  where cod_user = 'USU002'
+  
+    -- JEFE DE REGISTRO CIVIL -- DELEGAR DE EXPEDIENTE
+  
+  select * from tb_user
+  where cod_user = 'USU004'
+
+select * from tb_empleado
+select * from tb_area
+-------------
+
+Delegar:
+
+Guardar:
+EST005 
+
+ /*AL MOMENTO DE DELEGAR */
+  
+  --INSERTA EN ASIGNACION
+  select * from tb_asignacion
+      
+  -- ACTUALIZA ESTADO DE TRAMITE
+  select * from tb_tramite 
+    --- pasa al estado 'EST005'
+  -- ACTUALIZADO FLUJO DE TRAMITE 
+  select * from dbo.tb_flujo_tramite_real
+
+------------
+http://plugins.krajee.com/file-basic-usage-demo
