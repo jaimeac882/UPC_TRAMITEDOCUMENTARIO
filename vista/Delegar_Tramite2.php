@@ -61,7 +61,12 @@
           <div class="form-group row">
             <div class="col-xs-4">
               <label for="formGroupExampleInput2">Confirmación de Jefe</label>&nbsp;
+               
+      
+                
               <input type="checkbox" id="confirmacionJefe" >
+              
+              
             </div>
           </div>
           <!-- Fin Datos tramite -->

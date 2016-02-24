@@ -32,7 +32,7 @@ private $lt_Tramite;
                 AND tb_1.cod_empleado like '%".$codigo."'";
 
       $consulta = sqlsrv_query ($con,$sql);
-
+     
 
       while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_Tramite[] = $row;
@@ -115,7 +115,7 @@ private $lt_Tramite;
     }
     
     
-        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
+        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){    
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -310,7 +310,11 @@ from tb_administrado as a where a.cod_administrado = t.cod_administrado )
 as administrado,
 
 CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
-observaciones,folio,asunto
+observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
+   CASE 
+      WHEN cod_tipo_tramite = 'TDT001' THEN 1 
+      WHEN cod_tipo_tramite = 'TDT002' THEN 0 
+   END  as indicador_tramite
 
 from tb_tramite as t
  where t.cod_tramite='".$tramite->cod_tramite."'";
@@ -333,6 +337,9 @@ from tb_tramite as t
              $tramite->observaciones = trim($fila['observaciones']);
              $tramite->folio = trim($fila['folio']);
              $tramite->asunto = trim($fila['asunto']);
+              $tramite->cod_tipo_tramite = trim($fila['cod_tipo_tramite']);
+             $tramite->indicador_tramite = trim($fila['indicador_tramite']);
+             $tramite->cod_exp = trim($fila['cod_exp']);
 
              return $tramite;
 

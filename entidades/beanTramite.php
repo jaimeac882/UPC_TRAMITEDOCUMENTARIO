@@ -24,6 +24,40 @@ cod_estado*/
         
         
         
+        
+        
+        public $cod_tipo_tramite;
+	function POST_cod_tipo_tramite(){
+		return $this->cod_tipo_tramite;
+	}
+	function set_cod_tipo_tramite($cod_tipo_tramite){
+		$this->cod_tipo_tramite = $cod_tipo_tramite;
+	}
+        
+        public $indicador_tramite;
+	function POST_indicador_tramite(){
+		return $this->indicador_tramite;
+	}
+	function set_indicador_tramite($indicador_tramite){
+		$this->indicador_tramite= $indicador_tramite;
+	}
+        
+        
+        
+        
+        
+        
+        
+        public $cod_exp;
+	function POST_cod_exp(){
+		return $this->cod_exp;
+	}
+	function set_cod_exp($cod_exp){
+		$this->cod_exp = $cod_exp;
+	}
+        
+        
+        
 	public $cod_tramite;
 	function POST_cod_tramite(){
 		return $this->cod_tramite;

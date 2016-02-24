@@ -3,14 +3,25 @@
 <?php
 //echo ($_GET['id']);
 require_once('../controlador/TramiteControlador.php');
+require_once('../controlador/AreaControlador.php');
 require_once('../entidades/beanTramite.php');
+require_once('../entidades/beanArea.php');
 
 $objTramites= new TramiteControlador();
+$objAreas= new AreaControlador();
 $beanTramite= new beanTramite();
+
+
 
 $beanTramite = $objTramites->getTramite($_GET['id']);
 $lt_tramitesadjuntos = $objTramites->obtenerTramitesAdjuntos($_GET['id']);
 $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($beanTramite->POST_cod_tramite());
+$lt_areas = $objAreas->obtenerAreas();
+
+if (($beanTramite->POST_cod_exp()) <> ''){
+$beanArea= new beanArea();
+$beanArea = $objAreas->getAreaxExpediente($beanTramite->POST_cod_exp());
+}
 ?>
 <!-- Accordion - START -->
 <div class="container">
@@ -54,6 +65,29 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
               <textarea class="form-control input-sm" disabled="true" type="textarea"
                   id="referencia" name="referencia" placeholder="referencia"
                   maxlength="200" rows="5"><?php echo $beanTramite->POST_observaciones();?></textarea>
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <div class="col-xs-4">
+              <label for="formGroupExampleInput2">Indicador Expediente</label>&nbsp;
+              <!--<input type="checkbox" id="chkexpediente" value="1" >-->
+          
+            <!--Esta validacion es para poder verificar que el campo confirmacion jefe
+               TDT001 === expediente === 1 
+               TDT002 === documento  === 0
+            --> 
+            <?php if ( ($beanTramite->POST_indicador_tramite()) == "1"): ?>
+              
+            <input type="checkbox" disabled="true" id="confirmacionJefe" checked="True"/>
+                <?php /* A comment not visible in the HTML but is a bit of a pain to write */ ?>
+            <?php else: ?>
+                <!-- else -->
+                <input type="checkbox" disabled="true"  id="confirmacionJefe"/>
+            <?php endif; ?>
+              
+                
+              
             </div>
           </div>
           <!-- Fin Datos tramite -->
@@ -231,6 +265,9 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
                   <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>
               
+         
+              
+              
 <!--              <div class="col-xs-1">
                   <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>-->
@@ -242,8 +279,25 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">¿Esta seguro de Activar el Trámite</h4>
+                      <h4 class="modal-title">¿Esta seguro de Activar el Trámite?</h4>
                     </div>
+                      
+                       <div class="modal-body">
+                       
+                      <label for="recipient-name" class="control-label">Area Asignada : </label>
+                      
+                      
+                        <select id="cboareas" name="marca" class="form-control input-md" required="">
+                             
+                          <?php foreach ($lt_areas as $row_marca){?>
+                             <option value='<?php echo $row_marca['cod_area'];?>'><?php echo $row_marca['des_area'];?></option>
+                          <?php }?>
+                        </select>
+                      
+                        <!--<textarea class="form-control" id="msgobser"></textarea>-->
+                    </div>
+                      
+                      
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                       <button type="button" onclick="activarTramitevrs2()" class="btn btn-primary"  id="btndata" >Activar</button>
@@ -265,12 +319,19 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
                     </div>
                     <div class="modal-body">
                         <label for="recipient-name" class="control-label">Explicacion motivo rechazo:</label>
-                        <textarea class="form-control" id="msgobser"></textarea>
+                        <textarea class="form-control"   id="msgobser"></textarea>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                       <button type="button" onclick="rechazarTramitevrs2()" class="btn btn-warning"  id="btndata" >Rechazar</button>
                     </div>
+                    
+                      <div class="alert alert-error" style="color: red" id="alertaobser" hidden="true">
+                        <span>
+                          <p>Ingresar el Motivo de rechazo</p>
+                        </span>
+                      </div>
+                      
                   </div>
 
                 </div>
@@ -285,12 +346,53 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
 <!-- Accordion - END -->
 <?php include_once("template/pie.php"); ?>
 <script>
+//    
+//  $(document).ready(function(){
+////      $('.cboareas').val("ARE002");
+////      
+////    alert($('.cboareas').val());
+//    
+//  }); 
+//  
+  
+  
+$('#myModal').on('hidden.bs.modal', function () {
+     $('#alertaobser').hide();
+    
+})
+
+
+$('#myModals').on('show.bs.modal', function () {
+  
+    <?php if (isset($beanArea)){?>
+        $("#cboareas").val("<?php echo $beanArea->POST_cod_area();?>");
+        
+         document.getElementById("cboareas").disabled = true;
+   
+            <?php }?>
+                
+
+                
+
+
+                
+                
+  
+//  $("#cboareas").val("?php echo $beanArea->POST_cod_area();?>");
+})
+    
     
 function rechazarTramitevrs2(){
-//    alert("ss");
+
+// $('.cbaareas').val("ARE002");
+
 var observacion = $("#msgobser").val();
-//alert(observacion);
-   $.post("inc_cambiar_estado.php",
+if (observacion == ''){
+    $('#alertaobser').show();
+}else{
+    $('#alertaobser').hide();
+    
+       $.post("inc_cambiar_estado.php",
 			{
 				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
 				operation: "4",
@@ -302,10 +404,11 @@ var observacion = $("#msgobser").val();
 			function(data, status){
 				document.location.href="Activar_Tramite.php";
 		});
-
-
+    
+    
 
     
+}
 }
 
 
