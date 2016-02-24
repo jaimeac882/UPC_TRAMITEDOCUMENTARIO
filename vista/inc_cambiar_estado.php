@@ -15,10 +15,16 @@
     $descripcion_asignacion = $_POST["descripcion"];
     $confirmacionJefe = $_POST["confirmacionJefe"];
   }
+  
+    if($operation == '4'){
+      $cod_administrado  = $_POST["administrado"];  
+      $des_observaciones = $_POST["observacion"];  
+  }
 
   switch ($operation) {
     case '1': $objTramiteControlador->activarTramite($cod_tramite, $cod_usuario, $cod_area); break;
     case '2': $objTramiteControlador->rechazarTramite($cod_tramite, $cod_usuario, $cod_area); break;
+    case '4': $objTramiteControlador->rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado); break;
     case '3': $objTramiteControlador->guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe); break;
   }
 

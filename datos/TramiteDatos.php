@@ -113,6 +113,30 @@ private $lt_Tramite;
         sqlsrv_query ($con,$sql_flujo);
       }
     }
+    
+    
+        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "UPDATE tb_tramite SET cod_estado = 'EST999' WHERE cod_tramite = '".$cod_tramite."'";
+
+      if(sqlsrv_query ($con,$sql)){
+        $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
+                VALUES('".$cod_tramite."',GETDATE(),'".$cod_usuario."','EST999','".$cod_area."')";
+        
+        if (sqlsrv_query ($con,$sql_flujo)){
+             $sql_flujovr2 = "INSERT INTO tb_tramite_rechazo(cod_administrado,cod_tramite,explic_correcciones,fec_registro,cod_usuregis)
+                VALUES('".$cod_administrado."','".$cod_tramite."','".$des_observaciones."',GETDATE(),'".$cod_usuario."');";
+             
+             sqlsrv_query ($con,$sql_flujovr2);
+            
+        };
+      
+        
+      }
+    }
+    
 
      function obtenerTramitesPorActivar($f1,$f2,$ad){
        $cnn = new conexion();

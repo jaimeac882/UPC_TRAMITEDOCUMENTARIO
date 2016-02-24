@@ -45,6 +45,12 @@ private $lt_Tramite_Iteracion;
       $obj = new TramiteDatos();
       return $obj->rechazarTramite($cod_tramite, $cod_usuario, $cod_area);
     }
+    
+       function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
+      $obj = new TramiteDatos();
+      return $obj->rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado);
+    }
+
 
     function obtenerTramitesPorActivar($f1,$f2,$ad){
         $obj = new TramiteDatos();

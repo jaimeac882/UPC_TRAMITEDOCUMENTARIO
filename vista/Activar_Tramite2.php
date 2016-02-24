@@ -224,11 +224,58 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
           <!-- Fin Lilstado Documentos Adjuntos -->
           <div class="form-group row">
               <div class="col-xs-1">
-                  <button type="button" onclick="activarTramite()" class="btn btn-success btn-sm">Activar</button>
+                  <button type="button" data-toggle="modal" data-target="#myModals" class="btn btn-success btn-sm">Activar</button>
               </div>
+              
               <div class="col-xs-1">
-                  <button type="button" onclick="rechazarTramite()" class="btn btn-danger btn-sm">Rechazar</button>
+                  <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>
+              
+<!--              <div class="col-xs-1">
+                  <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
+              </div>-->
+          
+               <div class="modal fade" id="myModals" role="dialog">
+                <div class="modal-dialog">
+
+                   Modal content
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">¿Esta seguro de Activar el Trámite</h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                      <button type="button" onclick="activarTramitevrs2()" class="btn btn-primary"  id="btndata" >Activar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                   Modal content
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Motivo de Rechazo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="recipient-name" class="control-label">Explicacion motivo rechazo:</label>
+                        <textarea class="form-control" id="msgobser"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" onclick="rechazarTramitevrs2()" class="btn btn-warning"  id="btndata" >Rechazar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              
           </div>
 				</div>
 			</div>
@@ -238,6 +285,45 @@ $lt_tramitesadjuntosIteracion = $objTramites->obtenerTramitesAdjuntosIteracion($
 <!-- Accordion - END -->
 <?php include_once("template/pie.php"); ?>
 <script>
+    
+function rechazarTramitevrs2(){
+//    alert("ss");
+var observacion = $("#msgobser").val();
+//alert(observacion);
+   $.post("inc_cambiar_estado.php",
+			{
+				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
+				operation: "4",
+				cod_user : "<?php echo $_SESSION["cod_user"];?>",
+			        cod_area : "<?php echo $_SESSION["cod_area"];?>",
+			        observacion : observacion,
+			        administrado : "<?php echo $beanTramite->POST_cod_administrado();?>",
+			},
+			function(data, status){
+				document.location.href="Activar_Tramite.php";
+		});
+
+
+
+    
+}
+
+
+function activarTramitevrs2(){
+    $.post("inc_cambiar_estado.php",
+			{
+				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
+				operation: "1",
+				cod_user : "<?php echo $_SESSION["cod_user"];?>",
+				cod_area : "<?php echo $_SESSION["cod_area"];?>"
+			},
+			function(data, status){
+				document.location.href="Activar_Tramite.php";
+		});
+}
+    
+    
+    
 $(function() {
   $("#input-4").fileinput({
 			uploadUrl: "subirArchivos.php",
