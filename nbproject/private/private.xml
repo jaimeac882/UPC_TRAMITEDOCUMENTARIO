@@ -5,16 +5,16 @@
             <url>vista/Activar_Tramite2.php</url>
             <bookmark id="1">
                 <name/>
-                <line>411</line>
+                <line>422</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/inc_tramite_activar.php</file>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/entidades/beanArea.php</file>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/Activar_Tramite2.php</file>
+            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/template/cabecera.php</file>
+            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/template/menu.php</file>
+            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/Util/Anotaciones.txt</file>
         </group>
     </open-files>
 </project-private>

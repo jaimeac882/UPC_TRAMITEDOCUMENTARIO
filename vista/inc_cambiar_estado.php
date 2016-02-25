@@ -6,6 +6,7 @@
   $cod_tramite = $_POST["cod_tramite"];
   $cod_usuario = $_POST["cod_user"];
   $cod_area = $_POST["cod_area"];
+  
   $cod_empleado = '';
   $descripcion_asignacion = '';
   $confirmacionJefe = '';
@@ -20,9 +21,18 @@
       $cod_administrado  = $_POST["administrado"];  
       $des_observaciones = $_POST["observacion"];  
   }
+  
+  if($operation == '1'){
+      $cod_area_asignada_x  = $_POST["cod_area_brindada"];  
+  }
+  
+ 
+  
+  
+  
 
   switch ($operation) {
-    case '1': $objTramiteControlador->activarTramite($cod_tramite, $cod_usuario, $cod_area); break;
+    case '1': $objTramiteControlador->activarTramite($cod_tramite, $cod_usuario, $cod_area,$cod_area_asignada_x); break;
     case '2': $objTramiteControlador->rechazarTramite($cod_tramite, $cod_usuario, $cod_area); break;
     case '4': $objTramiteControlador->rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado); break;
     case '3': $objTramiteControlador->guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe); break;

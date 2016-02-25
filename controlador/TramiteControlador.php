@@ -36,9 +36,9 @@ private $lt_Tramite_Iteracion;
       return $obj->guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe);
     }
 
-    function activarTramite($cod_tramite, $cod_usuario, $cod_area){
+    function activarTramite($cod_tramite, $cod_usuario, $cod_area,$cod_area_asignada){
       $obj = new TramiteDatos();
-      return $obj->activarTramite($cod_tramite, $cod_usuario, $cod_area);
+      return $obj->activarTramite($cod_tramite, $cod_usuario, $cod_area,$cod_area_asignada);
     }
 
     function rechazarTramite($cod_tramite, $cod_usuario, $cod_area){
@@ -58,9 +58,9 @@ private $lt_Tramite_Iteracion;
     }
 
 
-    function obtenerTramitesPorAsignar($f1,$f2,$ad){
+    function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
         $obj = new TramiteDatos();
-		    return $obj->obtenerTramitesPorAsignar($f1,$f2,$ad);
+		    return $obj->obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple);
     }
 
     function obtenerTramitesAdjuntosIteracion($codigoTramite){

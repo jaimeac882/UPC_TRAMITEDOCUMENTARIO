@@ -88,16 +88,27 @@ private $lt_Tramite;
       }
     }
 
-    function activarTramite($cod_tramite, $cod_usuario, $cod_area){
+    function activarTramite($cod_tramite, $cod_usuario, $cod_area,$cod_area_asignada){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
+      $estado_tramite_area_asignada = 1;
 
       $sql = "UPDATE tb_tramite SET cod_estado = 'EST004' WHERE cod_tramite = '".$cod_tramite."'";
 
       if(sqlsrv_query ($con,$sql)){
         $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
                 VALUES('".$cod_tramite."',GETDATE(),'".$cod_usuario."','EST004','".$cod_area."')";
-        sqlsrv_query ($con,$sql_flujo);
+      
+          if (sqlsrv_query ($con,$sql_flujo)){
+             $sql_flujovr2 = "INSERT INTO tb_tramite_area_asignada(cod_tramite,cod_usu_queasigno,cod_area,fec_registro,estado)
+                VALUES('".$cod_tramite."','".$cod_usuario."','".$cod_area_asignada."',GETDATE(),".$estado_tramite_area_asignada.");";
+             
+             echo $sql_flujovr2;
+             sqlsrv_query ($con,$sql_flujovr2);
+            
+        };
+        
+        
       }
     }
 
@@ -175,10 +186,12 @@ private $lt_Tramite;
 
 
 
-    function obtenerTramitesPorAsignar($f1,$f2,$ad){
+    function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
       $cnn = new conexion();
   		$con = $cnn->conectarsql();
 
+                
+                /*ESTA VALIDACION LLEGA VERIFICANDO QUE EL EMPLEADO QUE INGRESA ES JEFE DEL AREA INDICADA... Y SOLO LOS TRAMIES ASIGNADOS A ESA AREA*/
       $sql = "SELECT tb_1.*
               FROM (SELECT cod_tramite,
                      (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
@@ -195,11 +208,17 @@ private $lt_Tramite;
                       DAY(GETDATE()-t.fec_recepcion) AS diasTrans
               FROM   tb_tramite AS t
               WHERE  t.cod_estado = 'EST004') tb_1
+                inner join tb_tramite_area_asignada as tra on tb_1.cod_tramite = tra.cod_tramite
+			  inner join tb_area as are on are.cod_area = tra.cod_area
               WHERE tb_1.administrado LIKE '%".$ad."%'
+             and     tra.cod_area = '".$cod_are_em."' 
+                and      are.cod_jefe= '".$id_emple."' 
                         AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                         ORDER BY tb_1.diasTrans";
 
       $consulta = sqlsrv_query ($con,$sql);
+      
+    
 
       while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_Tramite[] = $row;

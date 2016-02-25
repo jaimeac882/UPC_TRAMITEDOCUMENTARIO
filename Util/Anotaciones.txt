@@ -1,0 +1,35 @@
+Anotaciones:
+
+[tb_tramite_area_asignada] es donde se refleja siempre a que area esta dirigida como 
+principal flujo el tramite... cuando es expediente ... es su area encargada segun tupa
+y cuando es un documento ... el analista de tramite selecciona cual es su area encargada
+
+
+
+
+
+tb_tramite_area_asignada segun esta tabla se deberia obtener el jefe 
+
+______________________________________________________________________________________________________
+
+PENDIENTEE  PONER LOS PERFILES POR MODULO ... SEGUN ESTE MODULO 
+CREAMOS DINAMICAMENTE SU RESPECTIVO OPCIONES DE MODULO 
+POR EJEMPLO
+
+
+MODULO TRAMITES
+      OPCIONES 
+           ACTIVAR TRAMITE
+ 
+
+
+MODULO TRAMITES
+      OPCIONES 
+           DELEGAR CARGA DE TRABAJO EXPEDIENTE 
+
+PARA TODO ESTO LAS TABLAS INVOLUCRADAS SON : SELECT * FROM tb_modulo
+                                             SELECT * FROM cod_user_perfil
+                                             select * from tb_perfil_ingreso
+
+
+ 

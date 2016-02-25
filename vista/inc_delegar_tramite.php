@@ -4,7 +4,9 @@
   $fecha_1 = $_GET["fecha1"];
   $fecha_2 = $_GET["fecha2"];
   $administrado = $_GET["ad"];
-  $lt_tramitessinactivar = $objTramites->obtenerTramitesPorAsignar($fecha_1, $fecha_2, $administrado);
+   $cod_are_em = $_GET["cod_area_emp"];
+  $id_emple = $_GET["cod_emp"];
+  $lt_tramitessinactivar = $objTramites->obtenerTramitesPorAsignar($fecha_1, $fecha_2, $administrado,$cod_are_em,$id_emple);
 ?>
 <?php foreach ($lt_tramitessinactivar as $row) { ?>
   <tr>

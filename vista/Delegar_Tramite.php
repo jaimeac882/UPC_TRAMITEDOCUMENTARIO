@@ -1,6 +1,22 @@
 <?php
 session_start();
-include_once("template/cabecera.php"); ?>
+include_once("template/cabecera.php"); 
+
+  require_once('../controlador/EmpleadoControlador.php');
+  require_once('../entidades/empleado.php');
+
+
+  
+    $objEmpleadoControlador = new EmpleadoControlador();
+     $beanEmpleado= new empleado();
+    
+       $beanEmpleado = $objEmpleadoControlador->getEmpleadoxUsuario($_SESSION["cod_user"]);
+       
+//       echo $_SESSION["cod_area"];
+//       echo $beanEmpleado->POST_id();
+?>
+
+
 
 <!-- Accordion - START -->
 <div class="container">
@@ -84,8 +100,12 @@ function buscarTramites(){
   var fecha1 = $("#va_datepicker1").val();
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();
+    var area = "<?php echo $_SESSION["cod_area"];?>";
+  var id_emp = "<?php echo $beanEmpleado->POST_id();?>";
 
-  $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
+//  $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
+ $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
+
     $("#body_contenedor").html(data);
   });
 }
@@ -94,8 +114,13 @@ function buscarTramitesInicial(){
   var fecha1 = '01/01/1900';
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();
+  var administrado = $("#buscar").val();
+  var area = "<?php echo $_SESSION["cod_area"];?>";
+  var id_emp = "<?php echo $beanEmpleado->POST_id();?>";
 
-  $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
+
+  $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
+//     $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
     $("#body_contenedor").html(data);
   });
 }

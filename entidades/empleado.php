@@ -83,6 +83,15 @@
   	function set_empleado($empleado){
   		$this->empleado = $empleado;
   	}
+        
+        
+        
+      function POST_cod_user(){
+      return $this->cod_user;
+    }
+    function set_cod_user($cod_user){
+      $this->cod_user = $cod_user;
+    }    
   }
 
 ?>

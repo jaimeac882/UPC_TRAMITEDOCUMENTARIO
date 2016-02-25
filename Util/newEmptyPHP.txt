@@ -1,0 +1,6 @@
+para constrains
+
+
+ALTER TABLE [dbo].[tb_administrado]  WITH CHECK ADD FOREIGN KEY([cod_tipo_documento])
+REFERENCES [dbo].[tb_tipo_documento] ([cod_tipo_documento])
+GO

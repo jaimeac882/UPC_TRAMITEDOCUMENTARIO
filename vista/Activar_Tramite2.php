@@ -302,6 +302,14 @@ $beanArea = $objAreas->getAreaxExpediente($beanTramite->POST_cod_exp());
                       <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                       <button type="button" onclick="activarTramitevrs2()" class="btn btn-primary"  id="btndata" >Activar</button>
                     </div>
+                     
+                     <div class="alert alert-error" style="color: red" id="alercboarea" hidden="true">
+                        <span>
+                          <p>Debe seleccionar un area para activar el Tramite</p>
+                        </span>
+                      </div>  
+                      
+                      
                   </div>
 
                 </div>
@@ -358,6 +366,9 @@ $beanArea = $objAreas->getAreaxExpediente($beanTramite->POST_cod_exp());
   
 $('#myModal').on('hidden.bs.modal', function () {
      $('#alertaobser').hide();
+     $('#alercboarea').hide();
+     
+     
     
 })
 
@@ -413,16 +424,37 @@ if (observacion == ''){
 
 
 function activarTramitevrs2(){
-    $.post("inc_cambiar_estado.php",
+
+
+
+var strcboarea = $("#cboareas").val();
+if (strcboarea == ''){
+
+
+ $('#alercboarea').show();
+ 
+                
+}else{
+
+      $('#alercboarea').hide();
+  $.post("inc_cambiar_estado.php",
 			{
 				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
 				operation: "1",
+                                cod_area_brindada : strcboarea,
 				cod_user : "<?php echo $_SESSION["cod_user"];?>",
-				cod_area : "<?php echo $_SESSION["cod_area"];?>"
+				cod_area : "<?php echo $_SESSION["cod_area"];?>",
+				
 			},
 			function(data, status){
 				document.location.href="Activar_Tramite.php";
 		});
+                
+
+}
+
+
+ 
 }
     
     
@@ -495,32 +527,34 @@ function obtenerNombresArchivos(){
 	}
 	return ruta_archivos;
 }
-function activarTramite(){
-	if(confirm('¿Esta seguro de activar el tramite?')){
-		$.post("inc_cambiar_estado.php",
-			{
-				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
-				operation: "1",
-				cod_user : "<?php echo $_SESSION["cod_user"];?>",
-				cod_area : "<?php echo $_SESSION["cod_area"];?>"
-			},
-			function(data, status){
-				document.location.href="Activar_Tramite.php";
-		});
-	}
-}
-function rechazarTramite(){
-	if(confirm('¿Esta seguro de rechazar el tramite?')){
-		$.post("inc_cambiar_estado.php",
-			{
-				cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
-				operation: "2",
-				cod_user : "<?php echo $_SESSION["cod_user"];?>",
-			  cod_area : "<?php echo $_SESSION["cod_area"];?>"
-			},
-			function(data, status){
-				document.location.href="Activar_Tramite.php";
-		});
-	}
-}
+//function activarTramite(){
+// METODO DE CRISTIAN
+//	if(confirm('¿Esta seguro de activar el tramite?')){
+//		$.post("inc_cambiar_estado.php",
+//			{
+//				cod_tramite: "?php echo $beanTramite->POST_cod_tramite();?>",
+//				operation: "1",
+//				cod_user : "?php echo $_SESSION["cod_user"];?>",
+//				cod_area : "?php echo $_SESSION["cod_area"];?>"
+//			},
+//			function(data, status){
+//				document.location.href="Activar_Tramite.php";
+//		});
+//	}
+//}
+//function rechazarTramite(){
+// METODO DE CRISTIAN
+//	if(confirm('¿Esta seguro de rechazar el tramite?')){
+//		$.post("inc_cambiar_estado.php",
+//			{
+//				cod_tramite: "?php echo $beanTramite->POST_cod_tramite();?>",
+//				operation: "2",
+//				cod_user : "?php echo $_SESSION["cod_user"];?>",
+//			  cod_area : "?php echo $_SESSION["cod_area"];?>"
+//			},
+//			function(data, status){
+//				document.location.href="Activar_Tramite.php";
+//		});
+//	}
+//}
 </script>
