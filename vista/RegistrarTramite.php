@@ -154,22 +154,79 @@ body {
                     Buscar &nbsp;<span class="glyphicon glyphicon-check"></span>
                   </button>
             </div>
-            
+            </div>
     </div>
-    
+
+            
+ <!--inicio: Copiado y adaptandose-->
+            <div class="panel panel-default">
+            <div class="panel-heading">Adjuntar Archivos al Trámite: </div>
+            <div class="panel-body">
+              <table
+                class="table table-bordered table-striped table-hover table-condensed">
+                <thead>
+                  <tr>
+										<th>#</th>
+										<th>Archivo</th>
+										<th>Ubicación</th>
+                    <!--<th>Ruta</th>-->
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($lt_tramitesadjuntosIteracion as $key=> $row) { ?>
+                  <tr>
+                                                                                <td>
+											<?php echo $row['cod_tramite_adjuntos'];?>
+										</td>
+										<td>
+											<?php echo $row['userRegistro'];?>
+										</td>
+                                                                                
+                                                                                <td style="width: 35px">
+											<a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
+												<span class="glyphicon glyphicon-zoom-in"></span>
+                                                                                        </a>
+											<div class="modal fade" id="dialog_<?php echo $key;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+											  <div class="modal-dialog modal-lg" role="document">
+											    <div class="modal-content">
+											      <div class="modal-header">
+											      </div>
+											      <div class="modal-body">
+															<center>
+																<div class="embed-responsive embed-responsive-4by3">
+																  <embed src="../<?php echo $row['ruta_doc_adjunta'];?>">
+																</div>
+															</center>
+											      </div>
+											      <div class="modal-footer">
+											      </div>
+											    </div>
+											  </div>
+											</div>
+                                                                                </td>
+                   </tr>
+                  <?php } ?>             
+                <!--Fin: Copiado y adaptandose-->
+                </tbody>
+              </table>    
+          </div>
+            
      <div class="panel panel-default">
-            <div class="panel-heading">Ficha de Administrado: </div>
+            <div class="panel-heading">Trámite Seleccionado: </div>
             <div class="panel-body">
                 
             <div class="form-group row">
+                
             <div class="col-xs-2">
-              <label for="nroDocumentoIdentidad">Nro. Documento de identidad:</label>
+              <label for="nroDocumentoIdentidad">Nro. Documento de Identidad:</label>
               <input type="text"   value="" class="form-control input-sm" id="nroDocumentoIdentidad" />
             </div>
                   
             <div class="col-xs-4">
-              <label for="nombreAdmnistrado">Nombre del Administrado:</label>
-              <input type="text" disabled="true"  value="" class="form-control input-sm" id="nombreAdmnistrado" />
+                
+                            
+                
             </div>
                           
              <div class="col-xs-2">
@@ -178,7 +235,7 @@ body {
                     Buscar &nbsp;<span class="glyphicon glyphicon-check"></span>
                   </button>
             </div>
-            
+            </div>
     </div>   
     
 </body>
