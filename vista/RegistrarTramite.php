@@ -216,13 +216,47 @@ body {
             <div class="panel-heading">Trámite Seleccionado: </div>
             <div class="panel-body">
                 
-            <div class="form-group row">
+            
                 
             <div class="col-xs-2">
-              <label for="nroDocumentoIdentidad">Nro. Documento de Identidad:</label>
-              <input type="text"   value="" class="form-control input-sm" id="nroDocumentoIdentidad" />
-            </div>
-                  
+                
+  
+                                <label for="recipient-name" class="control-label">Tipo Trámite : </label>
+                                         
+                                <select id="cboTipoTramite" name="tipoTramite" class="form-control input-md" required="">
+                             
+                                <?php foreach ($lt_areas as $row_marca){?>
+                                    <option value='<?php echo $row_marca['cod_area'];?>'><?php echo $row_marca['des_area'];?></option>
+                                <?php }?>                             
+                            
+                                </select>
+            </div>                    
+            <div class="col-xs-2">
+                                <label for="recipient-name" class="control-label">Tipo Expediente : </label>
+                                         
+                                <select id="cboTipoExpediente" name="tipoTramite" class="form-control input-md" required="">
+                             
+                                <?php foreach ($lt_areas as $row_marca){?>
+                                    <option value='<?php echo $row_marca['cod_area'];?>'><?php echo $row_marca['des_area'];?></option>
+                                <?php }?>                             
+                            
+                                </select>                                 
+
+            </div> 
+                
+           <div class="form-group row">
+              <div class="col-xs-11">
+                <label for="txtAsunto">Asunto:</label>
+                <input type="text" value="" class="form-control input-sm" id="txtAsunto" />
+              </div>
+           </div>               
+                
+            <div class="col-xs-12">
+              <label for="formGroupExampleInput2">Observaciones:</label>
+              <textarea class="form-control input-sm" type="textarea"
+                  id="referencia" name="referencia" placeholder="referencia"
+                  maxlength="200" rows="5"></textarea>
+            </div>                  
             <div class="col-xs-4">
                 
                             
@@ -235,7 +269,7 @@ body {
                     Buscar &nbsp;<span class="glyphicon glyphicon-check"></span>
                   </button>
             </div>
-            </div>
+            
     </div>   
     
 </body>

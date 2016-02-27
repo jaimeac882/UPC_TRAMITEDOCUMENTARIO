@@ -12,9 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/inc_tramite_activar.php</file>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/entidades/beanArea.php</file>
-            <file>file:/C:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/Activar_Tramite2.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO-1/vista/js/datapickers.js</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO-1/vista/MODAL/validar.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO-1/vista/MODAL/insertar.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO-1/vista/RegistrarTramite.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO-1/vista/js/util.js</file>
         </group>
     </open-files>
 </project-private>
