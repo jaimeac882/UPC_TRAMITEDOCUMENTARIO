@@ -4,7 +4,8 @@ class conexion{
 		return mysqli_connect("localhost","prueba","prueba");
 	}
         function conectarsql(){
-            $serverName = "(local)\SQLEXPRESS";
+            //$serverName = "(local)\SQLEXPRESS";//GERARDO-PC
+            $serverName = "GERARDO-PC";//GERARDO-PC
              $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql"); 
          	return sqlsrv_connect( $serverName, $connectionInfo);
 	}
