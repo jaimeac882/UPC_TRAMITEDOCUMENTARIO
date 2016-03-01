@@ -50,9 +50,9 @@
     <td>
       <?php echo $row['diasTrans'];?>
     </td>
-    <td style="width: 35px">
+    <td style="width: 10px">
       <a class="btn btn-info btn-sm" href="Activar_Tramite2.php?id=<?php echo $row['cod_tramite']; ?>">
-        <span class="glyphicon glyphicon-pencil"></span>
+        Editar
       </a>
     </th>
   </tr>

@@ -52,7 +52,7 @@ private $lt_TipTramite;
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
-      $sql = "select '999999' as cod_tipo_tramite,'(Todos)' AS  des_tipo_tramite  from tb_tipo_tramite
+      $sql = "select '999999' as cod_tipo_tramite,'(Todos)' AS  des_tipo_tramite 
                 union 
                 select * from tb_tipo_tramite
                 order by des_tipo_tramite";

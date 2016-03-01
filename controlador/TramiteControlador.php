@@ -34,6 +34,9 @@ private $lt_TipTramite;
       return $obj->getTiposTramite();
     }
     
+    
+    
+    
 
     function getEmpleadoSugerido($cod_area){
       $obj = new TramiteDatos();

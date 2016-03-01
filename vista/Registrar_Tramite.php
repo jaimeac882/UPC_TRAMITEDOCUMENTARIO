@@ -114,7 +114,7 @@ $lt_TipTramites = $objTramites->getTiposTramite();
               <button id="btnNuevo" name="btnNuevo"
 								onclick="NuevoTramite()"  class="btn btn-primary btn-sm"
 								title="Nuevo Tramite">
-                  <a href="">Nuevo</a><span class="glyphicon glyphicon-new-window"></span>
+                  <a href="Registrar_Tramite2.php">Nuevo</a><span class="glyphicon glyphicon-new-window"></span>
 							</button>
             </div>
               

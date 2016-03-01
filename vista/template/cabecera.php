@@ -22,6 +22,7 @@ if(isset($_SESSION["usuario"]) && isset($_SESSION["pass"])){
 <!DOCTYPE html>
 <html>
 <head>
+    
     <meta charset="utf-8" />
     <title>SISDOC VRS 3.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
