@@ -60,11 +60,13 @@
                     </div>
                     <div id="collapseThre" class="panel-collapse collapse in">
                         <ul class="list-group">
-                                <!--<ul class="list-group">
-                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-primary"></span> <a>Edit Blog</a></li>
-                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-success"></span> <a>Publish Blog</a></li>
-                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-warning"></span> <a>Delete Blog</a></li>
-                                </ul>-->
+                                <ul class="list-group">
+                                     <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Registrar_Tramite.php">Registrar Tramites</a>
+                                 
+                                    <!--<li class="list-group-item"><span class="glyphicon glyphicon-minus text-primary"></span> <a>Registrar Tramite</a></li>-->
+<!--                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-success"></span> <a>Publish Blog</a></li>
+                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-warning"></span> <a>Delete Blog</a></li>-->
+                                </ul>
                             </li>
                             <!-- <li class="list-group-item"><span class="glyphicon glyphicon-share-alt text-info"></span> <a>Share</a></li>
                             <li class="list-group-item"><span class="glyphicon glyphicon-bell text-success"></span> <a>Users online</a><span class="badge">7</span></li>

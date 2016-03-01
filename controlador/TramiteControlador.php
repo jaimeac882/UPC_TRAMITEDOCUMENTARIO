@@ -14,17 +14,26 @@ class TramiteControlador{
 private $lt_Tramite;
 private $lt_Tramite_Adjuntos;
 private $lt_Tramite_Iteracion;
-
+private $lt_TipTramite;
     public function __construct() {
         $this->lt_Tramite = array();
         $this->lt_Tramite_Adjuntos = array();
         $this->lt_Tramite_Iteracion = array();
+        $this->lt_TipTramite = array();
     }
 
     function empleadosAsignacion($cod_area, $nombre, $codigo){
       $obj = new TramiteDatos();
       return $obj->empleadosAsignacion($cod_area, $nombre, $codigo);
     }
+    
+    
+    
+        function getTiposTramite(){
+      $obj = new TramiteDatos();
+      return $obj->getTiposTramite();
+    }
+    
 
     function getEmpleadoSugerido($cod_area){
       $obj = new TramiteDatos();
@@ -52,11 +61,24 @@ private $lt_Tramite_Iteracion;
     }
 
 
-    function obtenerTramitesPorActivar($f1,$f2,$ad){
+    function obtenerTramites_RegistroInicial($f1,$f2,$ad){
         $obj = new TramiteDatos();
-		return $obj->obtenerTramitesPorActivar($f1,$f2,$ad);
+		return $obj->obtenerTramites_RegistroInicial($f1,$f2,$ad);
     }
 
+    
+        function obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu){
+        $obj = new TramiteDatos();
+		return $obj->obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu);
+        }
+
+    
+    
+      function obtenerTramitesPorActivar($f1,$f2,$ad){
+        $obj = new TramiteDatos();
+		return $obj->obtenerTramitesPorActivar($f1,$f2,$ad);
+      }
+    
 
     function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
         $obj = new TramiteDatos();
