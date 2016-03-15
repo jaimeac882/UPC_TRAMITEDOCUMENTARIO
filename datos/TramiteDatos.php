@@ -34,7 +34,7 @@ private $lt_TipTramite;
                 AND tb_1.cod_empleado like '%".$codigo."'";
 
       $consulta = sqlsrv_query ($con,$sql);
-     
+
 
       while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_Tramite[] = $row;
@@ -44,33 +44,26 @@ private $lt_TipTramite;
 
     }
 
-    
-    
-    
-    
     function getTiposTramite(){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
-      $sql = "select '999999' as cod_tipo_tramite,'(Todos)' AS  des_tipo_tramite 
-                union 
+      $sql = "select '999999' as cod_tipo_tramite,'(Todos)' AS  des_tipo_tramite
+                union
                 select * from tb_tipo_tramite
                 order by des_tipo_tramite";
 
       $consulta = sqlsrv_query ($con,$sql);
-     
+
 
       while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_TipTramite[] = $row;
       }
-      
+
       return($this->lt_TipTramite);
 
     }
-    
-    
-    
-    
+
     function getEmpleadoSugerido($cod_area){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
@@ -95,6 +88,34 @@ private $lt_TipTramite;
       }
 
       return $empleados;
+    }
+
+    function actualizarTramite($codTramite, $observaciones){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+      $sql = "UPDATE tb_tramite SET observaciones = '".$observaciones."' WHERE cod_tramite = '".$codTramite."'";
+
+      sqlsrv_query ($con,$sql);
+
+    }
+
+    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT 'TRA'+RIGHT('0000000'+CAST(CAST(RIGHT(MAX(cod_tramite),7) AS INT)+1 AS VARCHAR),7) AS id FROM tb_tramite";
+      $consultaId = sqlsrv_query ($con ,$sql);
+
+      if($row = sqlsrv_fetch_array($consultaId, SQLSRV_FETCH_ASSOC)){
+        $id = $row["id"];
+
+        $sql = "INSERT tb_tramite(cod_tramite, cod_administrado, des_tramite, fec_recepcion, observaciones, folio, asunto, cod_estado, recibo, cod_tipo_tramite)
+                VALUES('".$id."','".$codAdministrado."','".$desTramite."',GETDATE(),'".$observacion."','".$folio."','".$asunto."','EST001','".$recibo."','".$cod_tipo_tramite."')";
+
+        sqlsrv_query ($con, $sql);
+      }
+
+      return $id;
     }
 
     function guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe){
@@ -126,17 +147,15 @@ private $lt_TipTramite;
       if(sqlsrv_query ($con,$sql)){
         $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
                 VALUES('".$cod_tramite."',GETDATE(),'".$cod_usuario."','EST004','".$cod_area."')";
-      
+
           if (sqlsrv_query ($con,$sql_flujo)){
              $sql_flujovr2 = "INSERT INTO tb_tramite_area_asignada(cod_tramite,cod_usu_queasigno,cod_area,fec_registro,estado)
                 VALUES('".$cod_tramite."','".$cod_usuario."','".$cod_area_asignada."',GETDATE(),".$estado_tramite_area_asignada.");";
-             
+
              echo $sql_flujovr2;
              sqlsrv_query ($con,$sql_flujovr2);
-            
+
         };
-        
-        
       }
     }
 
@@ -152,9 +171,9 @@ private $lt_TipTramite;
         sqlsrv_query ($con,$sql_flujo);
       }
     }
-    
-    
-        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){    
+
+
+        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -163,19 +182,19 @@ private $lt_TipTramite;
       if(sqlsrv_query ($con,$sql)){
         $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
                 VALUES('".$cod_tramite."',GETDATE(),'".$cod_usuario."','EST999','".$cod_area."')";
-        
+
         if (sqlsrv_query ($con,$sql_flujo)){
              $sql_flujovr2 = "INSERT INTO tb_tramite_rechazo(cod_administrado,cod_tramite,explic_correcciones,fec_registro,cod_usuregis)
                 VALUES('".$cod_administrado."','".$cod_tramite."','".$des_observaciones."',GETDATE(),'".$cod_usuario."');";
-             
+
              sqlsrv_query ($con,$sql_flujovr2);
-            
+
         };
-      
-        
+
+
       }
     }
-    
+
 
      function obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu){
        $cnn = new conexion();
@@ -203,7 +222,7 @@ private $lt_TipTramite;
                  ORDER BY tb_1.diasTrans";
 
           $consulta = sqlsrv_query ($con,$sql);
-         
+
           while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
             $this->lt_Tramite[] = $row;
           }
@@ -213,8 +232,8 @@ private $lt_TipTramite;
           return($this->lt_Tramite);
     }
 
-    
-    
+
+
     function obtenerTramites_RegistroInicial($f1,$f2,$ad){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
@@ -249,9 +268,9 @@ private $lt_TipTramite;
 
           return($this->lt_Tramite);
     }
-    
-    
-    
+
+
+
     function obtenerTramitesPorActivar($f1,$f2,$ad){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
@@ -271,7 +290,7 @@ private $lt_TipTramite;
                           WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
                           DAY(GETDATE()-t.fec_recepcion) AS diasTrans
                   FROM   tb_tramite AS t
-                  WHERE  t.cod_estado = 'EST003') tb_1
+                  WHERE  t.cod_estado = 'EST001') tb_1
                   WHERE tb_1.administrado LIKE '%".$ad."%'
                   AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                   ORDER BY tb_1.diasTrans";
@@ -286,14 +305,14 @@ private $lt_TipTramite;
 
           return($this->lt_Tramite);
     }
-    
+
 
 
     function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
       $cnn = new conexion();
   		$con = $cnn->conectarsql();
 
-                
+
                 /*ESTA VALIDACION LLEGA VERIFICANDO QUE EL EMPLEADO QUE INGRESA ES JEFE DEL AREA INDICADA... Y SOLO LOS TRAMIES ASIGNADOS A ESA AREA*/
       $sql = "SELECT tb_1.*
               FROM (SELECT cod_tramite,
@@ -314,14 +333,14 @@ private $lt_TipTramite;
                 inner join tb_tramite_area_asignada as tra on tb_1.cod_tramite = tra.cod_tramite
 			  inner join tb_area as are on are.cod_area = tra.cod_area
               WHERE tb_1.administrado LIKE '%".$ad."%'
-             and     tra.cod_area = '".$cod_are_em."' 
-                and      are.cod_jefe= '".$id_emple."' 
+             and     tra.cod_area = '".$cod_are_em."'
+                and      are.cod_jefe= '".$id_emple."'
                         AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                         ORDER BY tb_1.diasTrans";
 
       $consulta = sqlsrv_query ($con,$sql);
-      
-    
+
+
 
       while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_Tramite[] = $row;
@@ -433,9 +452,9 @@ as administrado,
 
 CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
 observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
-   CASE 
-      WHEN cod_tipo_tramite = 'TDT001' THEN 1 
-      WHEN cod_tipo_tramite = 'TDT002' THEN 0 
+   CASE
+      WHEN cod_tipo_tramite = 'TDT001' THEN 1
+      WHEN cod_tipo_tramite = 'TDT002' THEN 0
    END  as indicador_tramite
 
 from tb_tramite as t

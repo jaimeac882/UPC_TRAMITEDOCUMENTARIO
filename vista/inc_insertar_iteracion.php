@@ -8,6 +8,6 @@
   $des_adj = $_POST["des_adj"];
   $archivos = $_POST["archivos"];
 
-  $objIteracionControlador->insertarIteracion($cod_documento, $cod_tramite, $cod_usu, $des_adj, $archivos);
+  echo $objIteracionControlador->insertarIteracion($cod_documento, $cod_tramite, $cod_usu, $des_adj, $archivos);
 
 ?>

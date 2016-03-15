@@ -31,7 +31,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						Activar Tramite : <a style="color: blue; font-weight: bold"> <?php echo $beanTramite->POST_cod_tramite();?>
+						Tramite : <a style="color: blue; font-weight: bold"> <?php echo $beanTramite->POST_cod_tramite();?>
 						</a>
 					</h3>
 				</div>
@@ -60,8 +60,8 @@
           <div class="form-group row">
             <div class="col-xs-12">
               <label for="formGroupExampleInput2">Observaciones</label>
-              <textarea class="form-control input-sm" disabled="true" type="textarea"
-                  id="referencia" name="referencia" placeholder="referencia"
+              <textarea class="form-control input-sm" type="textarea"
+                  id="observaciones" name="observaciones" placeholder="referencia"
                   maxlength="200" rows="5"><?php echo $beanTramite->POST_observaciones();?></textarea>
             </div>
           </div>
@@ -257,7 +257,7 @@
           <!-- Fin Lilstado Documentos Adjuntos -->
           <div class="form-group row">
               <div class="col-xs-1">
-                  <button type="button" data-toggle="modal" data-target="#myModals" class="btn btn-success btn-sm">Activar</button>
+                  <button type="button" data-toggle="modal" onclick="actualizarTramite()" class="btn btn-success btn-sm">Guardar</button>
               </div>
 
               <div class="col-xs-1">
@@ -386,6 +386,17 @@ function rechazarTramitevrs2(){
 	}
 }
 
+function actualizarTramite(){
+  $.post('inc_actualizar_tramite.php',
+  {
+		codigoTramite : "<?php echo $beanTramite->POST_cod_tramite();?>",
+		observaciones: $("#observaciones").val()
+	},
+  function(data, status){
+    document.location.href="Registrar_Tramite.php";
+  });
+}
+
 function activarTramitevrs2(){
 	var strcboarea = $("#cboareas").val();
 	if (strcboarea == ''){
@@ -477,34 +488,4 @@ function obtenerNombresArchivos(){
 	}
 	return ruta_archivos;
 }
-//function activarTramite(){
-// METODO DE CRISTIAN
-//	if(confirm('¿Esta seguro de activar el tramite?')){
-//		$.post("inc_cambiar_estado.php",
-//			{
-//				cod_tramite: "?php echo $beanTramite->POST_cod_tramite();?>",
-//				operation: "1",
-//				cod_user : "?php echo $_SESSION["cod_user"];?>",
-//				cod_area : "?php echo $_SESSION["cod_area"];?>"
-//			},
-//			function(data, status){
-//				document.location.href="Activar_Tramite.php";
-//		});
-//	}
-//}
-//function rechazarTramite(){
-// METODO DE CRISTIAN
-//	if(confirm('¿Esta seguro de rechazar el tramite?')){
-//		$.post("inc_cambiar_estado.php",
-//			{
-//				cod_tramite: "?php echo $beanTramite->POST_cod_tramite();?>",
-//				operation: "2",
-//				cod_user : "?php echo $_SESSION["cod_user"];?>",
-//			  cod_area : "?php echo $_SESSION["cod_area"];?>"
-//			},
-//			function(data, status){
-//				document.location.href="Activar_Tramite.php";
-//		});
-//	}
-//}
 </script>

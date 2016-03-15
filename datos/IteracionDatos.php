@@ -19,7 +19,7 @@
           $lst_archivos = explode(",",$archivos);
           foreach ($lst_archivos as &$value) {
             if($value != ''){
-              $ruta_archivo = "FilesUpload/".$cod_tramite."/".$cod_documento."/".$value;
+              $ruta_archivo = "FilesUpload/".$cod_tramite."/".$id."/".$value;
               $sql_detalle = "INSERT INTO tb_t_iteracion_detalle(cod_tramite_adjuntos, nom_archvio, ruta_doc_adjunta)
                               VALUES('".$id."','".$value."','".$ruta_archivo."')";
 
@@ -30,6 +30,7 @@
               sqlsrv_query ($con, $sql_documento);*/
             }
           }
+          return $id;
         }
       }
     }

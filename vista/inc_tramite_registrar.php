@@ -5,17 +5,17 @@
   $fecha_2 = $_GET["fecha2"];
   $administrado = $_GET["ad"];
   $tipo_docu = $_GET["cbo"];
-  
+
   if ($tipo_docu === '999999'){
         $lt_tramitessinactivar = $objTramites->obtenerTramites_RegistroInicial($fecha_1, $fecha_2, $administrado);
   }else{
         $lt_tramitessinactivar = $objTramites->obtenerTramites_Registro($fecha_1, $fecha_2, $administrado,$tipo_docu);
   }
 
-  
+
   ?>
-  
-  
+
+
 <?php foreach ($lt_tramitessinactivar as $row) { ?>
   <tr>
     <td>
@@ -51,7 +51,7 @@
       <?php echo $row['diasTrans'];?>
     </td>
     <td style="width: 10px">
-      <a class="btn btn-info btn-sm" href="Activar_Tramite2.php?id=<?php echo $row['cod_tramite']; ?>">
+      <a class="btn btn-info btn-sm" href="Editar_Tramite.php?id=<?php echo $row['cod_tramite']; ?>">
         Editar
       </a>
     </th>

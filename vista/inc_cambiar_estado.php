@@ -6,7 +6,7 @@
   $cod_tramite = $_POST["cod_tramite"];
   $cod_usuario = $_POST["cod_user"];
   $cod_area = $_POST["cod_area"];
-  
+
   $cod_empleado = '';
   $descripcion_asignacion = '';
   $confirmacionJefe = '';
@@ -16,20 +16,15 @@
     $descripcion_asignacion = $_POST["descripcion"];
     $confirmacionJefe = $_POST["confirmacionJefe"];
   }
-  
-    if($operation == '4'){
-      $cod_administrado  = $_POST["administrado"];  
-      $des_observaciones = $_POST["observacion"];  
+
+  if($operation == '4'){
+    $cod_administrado  = $_POST["administrado"];
+    $des_observaciones = $_POST["observacion"];
   }
-  
+
   if($operation == '1'){
-      $cod_area_asignada_x  = $_POST["cod_area_brindada"];  
+      $cod_area_asignada_x  = $_POST["cod_area_brindada"];
   }
-  
- 
-  
-  
-  
 
   switch ($operation) {
     case '1': $objTramiteControlador->activarTramite($cod_tramite, $cod_usuario, $cod_area,$cod_area_asignada_x); break;

@@ -11,7 +11,6 @@
   $beanTramite = $objTramites->getTramite($_GET['id']);
   $lt_tramitesadjuntos = $objTramites->obtenerTramitesAdjuntos($_GET['id']);
   $empleado = $objTramites->getEmpleadoSugerido($_SESSION["cod_area"]);
-
 ?>
 <!-- Accordion - START -->
 <div class="container">
@@ -61,12 +60,7 @@
           <div class="form-group row">
             <div class="col-xs-4">
               <label for="formGroupExampleInput2">Confirmación de Jefe</label>&nbsp;
-               
-      
-                
               <input type="checkbox" id="confirmacionJefe" >
-              
-              
             </div>
           </div>
           <!-- Fin Datos tramite -->
@@ -194,8 +188,37 @@
                 	<button type="button" onclick="guardarTramite()" class="btn btn-success btn-sm" onclick="">Guardar</button>
               </div>
               <div class="col-xs-1">
-                  <button type="button" onclick="rechazarTramite()" class="btn btn-danger btn-sm">Rechazar</button>
+                  <!--<button type="button" onclick="rechazarTramite()" class="btn btn-danger btn-sm">Rechazar</button>-->
+                  <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>
+
+              <!-- Modal Init -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">Modal content
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Motivo de Rechazo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="recipient-name" class="control-label">Explicacion motivo rechazo:</label>
+                        <textarea class="form-control input-sm" id="msgobser"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cerrar</button>
+                      <button type="button" onclick="rechazarTramitevrs2()" class="btn btn-warning btn-sm"  id="btndata" >Rechazar</button>
+                    </div>
+
+                      <div class="alert alert-error" style="color: red" id="alertaobser" hidden="true">
+                        <span>
+                          <p>Ingresar el Motivo de rechazo</p>
+                        </span>
+                      </div>
+                  </div>
+                </div>
+              </div>
+             <!-- Modal End -->
+
           </div>
         </div>
 			</div>
@@ -213,7 +236,7 @@
     var codigo = $("#codigo_empleado").val();
     var cod_area = "<?php echo $_SESSION["cod_area"];?>";
 
-    $.get("inc_listar_empleados.php?cod_area="+cod_area+"&nombre="+nombre+"&codigo="+codigo, function(data, status){
+    $.get("inc_listar_empleados.php?cod_area="+cod_area+"&nombre="+nombre+"&codigo="+codigo+"&codigoNoPermitido=<?php echo  $empleado->POST_id() ?>", function(data, status){
       $("#body_contenedor").html(data);
     });
   }
@@ -260,5 +283,26 @@
     			document.location.href="Delegar_Tramite.php";
     	});
     }
+  }
+
+  function rechazarTramitevrs2(){
+  	var observacion = $("#msgobser").val();
+  	if (observacion == ''){
+      $('#alertaobser').show();
+  	}else{
+      $('#alertaobser').hide();
+         $.post("inc_cambiar_estado.php",
+  				{
+  					cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
+  					operation: "4",
+  					cod_user : "<?php echo $_SESSION["cod_user"];?>",
+  			    cod_area : "<?php echo $_SESSION["cod_area"];?>",
+  			    observacion : observacion,
+  			    administrado : "<?php echo $beanTramite->POST_cod_administrado();?>",
+  				},
+  			function(data, status){
+  				document.location.href="Delegar_Tramite.php";
+  			});
+  	}
   }
   </script>

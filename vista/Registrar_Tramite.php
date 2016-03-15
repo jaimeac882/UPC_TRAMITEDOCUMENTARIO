@@ -55,74 +55,38 @@ $lt_TipTramites = $objTramites->getTiposTramite();
               <label class="control-label">Administrado:</label>
               <input type="text" class="form-control input-sm" id="buscar">
             </div>
-                  <div class="col-xs-1">
-             <label class="control-label">Tipo</label>
-                      
-                      
-             <select id="cbotiptramite" style="width: 100px;height: 35px" name="marca" required="">
-                             
-                         
-                  <?php foreach ($lt_TipTramites as $row_marca){?>
-                             <option value='<?php echo $row_marca['cod_tipo_tramite'];?>'><?php echo $row_marca['des_tipo_tramite'];?></option>
-                          <?php }?>
-                 
-<!--                             <option value='ABC'>Select</option>
-                             <option value='ABC'>Data</option>
-                             <option value='ABC'>Data2</option>
-                        -->
-                        </select>
-               
-                </div>   
-              
-              
-              
-<!--            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar"
-								onclick="buscarTramites()" class="btn btn-primary btn-sm"
-								title="Buscar">
-								Buscar</span>
-							</button>
-            </div>
-              -->
-              
-              
-       
-              
+							<div class="col-xs-2">
+             		<label class="control-label">Tipo</label>
+								<select id="cbotiptramite" class="form-control input-sm" name="marca" required="">
+                	<?php foreach ($lt_TipTramites as $row_marca){?>
+                  <option value="<?php echo $row_marca['cod_tipo_tramite'];?>"><?php echo $row_marca['des_tipo_tramite'];?></option>
+                  <?php } ?>
+								</select>
+							</div>
+          </div>
 
-              
-          </div>
-          
           <div class="row">
-              <div class="col-xs-1"></div>
-              <div class="col-xs-1"></div>
-              <div class="col-xs-1"></div>
-              <div class="col-xs-1"></div>
-              <div class="col-xs-3"></div>
-              <div class="col-xs-2"></div>
-                         <div class="col-xs-1">
+						<div class="col-xs-1"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-2"></div>
+            <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar"
-								onclick="buscarTramites()" class="btn btn-primary btn-sm"
-								title="Buscar">
-								Buscar</span>
+              <button id="btnbuscar" name="btnbuscar" onclick="buscarTramites()" class="btn btn-primary btn-sm" title="Buscar">
+								<span>Buscar</span>
 							</button>
-            </div>
-              
-              <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnNuevo" name="btnNuevo"
-								onclick="NuevoTramite()"  class="btn btn-primary btn-sm"
-								title="Nuevo Tramite">
-                  <a href="Registrar_Tramite2.php">Nuevo</a><span class="glyphicon glyphicon-new-window"></span>
-							</button>
-            </div>
-              
-              
-              
+          	</div>
+            <div class="col-xs-1">
+            <label class="control-label">&nbsp;</label>
+            <button id="btnNuevo" name="btnNuevo" onclick="NuevoTramite()"  class="btn btn-primary btn-sm" title="Nuevo Tramite">
+                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
+						</button>
+          	</div>
           </div>
-          
-          
+
+					
           <!-- Fin Buscador -->
           <hr>
           <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
@@ -176,5 +140,8 @@ function buscarTramitesInicial(){
   $.get("inc_tramite_registrar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo, function(data, status){
     $("#body_contenedor").html(data);
   });
+}
+function NuevoTramite(){
+	document.location.href = "Registrar_Tramite2.php";
 }
 </script>
