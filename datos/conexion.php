@@ -3,10 +3,10 @@ class conexion{
 	function conectar(){
 		return mysqli_connect("localhost","prueba","prueba");
 	}
-	
+
   function conectarsql(){
       $serverName = "(local)\SQLEXPRESS";
-       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql");
+       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"mysql");
 			 return sqlsrv_connect( $serverName, $connectionInfo);
 	}
 }

@@ -86,11 +86,11 @@ $lt_TipTramites = $objTramites->getTiposTramite();
           	</div>
           </div>
 
-					
+
           <!-- Fin Buscador -->
           <hr>
           <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
-          <table class="table table-striped table-hover ">
+          <table class="table table-striped table-hover" id="table_registrar">
             <thead class="thead-inverse">
               <tr>
                 <th>Cod. Tramite</th>
@@ -139,6 +139,7 @@ function buscarTramitesInicial(){
 
   $.get("inc_tramite_registrar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo, function(data, status){
     $("#body_contenedor").html(data);
+		$("#table_registrar").DataTable();
   });
 }
 function NuevoTramite(){

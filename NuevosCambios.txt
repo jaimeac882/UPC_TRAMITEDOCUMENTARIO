@@ -1,0 +1,14 @@
+Todos los listados:
+--------------------
+Paginado
+Sorting.
+
+
+Registrar Tramite:
+----------------------------------------
+Cambiar el select de registro de tramites estado 1.
+
+Agregar Confirm a los botones del update.
+
+visualizacion de requisitos al cambiar el tipo de expediente.
+

@@ -22,7 +22,7 @@ if(isset($_SESSION["usuario"]) && isset($_SESSION["pass"])){
 <!DOCTYPE html>
 <html>
 <head>
-    
+
     <meta charset="utf-8" />
     <title>SISDOC VRS 3.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,9 +30,11 @@ if(isset($_SESSION["usuario"]) && isset($_SESSION["pass"])){
     <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.6/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../static_extra/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="../css/rTablesEstilos.css" />
+    <link rel="stylesheet" type="text/css" href="../static/datatable/jquery.dataTables.min.css" />
     <link href="../static/FileInput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="../static_extra/js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../static/bootstrap-3.3.6/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../static/datatable/jquery.dataTables.min.js"></script>
 
     <!--Para controles Time Picker -->
     <link rel="stylesheet" type="text/css"  href="../static/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />

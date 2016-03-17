@@ -215,7 +215,7 @@ private $lt_TipTramite;
                           WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
                           DAY(GETDATE()-t.fec_recepcion) AS diasTrans
                   FROM   tb_tramite AS t
-                  WHERE  t.cod_estado = 'EST003') tb_1
+                  WHERE  t.cod_estado = 'EST001') tb_1
                   WHERE tb_1.administrado LIKE '%".$ad."%'
                   AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                   and tb_1.cod_tipo_tramite = '".$tipo_docu."'
@@ -253,7 +253,7 @@ private $lt_TipTramite;
                           WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
                           DAY(GETDATE()-t.fec_recepcion) AS diasTrans
                   FROM   tb_tramite AS t
-                  WHERE  t.cod_estado = 'EST003') tb_1
+                  WHERE  t.cod_estado = 'EST001') tb_1
                   WHERE tb_1.administrado LIKE '%".$ad."%'
                   AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                   ORDER BY tb_1.diasTrans";

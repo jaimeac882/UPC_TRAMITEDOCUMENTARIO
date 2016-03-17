@@ -1,17 +1,17 @@
 <?php
 session_start();
-include_once("template/cabecera.php"); 
+include_once("template/cabecera.php");
 
   require_once('../controlador/EmpleadoControlador.php');
   require_once('../entidades/empleado.php');
 
 
-  
+
     $objEmpleadoControlador = new EmpleadoControlador();
      $beanEmpleado= new empleado();
-    
+
        $beanEmpleado = $objEmpleadoControlador->getEmpleadoxUsuario($_SESSION["cod_user"]);
-       
+
 //       echo $_SESSION["cod_area"];
 //       echo $beanEmpleado->POST_id();
 ?>
@@ -67,7 +67,7 @@ include_once("template/cabecera.php");
           <!-- Fin Buscador -->
           <hr>
           <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
-          <table class="table table-striped table-hover ">
+          <table class="table table-striped table-hover" id="table_delegar">
             <thead class="thead-inverse">
               <tr>
                 <th>Cod. Tramite</th>
@@ -122,6 +122,7 @@ function buscarTramitesInicial(){
   $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
 //     $.get("inc_delegar_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
     $("#body_contenedor").html(data);
+    $("#table_delegar").DataTable();
   });
 }
 
