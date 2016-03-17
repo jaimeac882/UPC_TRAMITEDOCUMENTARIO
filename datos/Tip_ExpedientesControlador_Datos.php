@@ -15,9 +15,6 @@ class Tip_ExpedientesControlador_Datos{
         $this->lt_Expedientes = array();
     }
 
-
-
-
     function getExpedientesPorTupaActivo($cod_tupa){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
@@ -29,7 +26,6 @@ class Tip_ExpedientesControlador_Datos{
 
       $consulta = sqlsrv_query ($con,$sql);
 
-
       while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
         $this->lt_Expedientes[] = $row;
       }
@@ -38,6 +34,22 @@ class Tip_ExpedientesControlador_Datos{
 
     }
 
+    function getRequisitosExpediente($codExpediente){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT r.* FROM tb_detalle_requisitos_exp d
+              INNER JOIN tb_requisitos r ON d.cod_requisitos = r.cod_requisitos
+              WHERE d.cod_tip_expediente = '".$codExpediente."'";
+
+      $consulta = sqlsrv_query ($con,$sql);
+
+      while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Expedientes[] = $row;
+      }
+
+      return($this->lt_Expedientes);
+    }
 
 }
 

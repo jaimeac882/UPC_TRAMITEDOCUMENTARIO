@@ -2,11 +2,11 @@
   require_once('../controlador/AdministradoControlador.php');
   $objAdministrativoControlador= new AdministradoControlador();
 
-  $nombre = $_POST["nombre"];
-  $apePat = $_POST["apePat"];
-  $apeMat = $_POST["apeMat"];
-  $tipoDoc = $_POST["tipoDocumento"];
-  $numDoc = $_POST["numDoc"];
+  $nombre = $_POST["search_nombre"];
+  $apePat = $_POST["search_apePat"];
+  $apeMat = $_POST["search_apeMat"];
+  $tipoDoc = $_POST["search_tipoDocumento"];
+  $numDoc = $_POST["search_numDoc"];
 
   $administrados = $objAdministrativoControlador->buscarAdminitrado($nombre, $apePat, $apeMat, $tipoDoc, $numDoc);
   if(count($administrados) > 0){

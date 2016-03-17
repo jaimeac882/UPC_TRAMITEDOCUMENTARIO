@@ -32,13 +32,23 @@
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label for="formGroupExampleInput2">Tipo de Expediente</label>
-							<select id="cboExpedientes" name="marca" class="form-control input-sm" required="">
+							<select id="cboExpedientes" name="marca" onchange="seleccionaTipoExpediente(this)" class="form-control input-sm" required="">
 								<?php foreach ($lt_tip_Expedientes as $row_marca){?>
 								<option value='<?php echo $row_marca['cod_tip_expediente'];?>'><?php echo utf8_encode($row_marca['des_exp']);?></option>
 								<?php }?>
 							</select>
 						</div>
 					</div>
+					<!-- Inicio Panel de Requisitos -->
+					<div class="panel panel-default" id="div_requisitos" style="display: none;" >
+						<div class="panel-heading">Requisitos Expediente</div>
+						<div class="panel-body">
+							<div class="form-group row"  >
+								<ul id="div_contenedor_requisito"></ul>
+							</div>
+						</div>
+					</div>
+					<!-- Fin Panel de Requisitos -->
 					<div class="panel panel-default">
 						<div class="panel-heading">Datos Administrado</div>
 						<div class="panel-body">
@@ -166,23 +176,23 @@
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Nombre:</label>
-							<input type="text" class="form-control input-sm" id="nombre" name="nombre">
+							<input type="text" class="form-control input-sm" id="search_nombre" name="search_nombre">
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Apellido Paterno:</label>
-							<input type="text" class="form-control input-sm" id="apePat" name="apePat">
+							<input type="text" class="form-control input-sm" id="search_apePat" name="search_apePat">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Apellido Materno:</label>
-							<input type="text" class="form-control input-sm" id="apeMat" name="apeMat">
+							<input type="text" class="form-control input-sm" id="search_apeMat" name="search_apeMat">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Tipo Documento:</label>
-							<select id="tipoDocumento" name="tipoDocumento" class="form-control input-sm" required="">
+							<select id="search_tipoDocumento" name="search_tipoDocumento" class="form-control input-sm" required="">
 								<option value="" >Todos</option>
 								<?php foreach ($lt_tip_documento_identidad as $row_marca){?>
 								<option value='<?php echo $row_marca['cod_tipo_documento'];?>'><?php echo utf8_encode($row_marca['des_tipo_documento']);?></option>
@@ -191,7 +201,7 @@
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">N° Documento</label>
-							<input type="text" class="form-control input-sm" id="numDoc" name="numDoc">
+							<input type="text" class="form-control input-sm" id="search_numDoc" name="search_numDoc">
 						</div>
 					</div>
 				</div>
@@ -224,21 +234,21 @@
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Nombre:</label>
-							<input type="text" class="form-control input-sm" id="nombre" name="nombre">
+							<input type="text" maxlength="200" class="form-control input-sm" id="nombre" name="nombre">
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Apellido Paterno:</label>
-							<input type="text" class="form-control input-sm" id="apePat" name="apePat">
+							<input type="text" maxlength="200" class="form-control input-sm" id="apePat" name="apePat">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Apellido Materno:</label>
-							<input type="text" class="form-control input-sm" id="apeMat" name="apeMat">
+							<input type="text" maxlength="200" class="form-control input-sm" id="apeMat" name="apeMat">
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Email:</label>
-							<input type="text" class="form-control input-sm" id="email" name="email">
+							<input type="text" maxlength="200" class="form-control input-sm" id="email" name="email">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -252,23 +262,23 @@
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">N° Documento</label>
-							<input type="text" class="form-control input-sm" id="numDoc" name="numDoc">
+							<input type="text" maxlength="200" class="form-control input-sm" id="numDoc" name="numDoc">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Telefono 1:</label>
-							<input type="text" class="form-control input-sm" id="tel1" name="tel1">
+							<input type="text" maxlength="200" class="form-control input-sm" id="tel1" name="tel1">
 						</div>
 						<div class="col-xs-6">
 							<label for="recipient-name" class="control-label">Telefono 2:</label>
-							<input type="text" class="form-control input-sm" id="tel2" name="tel2">
+							<input type="text" maxlength="200" class="form-control input-sm" id="tel2" name="tel2">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label for="recipient-name" class="control-label">Dirección</label>
-							<input type="text" class="form-control input-sm" id="direccion" name="direccion">
+							<input type="text" maxlength="500" class="form-control input-sm" id="direccion" name="direccion">
 							<input type="hidden" value="<?php echo $_SESSION['cod_user'];?>" id="cod_usu" name="cod_usu">
 						</div>
 					</div>
@@ -319,20 +329,70 @@
 		document.location.href = "Registrar_Tramite.php";
 	}
 	function guardarAdministrado(){
-		$.post("inc_guardar_administrado.php",
-				$('#frm_new_administrado').serialize(),
-			function(data, status){
-				$("#codigoAdmin").val(data);
-				$("#nombreAdmin").val($("#nombre").val()+" "+$("#apePat").val()+" "+$("#apeMat").val());
-				$('#newAdministrator').modal('toggle');
-		});
-	}
+		var nombre = $("#nombre").val();
+		var apePat = $("#apePat").val();
+		var apeMat = $("#apeMat").val();
+		var email = $("#email").val();
+		var numDoc = $("#numDoc").val();
+		var tel1 = $("#tel1").val();
+		var tel2 = $("#tel2").val();
+		var direccion = $("#direccion").val();
 
-	function insertarTramite(){
-		$.post("inc_guardar_administrado.php",
-				$('#frm_new_tramite').serialize(),
-			function(data, status){
-		});
+		if(!isBlank(nombre)){
+			if(!isBlank(apePat)){
+				if(!isBlank(apeMat)){
+					if(!isBlank(email)){
+						if(validarEmail(email)){
+							if(!isBlank(numDoc)){
+								if(!isBlank(tel1)){
+									if(!isBlank(tel2)){
+										if(!isBlank(direccion)){
+											if(confirm('¿Esta seguro de guardar el administrado?')){
+												$.post("inc_guardar_administrado.php",
+														$('#frm_new_administrado').serialize(),
+													function(data, status){
+														$("#codigoAdmin").val(data);
+														$("#nombreAdmin").val($("#nombre").val()+" "+$("#apePat").val()+" "+$("#apeMat").val());
+														$('#newAdministrator').modal('toggle');
+												});
+											}
+										}else{
+											$("#direccion").focus();
+											alert("Ingresar una dirección.");
+										}
+									}else{
+										$("#tel2").focus();
+										alert("Ingresar un segundo telefono.");
+									}
+								}else{
+									$("#tel1").focus();
+									alert("Ingresar un telefono.");
+								}
+							}else{
+								$("#numDoc").focus();
+								alert("Ingresar un número de documento.");
+							}
+						}else{
+							$("#email").focus();
+							alert("Ingresar un email válido.");
+						}
+					}else{
+						$("#email").focus();
+						alert("Ingresar un email.");
+					}
+				}else{
+					$("#apeMat").focus();
+					alert("Ingresar un apellido materno.");
+				}
+			}else{
+				$("#apePat").focus();
+				alert("Ingresar un apellido paterno.");
+			}
+		}else{
+			$("#nombre").focus();
+			alert("Ingresar un nombre.");
+		}
+
 	}
 
 	$('#searchAdministrator').on('show.bs.modal', function (e) {
@@ -359,6 +419,21 @@
 				$("#body_contenedor_administrado").html(data);
 		});
 	}
+
+	function seleccionaTipoExpediente(combo){
+		$.post("inc_buscar_requisito_expediente.php",
+				{codigoTipoExpediente:combo.value},
+			function(data, status){
+				console.log(data);
+				if(data != '-1'){
+					$("#div_requisitos").css("display","");
+					$("#div_contenedor_requisito").html(data);
+				}else{
+					$("#div_requisitos").css("display","none");
+				}
+		});
+	}
+
 	function seleccionaAdministrado(codigo, administrado){
 		$("#codigoAdmin").val(codigo);
 		$("#nombreAdmin").val(administrado);
@@ -382,19 +457,21 @@
 			if(!isBlank(asunto)){
 				if(!isBlank(descripcion)){
 					if(!isBlank(folio)){
-						$.post("inc_insertar_tramite.php",
-							{
-								codAdministrado: codigoAdmin,
-								desTramite: descripcion,
-								observacion: observacion,
-								folio: folio,
-								asunto: asunto,
-								recibo: recibo,
-								cod_tipo_tramite: codigoTipoExpediente
-							},
-							function(data, status){
-								console.log("respuesta del insert: "+data);
-						});
+						if(confirm('¿Esta seguro de registrar el tramite?')){
+							$.post("inc_insertar_tramite.php",
+								{
+									codAdministrado: codigoAdmin,
+									desTramite: descripcion,
+									observacion: observacion,
+									folio: folio,
+									asunto: asunto,
+									recibo: recibo,
+									cod_tipo_tramite: codigoTipoExpediente
+								},
+								function(data, status){
+									document.location.href='Registrar_Tramite.php';
+							});
+						}
 					}else{
 						$("#folio").focus();
 						alert("Ingresar un folio.");
