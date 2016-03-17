@@ -296,6 +296,30 @@
 	</form>
 </div>
 <!-- Modal End -->
+<div class="modal fade" id="confirmTramite" role="dialog">
+	<form id="frm_new_administrado" >
+		<div class="modal-dialog">Modal content
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Confirm</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-6">
+							¿Esta seguro de guardar el trámite?
+						</div>
+						<div class="col-xs-3"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="doInsertarTramite()" class="btn btn-primary btn-sm"  id="btndata" >Guardar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
 <!-- Accordion - END -->
 <?php include_once("template/pie.php"); ?>
 <script>
@@ -439,6 +463,34 @@
 		$("#nombreAdmin").val(administrado);
 		$('#searchAdministrator').modal('toggle');
 	}
+
+	function doInsertarTramite(){
+		var codigoTipoExpediente = 'TDT002';
+		if($("cboExpedientes").val() != "999999"){
+			codigoTipoExpediente = 'TDT001';
+		}
+
+		var codigoAdmin = $("#codigoAdmin").val();
+		var descripcion = $("#descripcion").val();
+		var observacion = $("#observacion").val();
+		var folio = $("#folio").val();
+		var asunto = $("#asunto").val();
+		var recibo = $("#recibo").val();
+		$.post("inc_insertar_tramite.php",
+			{
+				codAdministrado: codigoAdmin,
+				desTramite: descripcion,
+				observacion: observacion,
+				folio: folio,
+				asunto: asunto,
+				recibo: recibo,
+				cod_tipo_tramite: codigoTipoExpediente
+			},
+			function(data, status){
+				document.location.href='Registrar_Tramite.php';
+		});
+	}
+
 	function insertarTramite(){
 		// Validacion del Tipo de Expediente
 		var codigoTipoExpediente = 'TDT002';
@@ -457,21 +509,8 @@
 			if(!isBlank(asunto)){
 				if(!isBlank(descripcion)){
 					if(!isBlank(folio)){
-						if(confirm('¿Esta seguro de registrar el tramite?')){
-							$.post("inc_insertar_tramite.php",
-								{
-									codAdministrado: codigoAdmin,
-									desTramite: descripcion,
-									observacion: observacion,
-									folio: folio,
-									asunto: asunto,
-									recibo: recibo,
-									cod_tipo_tramite: codigoTipoExpediente
-								},
-								function(data, status){
-									document.location.href='Registrar_Tramite.php';
-							});
-						}
+						//llamada al modal confirmTramite
+						$("#confirmTramite").modal();
 					}else{
 						$("#folio").focus();
 						alert("Ingresar un folio.");

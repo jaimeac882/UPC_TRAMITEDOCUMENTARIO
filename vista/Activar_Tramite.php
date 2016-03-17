@@ -1,6 +1,11 @@
 <?php
 session_start();
-include_once("template/cabecera.php"); ?>
+include_once("template/cabecera.php");
+require_once('../controlador/TramiteControlador.php');
+
+$objTramites= new TramiteControlador();
+$lt_TipTramites = $objTramites->getTiposTramite();
+?>
 
 <!-- Accordion - START -->
 <div class="container">
@@ -33,10 +38,18 @@ include_once("template/cabecera.php"); ?>
 									class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-xs-3">
               <label class="control-label">Administrado:</label>
               <input type="text" class="form-control input-sm" id="buscar">
             </div>
+						<div class="col-xs-2">
+							<label class="control-label">Tipo</label>
+							<select id="cbotiptramite" class="form-control input-sm" name="marca" required="">
+								<?php foreach ($lt_TipTramites as $row_marca){?>
+								<option value="<?php echo $row_marca['cod_tipo_tramite'];?>"><?php echo $row_marca['des_tipo_tramite'];?></option>
+								<?php } ?>
+							</select>
+						</div>
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
               <button id="btnbuscar" name="btnbuscar"
@@ -83,8 +96,9 @@ function buscarTramites(){
   var fecha1 = $("#va_datepicker1").val();
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();
+	var cbo = $("#cbotiptramite").val();
 
-  $.get("inc_tramite_activar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
+  $.get("inc_tramite_activar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo, function(data, status){
     $("#body_contenedor").html(data);
   });
 }
@@ -93,8 +107,9 @@ function buscarTramitesInicial(){
   var fecha1 = '01/01/1900';
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();
+	var cbo = $("#cbotiptramite").val();
 
-  $.get("inc_tramite_activar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado, function(data, status){
+  $.get("inc_tramite_activar.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo, function(data, status){
     $("#body_contenedor").html(data);
 		$("#table_activar").DataTable();
   });

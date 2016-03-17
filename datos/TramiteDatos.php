@@ -271,7 +271,7 @@ private $lt_TipTramite;
 
 
 
-    function obtenerTramitesPorActivar($f1,$f2,$ad){
+    function obtenerTramitesPorActivar($f1,$f2,$ad,$exp){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
@@ -288,11 +288,13 @@ private $lt_TipTramite;
                          (SELECT tex.dias_maximo
                           FROM   tb_tip_expediente tex
                           WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
-                          DAY(GETDATE()-t.fec_recepcion) AS diasTrans
+                          DAY(GETDATE()-t.fec_recepcion) AS diasTrans,
+                          cod_tipo_tramite
                   FROM   tb_tramite AS t
                   WHERE  t.cod_estado = 'EST001') tb_1
                   WHERE tb_1.administrado LIKE '%".$ad."%'
                   AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
+                  AND tb_1.cod_tipo_tramite LIKE '%".$exp."%'
                   ORDER BY tb_1.diasTrans";
 
           $consulta = sqlsrv_query ($con,$sql);

@@ -72,9 +72,9 @@
 		  return $obj->obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu);
     }
 
-    function obtenerTramitesPorActivar($f1,$f2,$ad){
+    function obtenerTramitesPorActivar($f1,$f2,$ad,$exp){
       $obj = new TramiteDatos();
-		  return $obj->obtenerTramitesPorActivar($f1,$f2,$ad);
+		  return $obj->obtenerTramitesPorActivar($f1,$f2,$ad,$exp);
     }
 
     function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){

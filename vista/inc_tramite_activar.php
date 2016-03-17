@@ -4,7 +4,13 @@
   $fecha_1 = $_GET["fecha1"];
   $fecha_2 = $_GET["fecha2"];
   $administrado = $_GET["ad"];
-  $lt_tramitessinactivar = $objTramites->obtenerTramitesPorActivar($fecha_1, $fecha_2, $administrado);
+  $tipo_docu = $_GET["cbo"];
+
+  if ($tipo_docu === '999999'){
+    $tipo_docu = '';
+  }
+
+  $lt_tramitessinactivar = $objTramites->obtenerTramitesPorActivar($fecha_1, $fecha_2, $administrado, $tipo_docu);
 ?>
 <?php foreach ($lt_tramitessinactivar as $row) { ?>
   <tr>
