@@ -42,7 +42,7 @@
       <?php echo $row['fec_recepcion'];?>
     </td>
     <td>
-      <?php echo $row['desexpediente'];?>
+      <?php echo utf8_encode($row['desexpediente']);?>
     </td>
     <td>
       <?php echo $row['diastupa'];?>

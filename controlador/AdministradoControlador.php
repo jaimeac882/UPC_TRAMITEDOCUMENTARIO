@@ -3,9 +3,9 @@
 
   class AdministradoControlador{
 
-      function insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu){
+      function insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu,$codubigeo){
         $obj = new AdministrativoDatos();
-        return $obj->insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu);
+        return $obj->insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu,$codubigeo);
       }
 
       function buscarAdminitrado($nombre, $apePat, $apeMat, $tipoDoc, $numDoc){

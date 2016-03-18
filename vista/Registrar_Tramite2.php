@@ -275,13 +275,29 @@
 							<input type="text" maxlength="200" class="form-control input-sm" id="tel2" name="tel2">
 						</div>
 					</div>
-					<div class="form-group row">
+				
+                                    
+                                    
+                                      <div class="form-group row">
+						<div class="col-xs-12">
+							<label for="recipient-name" class="control-label">Es Residente de Villa:</label>
+							 <input type="checkbox" id="stresdevilla" checked="True"/>
+                                                    NOTA : AQUI SE DEBE AGREGAR EL UBIGUEO CUANDO NO SEA RESIDENTE DE VILLA
+						</div>
+					</div>
+                                    
+                                   
+                                    <div class="form-group row">
 						<div class="col-xs-12">
 							<label for="recipient-name" class="control-label">Dirección</label>
 							<input type="text" maxlength="500" class="form-control input-sm" id="direccion" name="direccion">
 							<input type="hidden" value="<?php echo $_SESSION['cod_user'];?>" id="cod_usu" name="cod_usu">
 						</div>
 					</div>
+                                    
+                                    
+                                    
+                                    
 				</div>
 				<div class="modal-footer">
 					<button type="button" onclick="guardarAdministrado()" class="btn btn-primary btn-sm"  id="btndata" >Guardar</button>
@@ -357,19 +373,22 @@
 		var apePat = $("#apePat").val();
 		var apeMat = $("#apeMat").val();
 		var email = $("#email").val();
+                var tipdocumento = $("#tipoDocumento").val();
+                
 		var numDoc = $("#numDoc").val();
 		var tel1 = $("#tel1").val();
 		var tel2 = $("#tel2").val();
 		var direccion = $("#direccion").val();
+		var codigoubigeo = "001150142";
 
 		if(!isBlank(nombre)){
 			if(!isBlank(apePat)){
 				if(!isBlank(apeMat)){
-					if(!isBlank(email)){
+//					if(!isBlank(email)){
 						if(validarEmail(email)){
-							if(!isBlank(numDoc)){
+							if(validarNumDoc(numDoc,tipdocumento)){
 								if(!isBlank(tel1)){
-									if(!isBlank(tel2)){
+//									if(!isBlank(tel2)){
 										if(!isBlank(direccion)){
 											if(confirm('¿Esta seguro de guardar el administrado?')){
 												$.post("inc_guardar_administrado.php",
@@ -384,26 +403,26 @@
 											$("#direccion").focus();
 											alert("Ingresar una dirección.");
 										}
-									}else{
-										$("#tel2").focus();
-										alert("Ingresar un segundo telefono.");
-									}
+//									}else{
+//										$("#tel2").focus();
+//										alert("Ingresar un segundo telefono.");
+//									}
 								}else{
 									$("#tel1").focus();
-									alert("Ingresar un telefono.");
+									alert("Debe ingresar un Telefono Celular.");
 								}
 							}else{
 								$("#numDoc").focus();
-								alert("Ingresar un número de documento.");
+								alert("Ingresar 8 digitos si es de Tipo DNI o 11 en RUC y 12 en Carnet de extranjeria.");
 							}
 						}else{
 							$("#email").focus();
 							alert("Ingresar un email válido.");
 						}
-					}else{
-						$("#email").focus();
-						alert("Ingresar un email.");
-					}
+//					}else{
+//						$("#email").focus();
+//						alert("Ingresar un email.");
+//					}
 				}else{
 					$("#apeMat").focus();
 					alert("Ingresar un apellido materno.");
@@ -465,10 +484,15 @@
 	}
 
 	function doInsertarTramite(){
-		var codigoTipoExpediente = 'TDT002';
-		if($("cboExpedientes").val() != "999999"){
-			codigoTipoExpediente = 'TDT001';
+            
+                
+		var codigoExpediente = '';
+		var codigoTipoTramite = 'TDT002';
+		if($("#cboExpedientes").val() != "999999"){
+			codigoTipoTramite = 'TDT001';
+                        var codigoExpediente = $("#cboExpedientes").val();
 		}
+                
 
 		var codigoAdmin = $("#codigoAdmin").val();
 		var descripcion = $("#descripcion").val();
@@ -484,7 +508,8 @@
 				folio: folio,
 				asunto: asunto,
 				recibo: recibo,
-				cod_tipo_tramite: codigoTipoExpediente
+				cod_tipo_tramite: codigoTipoTramite,
+                                codigoExpediente: codigoExpediente
 			},
 			function(data, status){
 				document.location.href='Registrar_Tramite.php';
@@ -494,7 +519,7 @@
 	function insertarTramite(){
 		// Validacion del Tipo de Expediente
 		var codigoTipoExpediente = 'TDT002';
-		if($("cboExpedientes").val() != "999999"){
+		if($("#cboExpedientes").val() != "999999"){
 			codigoTipoExpediente = 'TDT001';
 		}
 

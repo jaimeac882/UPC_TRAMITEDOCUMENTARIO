@@ -22,9 +22,9 @@
       $obj->actualizarTramite($codTramite, $observaciones);
     }
 
-    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite){
+    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente){
       $obj = new TramiteDatos();
-      return $obj->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite);
+      return $obj->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente);
     }
 
     function empleadosAsignacion($cod_area, $nombre, $codigo){

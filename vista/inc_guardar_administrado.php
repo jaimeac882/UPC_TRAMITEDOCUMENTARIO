@@ -12,7 +12,8 @@
   $tel2 = $_POST["tel2"];
   $direccion = $_POST["direccion"];
   $usu = $_POST["cod_usu"];
+  $codubigeo = "001150142";
 
-  echo $objAdministrativoControlador->insertAdministrativo($nombre, $apePat, $apeMat, $tipoDocumento, $numDoc, $email, $tel1, $tel2, $direccion, $usu);
+  echo $objAdministrativoControlador->insertAdministrativo($nombre, $apePat, $apeMat, $tipoDocumento, $numDoc, $email, $tel1, $tel2, $direccion, $usu,$codubigeo);
 
 ?>

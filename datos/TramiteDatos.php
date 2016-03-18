@@ -99,7 +99,7 @@ private $lt_TipTramite;
 
     }
 
-    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite){
+    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -109,8 +109,8 @@ private $lt_TipTramite;
       if($row = sqlsrv_fetch_array($consultaId, SQLSRV_FETCH_ASSOC)){
         $id = $row["id"];
 
-        $sql = "INSERT tb_tramite(cod_tramite, cod_administrado, des_tramite, fec_recepcion, observaciones, folio, asunto, cod_estado, recibo, cod_tipo_tramite)
-                VALUES('".$id."','".$codAdministrado."','".$desTramite."',GETDATE(),'".$observacion."','".$folio."','".$asunto."','EST001','".$recibo."','".$cod_tipo_tramite."')";
+        $sql = "INSERT tb_tramite(cod_tramite, cod_administrado, des_tramite, fec_recepcion, observaciones, folio, asunto, cod_exp,cod_estado, recibo, cod_tipo_tramite)
+                VALUES('".$id."','".$codAdministrado."','".$desTramite."',GETDATE(),'".$observacion."','".$folio."','".$asunto."','".$codigoExpediente."','EST001','".$recibo."','".$cod_tipo_tramite."')";
 
         sqlsrv_query ($con, $sql);
       }

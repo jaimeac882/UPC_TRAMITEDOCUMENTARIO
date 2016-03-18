@@ -10,7 +10,7 @@
         $this->lt_return_select = array();
     }
 
-    function insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu){
+    function insertAdministrativo($nombre, $apePat, $apeMat, $codTipoDoc, $numDoc, $email, $tel1, $tel2, $direccion, $usu,$codubigeo){
       $id = "";
       $cnn = new conexion();
       $con = $cnn->conectarsql();
@@ -22,11 +22,14 @@
         $id = $row["id"];
 
         $sql = "INSERT INTO tb_administrado(cod_administrado, nom, ape_pat, ape_mat, cod_tipo_documento, num_documento,
-                email, telf1_contac, telf2_contac, direccion, fec_ingreso, usu_queregistro, estado)
+                email, telf1_contac, telf2_contac, direccion, fec_ingreso, usu_queregistro, estado,codigo_ubigeo)
                 VALUES('".$id."','".$nombre."','".$apePat."','".$apeMat."','".$codTipoDoc."','".$numDoc."','".$email."'
-                ,'".$tel1."','".$tel2."','".$direccion."',GETDATE(),'".$usu."','1')";
-
+                ,'".$tel1."','".$tel2."','".$direccion."',GETDATE(),'".$usu."','1','".$codubigeo."')";
+        
+     
+        
         sqlsrv_query ($con, $sql);
+        
       }
 
       return $id;
