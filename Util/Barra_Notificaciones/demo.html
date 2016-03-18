@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html >
+
+    
+<head>   
+    <meta charset="utf-8"/>       
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="js/notification-menu/notification_menu/css/style_light.css">
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="js/notification-menu/notification_menu/js/jquery-ui-1.8.14.custom.min.js" type="text/javascript"></script>
+    <script src="js/notification-menu/notification_menu/js/ttw-notification-menu.min.js" type="text/javascript"></script>
+    <!--script type="text/javascript" src="js/notification-menu/demo/demo.js"></script-->
+
+    
+    <link rel="stylesheet" type="text/css" href="js/notification-menu/demo/generate_notification_form/css/style.css">
+    <link rel="stylesheet" type="text/css" href="js/notification-menu/demo/generate_notification_form/css/uniform.css">
+    
+    
+    <script type="text/javascript" src="js/notification-menu/demo/generate_notification_form/js/jquery.tools.js"></script>
+    <script type="text/javascript" src="js/notification-menu/demo/generate_notification_form/js/jquery.uniform.min.js"></script>
+    <script type="text/javascript" src="js/notification-menu/demo/generate_notification_form/js/main.js"></script>
+
+    <style type="text/css">
+        .tooltip {
+            width: 250px;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+            background: #444;
+            border: 1px solid #090909;
+            border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            position: absolute;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            color:#fff;
+            padding:12px 24px;
+            line-height:18px;
+        }
+
+        .tooltip:after {
+            content: '';
+            position: absolute;
+            border-color: transparent  #444 transparent transparent;
+            border-style: solid;
+            border-width: 10px;
+            height: 0;
+            width: 0;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -10px;
+            margin-left: -20px;
+        }
+
+        .tooltip:before {
+            content: '';
+            position: absolute;
+            border-color:   transparent #090909 transparent transparent;
+            border-style: solid;
+            border-width: 10px;
+            height: 0;
+            width: 0;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -10px;
+            margin-left: -20px;
+        }
+        
+        body{
+            background: transparent url(images/bg.png) repeat 0 0 scroll;
+        }
+
+        .ttw-notification-menu{
+                width: 310px;
+        }
+
+
+    </style>
+
+
+<script>
+   
+    function actualizarBandeja() {
+
+            var notifications = new $.ttwNotificationMenu({
+                notificationList:{
+                    anchor:'item',
+                    offset:'0 30'
+                }
+            });
+
+            notifications.initMenu({
+                expediente:'#expediente',//'#projects',
+                solicitud:'#solicitud', //'#tasks',
+                documento:'#documento' //'#messages'
+            });
+            
+        
+
+
+           $(document).ready(function(){setInterval(function(){
+
+            delete notifications;
+            
+            var notifications = new $.ttwNotificationMenu({
+                notificationList:{
+                    anchor:'item',
+                    offset:'0 30'
+                }
+            });
+
+            notifications.initMenu({
+                expediente:'#expediente',//'#projects',
+                solicitud:'#solicitud', //'#tasks',
+                documento:'#documento' //'#messages'
+            });
+            
+
+
+              //Borra las notificaciones de Expediente
+              //
+              //var notificationsInExpediente = notifications.getNotifications('expediente', 'all');
+              //$.each( notificationsInExpediente, function( key, value ) {  
+                                                       
+              //      notifications.deleteNotification(notificationsInExpediente[key]);  
+
+              //});
+              var rnd=Math.random();
+
+             //La página de PHP remota a conectar debe lanzar encode de JSON, como la estructura el archivo TXT.
+             $.getJSON('accesoDataTXT.txt?rnd='+rnd,{format: "json"}, function(data) { 
+                 
+                //Cuando el retono del GET tenga DATA y no trunque el código.
+                
+                if(data != null)
+                {
+                   
+                 //Recorre lo Obtenido en el GET
+                 $.each(data, function(key, val) {
+                   
+                   //genera instancia de la notificación          
+                   
+                     notifications.createNotification(                         
+                     { 
+                         
+                     //Message: estoy proponiendo en hacer un link.    
+                     message:"<a href='" + data[key].link + "'>" + data[key].mensaje + "<a/>",  
+                     //La descripcción del tipo de mensaje que llegó.
+                     category:data[key].tipo_tramite,                   
+                     
+                     //Opcionaal de Imagen... podríamos barajar un simbolo para algo... Para expediente:tipo de tramite; Para solicitud: 
+                     icon:'js/notification-menu/demo/images/some_icon.png'
+
+                     }
+                          
+                             
+                   );
+           
+                   //$('#expediente').children('span').html('0');
+                 }); 
+                 
+                 
+                 //alert("Retorno lo que limpió: "+$('#expediente').children('span').html());    
+                 
+                }
+              }); 
+              
+          },6000); });            
+
+    };
+            
+
+  
+</script>
+    
+
+</head>
+
+
+<body onload="actualizarBandeja()">
+
+<ul class="ttw-notification-menu">
+    
+    <li id="expediente" class="notification-menu-item first-item"><a href="#">Expediente</a></li>
+    <li id="solicitud" class="notification-menu-item"><a href="#">Solicitud</a></li>
+    <li id="documento" class="notification-menu-item"><a href="#">Documento</a></li>
+    <li id="clients" class="notification-menu-item last-item"><a href="#">Clients</a></li>
+    
+</ul>
+
+
+
+
+
+</body>
+</html>
