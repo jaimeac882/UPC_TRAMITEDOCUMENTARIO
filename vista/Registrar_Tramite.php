@@ -1,24 +1,14 @@
 <?php
-session_start();
-include_once("template/cabecera.php");
+	session_start();
+	include_once("template/cabecera.php");
+	$_SESSION['adjuntos_tramite'] = null;
+
+	require_once('../controlador/TramiteControlador.php');
+
+	$objTramites= new TramiteControlador();
+	//
+	$lt_TipTramites = $objTramites->getTiposTramite();
 ?>
-
-
-<?php
-require_once('../controlador/TramiteControlador.php');
-////require_once('../entidades/beanTramite.php');
-//
-//
-//
-$objTramites= new TramiteControlador();
-//
-$lt_TipTramites = $objTramites->getTiposTramite();
-
-
-
-?>
-
-
 
 <!-- Accordion - START -->
 <div class="container">

@@ -22,6 +22,28 @@ private $lt_TipTramite;
         $this->lt_TipTramite = array();
     }
 
+    function guardarAdjuntos($cod_tramite, $cod_usu, $des_adj, $nomDocu, $nomArchivo){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "INSERT INTO tb_tramite_adjuntos(cod_tramite, cod_usu, des_adj, nom_docu)
+                VALUES('".$cod_tramite."','".$cod_usu."','".$des_adj."','".$nomDocu."')";
+
+      if(sqlsrv_query ($con,$sql)){
+        $result = sqlsrv_query($con,"SELECT @@identity AS id");
+
+        if($row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC)){
+          $id = $row["id"];
+          $ruta_archivo = "FilesAdjuntos/".$cod_tramite."/".$id."/".$nomArchivo;
+          $sql = "UPDATE tb_tramite_adjuntos SET ruta_doc_adjunta ='".$ruta_archivo."' WHERE cod_tramite_adjuntos = ".$id;
+
+          sqlsrv_query ($con,$sql);
+
+          return $id;
+        }
+      }
+    }
+
     function empleadosAsignacion($cod_area, $nombre, $codigo){
       $cnn = new conexion();
       $con = $cnn->conectarsql();

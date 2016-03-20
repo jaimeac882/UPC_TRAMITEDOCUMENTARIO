@@ -17,6 +17,11 @@
         $this->lt_TipTramite = array();
     }
 
+    function guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo){
+      $obj = new TramiteDatos();
+      return $obj->guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo);
+    }
+
     function actualizarTramite($codTramite, $observaciones){
       $obj = new TramiteDatos();
       $obj->actualizarTramite($codTramite, $observaciones);

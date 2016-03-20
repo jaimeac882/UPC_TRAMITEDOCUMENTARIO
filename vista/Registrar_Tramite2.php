@@ -5,6 +5,8 @@
 	require_once('../controlador/TiposCategoriaControlador.php');
 	require_once('../entidades/beanTupa.php');
 
+	$_SESSION['adjuntos_tramite'] = null;
+
 	$objTupa= new TupaControlador();
 	$objTipExpedientes= new Tip_ExpedientesControlador();
 	$objTipoCategoria = new TiposCategoriasControlador();
@@ -114,7 +116,7 @@
 								<div class="col-xs-3"></div>
 								<div class="col-xs-2">
 									<label for="formGroupExampleInput2">&nbsp;</label><br>
-									<button id="btnbuscar" onclick="guardarIteracion()" class="btn btn-info btn-sm" name="btnbuscar" title="Guardar Adjuntos">
+									<button id="btnbuscar" onclick="guardarAdjunto()" class="btn btn-info btn-sm" name="btnbuscar" title="Guardar Adjuntos">
 										Guardar Adjuntos&nbsp;<span class="glyphicon glyphicon-check"></span>
 									</button>
 								</div>
@@ -136,6 +138,23 @@
 							</div>
 						</div>
 					</div>
+					<!--
+					<div class="panel panel-default">
+						<div class="panel-heading">Documentos Adjuntos</div>
+						<div class="panel-body" >
+							<table class="table table-bordered table-striped table-hover table-condensed">
+								<thead>
+									<tr>
+										<th>Codigo</th>
+										<th>Descripcion</th>
+										<th>Archivo</th>
+									</tr>
+								</thead>
+								<tbody id="contenedor_adjuntos">
+								</tbody>
+							</table>
+						</div>
+					</div>-->
 					<!-- Fin Lilstado Documentos Adjuntos -->
 					<div class="form-group row">
 						<div class="col-xs-1">
@@ -275,9 +294,9 @@
 							<input type="text" maxlength="200" class="form-control input-sm" id="tel2" name="tel2">
 						</div>
 					</div>
-				
-                                    
-                                    
+
+
+
                                       <div class="form-group row">
 						<div class="col-xs-12">
 							<label for="recipient-name" class="control-label">Es Residente de Villa:</label>
@@ -285,8 +304,8 @@
                                                     NOTA : AQUI SE DEBE AGREGAR EL UBIGUEO CUANDO NO SEA RESIDENTE DE VILLA
 						</div>
 					</div>
-                                    
-                                   
+
+
                                     <div class="form-group row">
 						<div class="col-xs-12">
 							<label for="recipient-name" class="control-label">Dirección</label>
@@ -294,10 +313,10 @@
 							<input type="hidden" value="<?php echo $_SESSION['cod_user'];?>" id="cod_usu" name="cod_usu">
 						</div>
 					</div>
-                                    
-                                    
-                                    
-                                    
+
+
+
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" onclick="guardarAdministrado()" class="btn btn-primary btn-sm"  id="btndata" >Guardar</button>
@@ -342,7 +361,7 @@
 	$(function() {
 		$("#input-4").fileinput(
 				{
-					uploadUrl : "subirArchivos.php",
+					uploadUrl : "subirArchivos_temporal.php",
 					browseClass : "btn btn-primary btn-block btn-sm",
 					showRemove : false,
 					showCaption : false,
@@ -352,18 +371,51 @@
 					showUpload : false,
 					uploadAsync : true,
 					uploadExtraData : function() {
-						return {
-							ref : $("#cod_referencia_documento").val(),
-							//					id: "?php echo $beanTramite->POST_cod_tramite();?>"
-							id : ""
+					return {
+							cod : $("#cod_referencia_documento").val(),
+							des : $("#descripcion_iteracion").val()
 						};
 					}
 				});
+
 		$('#input-4').on('fileloaded',
 				function(event, file, previewId, index, reader) {
 					$(".file-actions").css("display", "none");
 				});
+		$("#input-4").on('filebatchuploadcomplete', function(event, files, extra) {
+		    console.log('File batch upload complete');
+				$('#input-4').fileinput('clear');
+				$('#input-4').fileinput('enable');
+				$("#cod_referencia_documento").val("");
+				$("#descripcion_iteracion").val("");
+				/*
+				$.post("inc_mostrar_adjuntos_temporal.php",{},
+					function(data, status){
+						$("#contenedor_adjuntos").html(data);
+						$('#input-4').fileinput('clear');
+						$('#input-4').fileinput('enable');
+						$("#cod_referencia_documento").val("");
+						$("#descripcion_iteracion").val("");
+				});*/
+		});
 	});
+
+	function guardarAdjunto(){
+		var referencia = $("#cod_referencia_documento").val();
+		var descripcion = $("#descripcion_iteracion").val();
+
+		if(!isBlank(referencia)){
+			if(!isBlank(descripcion)){
+				$("#input-4").fileinput('upload');
+			}else{
+				$("#cod_referencia_documento").focus();
+				alert("Debe ingresar una descripción.");
+			}
+		}else{
+			$("#cod_referencia_documento").focus();
+			alert("Debe ingresar un codigo de referencia.");
+		}
+	}
 
 	function Cancelar() {
 		document.location.href = "Registrar_Tramite.php";
@@ -373,8 +425,8 @@
 		var apePat = $("#apePat").val();
 		var apeMat = $("#apeMat").val();
 		var email = $("#email").val();
-                var tipdocumento = $("#tipoDocumento").val();
-                
+		var tipdocumento = $("#tipoDocumento").val();
+
 		var numDoc = $("#numDoc").val();
 		var tel1 = $("#tel1").val();
 		var tel2 = $("#tel2").val();
@@ -462,7 +514,6 @@
 				$("#body_contenedor_administrado").html(data);
 		});
 	}
-
 	function seleccionaTipoExpediente(combo){
 		$.post("inc_buscar_requisito_expediente.php",
 				{codigoTipoExpediente:combo.value},
@@ -484,15 +535,15 @@
 	}
 
 	function doInsertarTramite(){
-            
-                
+
+
 		var codigoExpediente = '';
 		var codigoTipoTramite = 'TDT002';
 		if($("#cboExpedientes").val() != "999999"){
 			codigoTipoTramite = 'TDT001';
                         var codigoExpediente = $("#cboExpedientes").val();
 		}
-                
+
 
 		var codigoAdmin = $("#codigoAdmin").val();
 		var descripcion = $("#descripcion").val();
@@ -509,10 +560,16 @@
 				asunto: asunto,
 				recibo: recibo,
 				cod_tipo_tramite: codigoTipoTramite,
-                                codigoExpediente: codigoExpediente
+        codigoExpediente: codigoExpediente
 			},
 			function(data, status){
-				document.location.href='Registrar_Tramite.php';
+					$.post("processArchivo_temporal.php",{
+						codTramite: data,
+						codUsu: "<?php echo $_SESSION['cod_user'];?>",
+					},
+					function(data, status){
+						document.location.href='Registrar_Tramite.php';
+					});
 		});
 	}
 
