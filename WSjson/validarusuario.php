@@ -45,7 +45,7 @@ if( $ojbdata->correoUsuario != '' && $ojbdata->claveUsuario != '' ){
 //     echo ($ojbdata->correoUsuario);
 //     echo ('abcd');
     
-	$sql = "select * from tb_user as u
+	$sql = "select *,(select a.nom+' '+a.ape_pat+' '+a.ape_mat from tb_administrado as a where a.cod_administrado = u.cod_administrado)  as nomape  from tb_user as u
  		where u.nom_user='".$ojbdata->correoUsuario ."' and u.clave_user='".$ojbdata->claveUsuario."'"
                 . "and tip_user = 'TUS002' and estado = 1 ";
         
