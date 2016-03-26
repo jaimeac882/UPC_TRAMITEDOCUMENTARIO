@@ -17,6 +17,31 @@
         $this->lt_TipTramite = array();
     }
 
+    function listarTipoEstadoTramite(){
+      $obj = new TramiteDatos();
+      return $obj->listarTipoEstadoTramite();
+    }
+
+    function listarAdjuntosRespuesta($cod_tramite){
+      $obj = new TramiteDatos();
+      return $obj->listarAdjuntosRespuesta($cod_tramite);
+    }
+
+    function aprobarRespuesta($cod_tramite){
+      $obj = new TramiteDatos();
+      $obj->aprobarRespuesta($cod_tramite);
+    }
+
+    function listarTramitesActivar($f1,$f2,$ad,$tipo_docu){
+      $obj = new TramiteDatos();
+      return $obj->listarTramitesActivar($f1,$f2,$ad,$tipo_docu);
+    }
+
+    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos){
+      $obj = new TramiteDatos();
+      return $obj->aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos);
+    }
+
     function guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo){
       $obj = new TramiteDatos();
       return $obj->guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo);

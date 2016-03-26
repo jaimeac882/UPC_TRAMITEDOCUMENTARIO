@@ -22,6 +22,128 @@ private $lt_TipTramite;
         $this->lt_TipTramite = array();
     }
 
+    function listarTipoEstadoTramite(){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "select * from tb_tip_estado_tramite";
+
+      $consulta = sqlsrv_query ($con, $sql);
+
+      while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Tramite[] = $row;
+      }
+
+      sqlsrv_free_stmt( $consulta);
+
+      return($this->lt_Tramite);
+    }
+
+    function aprobarRespuesta($cod_tramite){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "UPDATE tb_tramite SET cod_estado = 'EST007' WHERE cod_tramite = '".$cod_tramite."'";
+
+      sqlsrv_query($con,$sql);
+
+    }
+
+    function listarAdjuntosRespuesta($cod_tramite){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT t.*, a.nom_archivo, a.ruta_doc_adjunta
+              FROM TB_TRAMITE_RESP t
+              LEFT JOIN tb_tramite_resp_adj a ON a.cod_tramite_resp = t.cod_tramite_resp
+              WHERE t.cod_tramite = '".$cod_tramite."'";
+
+      $consulta = sqlsrv_query ($con, $sql);
+
+      while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Tramite[] = $row;
+      }
+
+      sqlsrv_free_stmt( $consulta);
+
+      return($this->lt_Tramite);
+
+    }
+
+    function listarTramitesActivar($f1,$f2,$ad,$tipo_docu){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT tb_1.*
+               FROM (SELECT t.cod_tramite, cod_tipo_tramite,
+                        (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
+                         FROM   tb_administrado AS a
+                         WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                        t.des_tramite,
+                        CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                        r.observacion
+                 FROM   tb_tramite AS t
+                 INNER JOIN TB_TRAMITE_RESP r ON r.cod_tramite = t.cod_tramite
+                 WHERE  t.cod_estado = 'EST006') tb_1
+                 WHERE tb_1.administrado LIKE '%".$ad."%'
+                  AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
+                  AND tb_1.cod_tipo_tramite LIKE '%".$tipo_docu."%'";
+
+         $consulta = sqlsrv_query ($con, $sql);
+
+         while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+           $this->lt_Tramite[] = $row;
+         }
+
+         sqlsrv_free_stmt( $consulta);
+
+         return($this->lt_Tramite);
+
+    }
+
+    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+      $id = 0;
+      $sql = "INSERT INTO TB_TRAMITE_RESP(cod_tramite, asunto, observacion)
+              VALUES('".$cod_tramite."','','".$respuesta."')";
+
+      if(sqlsrv_query ($con,$sql)){
+
+        $result = sqlsrv_query($con,"SELECT @@identity AS id");
+
+        if($row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_ASSOC)){
+          $id = $row["id"];
+
+          $lst_archivos = explode(",",$archivos);
+          foreach ($lst_archivos as &$value) {
+            if($value != ''){
+
+              $ruta_archivo = "FilesRespuesta/".$cod_tramite."/".$id."/".$value;
+              $sql = "INSERT INTO tb_tramite_resp_adj(cod_tramite_resp, nom_archivo, ruta_doc_adjunta)
+                      VALUES(".$id.",'".$value."','".$ruta_archivo."')";
+
+              sqlsrv_query ($con,$sql);
+
+            }
+          }
+
+        }
+
+        if($aprobacionJefe == 0){
+          $sql = "UPDATE tb_tramite SET ind_confir_jefe = ".$aprobacionJefe.", cod_estado = 'EST007'
+                  WHERE cod_tramite = '".$cod_tramite."'";
+        }else{
+          $sql = "UPDATE tb_tramite SET ind_confir_jefe = ".$aprobacionJefe.", cod_estado = 'EST006'
+                  WHERE cod_tramite = '".$cod_tramite."'";
+        }
+
+        sqlsrv_query($con,$sql);
+
+        return $id;
+      }
+    }
+
     function guardarAdjuntos($cod_tramite, $cod_usu, $des_adj, $nomDocu, $nomArchivo){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
@@ -195,7 +317,7 @@ private $lt_TipTramite;
     }
 
 
-        function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
+    function rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -355,10 +477,10 @@ private $lt_TipTramite;
               FROM   tb_tramite AS t
               WHERE  t.cod_estado = 'EST004') tb_1
                 inner join tb_tramite_area_asignada as tra on tb_1.cod_tramite = tra.cod_tramite
-			  inner join tb_area as are on are.cod_area = tra.cod_area
+			          inner join tb_area as are on are.cod_area = tra.cod_area
               WHERE tb_1.administrado LIKE '%".$ad."%'
-             and     tra.cod_area = '".$cod_are_em."'
-                and      are.cod_jefe= '".$id_emple."'
+                AND tra.cod_area LIKE '%".$cod_are_em."%'
+                and are.cod_jefe LIKE '%".$id_emple."%'
                         AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                         ORDER BY tb_1.diasTrans";
 

@@ -31,6 +31,7 @@
     case '2': $objTramiteControlador->rechazarTramite($cod_tramite, $cod_usuario, $cod_area); break;
     case '4': $objTramiteControlador->rechazarTramitevr2($cod_tramite, $cod_usuario, $cod_area,$des_observaciones,$cod_administrado); break;
     case '3': $objTramiteControlador->guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe); break;
+    case '5': $objTramiteControlador->aprobarRespuesta($cod_tramite); break;
   }
 
 

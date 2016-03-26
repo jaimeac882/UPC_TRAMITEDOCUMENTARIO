@@ -2,16 +2,25 @@
 
 $id = $_POST["id"];
 $cod_ref = $_POST["ref"];
+$capertaInicial = "FilesUpload";
+$source = "input4";
+
+if($_POST["folder"] != null){
+  $capertaInicial = $_POST["folder"];
+}
+if($_POST["source"] != null){
+  $source = $_POST["source"];
+}
 # definimos la carpeta destino
-$carpetaDestino="../FilesUpload/".$id."/";
+$carpetaDestino="../".$capertaInicial."/".$id."/";
 @mkdir($carpetaDestino);
-$carpetaDestino="../FilesUpload/".$id."/".$cod_ref."/";
+$carpetaDestino="../".$capertaInicial."/".$id."/".$cod_ref."/";
 # si hay algun archivo que subir
-if($_FILES["input4"]["name"][0])
+if($_FILES[$source]["name"][0])
 {
 
     # recorremos todos los arhivos que se han subido
-    for($i=0;$i<count($_FILES["input4"]["name"]);$i++)
+    for($i=0;$i<count($_FILES[$source]["name"]);$i++)
     {
 
         # si es un formato de imagen
@@ -20,15 +29,15 @@ if($_FILES["input4"]["name"][0])
             # si exsite la carpeta o se ha creado
             if(file_exists($carpetaDestino) || @mkdir($carpetaDestino))
             {
-                $origen=$_FILES["input4"]["tmp_name"][$i];
-                $destino=$carpetaDestino.$_FILES["input4"]["name"][$i];
+                $origen=$_FILES[$source]["tmp_name"][$i];
+                $destino=$carpetaDestino.$_FILES[$source]["name"][$i];
 
                 # movemos el archivo
                 if(@move_uploaded_file($origen, $destino))
                 {
                     echo "{}";
                 }else{
-                    echo "{No se ha podido mover el archivo: ".$_FILES["input4"]["name"][$i]."}";
+                    echo "{No se ha podido mover el archivo: ".$_FILES[$source]["name"][$i]."}";
                 }
             }else{
                 echo "{No se ha podido crear la carpeta: }";
