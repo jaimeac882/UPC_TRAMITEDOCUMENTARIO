@@ -86,7 +86,7 @@ $sql = "select * from tb_flujo_tramite_real as t where
 //             $data->indicador_tramite = trim($fila['indicador_tramite']);
 //             $data->cod_exp = trim($fila['cod_exp']);
            
-           $ojbresponse->data[] = $row;
+           $ojbresponse->data = $row;
 			$ojbresponse->response = 'OK';
            
            

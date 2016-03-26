@@ -37,8 +37,23 @@ if( $ojbdata->cod_tramite != '' ){
 //     echo ('abcd');
     
     
-$sql = "select * from tb_flujo_tramite_real as t where 
- t.cod_tramite=".$ojbdata->cod_tramite."";
+$sql = "select
+
+cod_usuario,
+cod_tramite,
+(select des_user from tb_user as u where u.cod_user= t.cod_usuario) as des_usuario,
+CONVERT(VARCHAR(10), t.fec_registro, 101) as fec_recepcion,
+case cod_estado 
+when 'EST001' then 'PENDIENTE DE ACTIVACION'
+when 'EST003' then 'ACTIVADO'
+when 'EST004' then 'PENDIENTE DE ATENCION'
+when 'EST006' then 'PENDIENTE DE RESPUESTA'
+when 'EST007' then 'PENDIENTE DE APROBACION DE JEFE'
+when 'EST999' then 'RECHAZADO'
+else '' end as des_estado,
+(select des_area from tb_area as a where a.cod_area = t.cod_area) as des_area
+   from tb_flujo_tramite_real as t where 
+ t.cod_tramite=".$ojbdata->cod_tramite." order by cod_flujo_tramite";
         	
     
     $cnn = new conexion();
@@ -73,12 +88,12 @@ $sql = "select * from tb_flujo_tramite_real as t where
 //           $this->lt_Tramite[] = $row;
 //           $ojbdata2 = new beanTramite();
                 
-//           $data = new stdClass();
-//             $data->cod_tramite = trim($fila['cod_tramite']);
-//             $data->nom_tramite = trim($fila['des_tramite']);
-//             $data->cod_administrado = trim($fila['cod_administrado']);
-//             $data->des_administrado = trim($fila['administrado']);
-//             $data->fec_recepcion = trim($fila['fec_recepcion']);
+         $data = new stdClass();
+             $data->des_usuario = trim($row['des_usuario']);
+            $data->cod_tramite = trim($row['cod_tramite']);
+            $data->fec_recepcion = trim($row['fec_recepcion']);
+            $data->des_estado = trim($row['des_estado']);
+            $data->des_area = trim($row['des_area']);
 //             $data->observaciones = trim($fila['observaciones']);
 //             $data->folio = trim($fila['folio']);
 //             $data->asunto = trim($fila['asunto']);
@@ -86,7 +101,7 @@ $sql = "select * from tb_flujo_tramite_real as t where
 //             $data->indicador_tramite = trim($fila['indicador_tramite']);
 //             $data->cod_exp = trim($fila['cod_exp']);
            
-           $ojbresponse->data[] = $row;
+           $ojbresponse->data[] = $data;
 			$ojbresponse->response = 'OK';
            
            

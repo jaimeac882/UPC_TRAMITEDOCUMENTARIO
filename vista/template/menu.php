@@ -84,9 +84,12 @@
                     </div>
                     <div id="collapseFour" class="panel-collapse collapse in">
                          <ul class="list-group">
-
+                            <!--
                                <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a style="color: red" href="../vista/Generar_RTramite.php">Generar Reporte de Trámite (Jefe de Tramite Documentario)</a>
+-->
 
+
+                               <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a style="color: red" href="../vista/GenerarReporteTramite.php">Generar Reporte de Trámite (Jefe de Tramite Documentario)</a>
 <!--                             <li class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span> <a>Blogs</a>
                                 <ul class="list-group">
                                     <li class="list-group-item"><span class="glyphicon glyphicon-minus text-primary"></span> <a>Edit Blog</a></li>

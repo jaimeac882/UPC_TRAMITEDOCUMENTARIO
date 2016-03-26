@@ -36,7 +36,8 @@ if( $ojbdata->cod_administrado != '' ){
 //     echo ($ojbdata->correoUsuario);
 //     echo ('abcd');
     
-$sql = "select t.cod_tramite ,
+$sql = "
+select t.cod_tramite ,
        t.des_tramite ,
        t.cod_administrado,
        (
@@ -49,13 +50,18 @@ observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
    CASE
       WHEN cod_tipo_tramite = 'TDT001' THEN 1
       WHEN cod_tipo_tramite = 'TDT002' THEN 0
-   END  as indicador_tramite
+   END  as indicador_tramite,
+
+   
+(select te.des_estadotramite from tb_tip_estado_tramite as te
+where te.cod_estado = t.cod_estado) as des_estadotramite
+
 
 from tb_tramite as t
  where t.cod_estado <> 'EST000' and
  t.cod_administrado='".$ojbdata->cod_administrado."'";
         	
-    
+ 
     $cnn = new conexion();
 		$con = $cnn->conectarsql();
         
@@ -88,20 +94,16 @@ from tb_tramite as t
 //           $this->lt_Tramite[] = $row;
 //           $ojbdata2 = new beanTramite();
                 
-//           $data = new stdClass();
-//             $data->cod_tramite = trim($fila['cod_tramite']);
-//             $data->nom_tramite = trim($fila['des_tramite']);
-//             $data->cod_administrado = trim($fila['cod_administrado']);
-//             $data->des_administrado = trim($fila['administrado']);
-//             $data->fec_recepcion = trim($fila['fec_recepcion']);
-//             $data->observaciones = trim($fila['observaciones']);
-//             $data->folio = trim($fila['folio']);
-//             $data->asunto = trim($fila['asunto']);
-//              $data->cod_tipo_tramite = trim($fila['cod_tipo_tramite']);
-//             $data->indicador_tramite = trim($fila['indicador_tramite']);
-//             $data->cod_exp = trim($fila['cod_exp']);
-           
-           $ojbresponse->data[] = $row;
+             $data = new stdClass();
+             $data->cod_tramite = trim($row['cod_tramite']);
+            $data->des_tramite = trim($row['des_tramite']);
+            $data->des_estadotramite = utf8_encode( trim($row['des_estadotramite']) );
+             $data->fec_recepcion    = trim($row['fec_recepcion']);
+             
+
+                  
+                
+           $ojbresponse->data[] = $data;
 			$ojbresponse->response = 'OK';
            
            
