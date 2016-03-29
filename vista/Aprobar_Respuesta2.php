@@ -25,7 +25,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						Delegar Carga de Trabajo Expedientes : <a
+						Aprobar Respuesta de Tramite : <a
 							style="color: blue; font-weight: bold"> <?php echo $beanTramite->POST_cod_tramite();?>
 						</a>
 					</h3>

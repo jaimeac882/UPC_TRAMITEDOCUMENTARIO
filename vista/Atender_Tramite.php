@@ -20,7 +20,7 @@
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Consulta de Tramites a Delegar</h3>
+					<h3 class="panel-title">Consulta de Tramites a Atender</h3>
 				</div>
 
         <div class="panel-body">
