@@ -92,7 +92,8 @@
     var administrado = $("#buscar").val();
     var area = "<?php echo $_SESSION["cod_area"];?>";
     var id_emp = "<?php echo $beanEmpleado->POST_id();?>";
-   $.get("inc_tramite_atender.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
+    var cod_user = "<?php echo $_SESSION["cod_user"];?>";
+   $.get("inc_tramite_atender.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp+"&cod_usu="+cod_user, function(data, status){
       $("#body_contenedor").html(data);
     });
   }
@@ -104,8 +105,8 @@
     var administrado = $("#buscar").val();
     var area = "<?php echo $_SESSION["cod_area"];?>";
     var id_emp = "<?php echo $beanEmpleado->POST_id();?>";
-
-    $.get("inc_tramite_atender.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
+    var cod_user = "<?php echo $_SESSION["cod_user"];?>";
+    $.get("inc_tramite_atender.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp+"&cod_usu="+cod_user, function(data, status){
       $("#body_contenedor").html(data);
       $("#table_delegar").DataTable();
     });

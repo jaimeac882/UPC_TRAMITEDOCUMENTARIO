@@ -121,11 +121,11 @@
           </div>
           <!-- Fin empleados para delegacion -->
           <div class="form-group row">
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <button type="button" onclick="aprobarRespuesta('<?php echo $_GET['id']; ?>')" class="btn btn-success btn-sm">Aprobar</button>
             </div>
-            <div class="col-xs-2">
-                <button type="button" onclick="cancelar()" class="btn btn-danger btn-sm">Cancelar</button>
+            <div class="col-xs-1">
+                <button type="button" style="margin-left:10px" onclick="cancelar()" class="btn btn-danger btn-sm">Cancelar</button>
             </div>
           </div>
         </div>
@@ -141,8 +141,8 @@
         {
           cod_tramite: cod_tramite,
           operation: "5",
-          cod_user: "",
-          cod_area: ""
+          cod_user: "<?php echo $_SESSION["cod_user"];?>",
+          cod_area: "<?php echo $_SESSION["cod_area"];?>"
         },
         function(data, status){
           document.location.href="Aprobar_Respuesta.php";

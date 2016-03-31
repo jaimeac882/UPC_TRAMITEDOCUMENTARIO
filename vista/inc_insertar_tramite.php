@@ -10,7 +10,9 @@
   $recibo = $_POST["recibo"];
   $cod_tipo_tramite = $_POST["cod_tipo_tramite"];
   $codigoExpediente = $_POST["codigoExpediente"];
-  
+  $cod_user = $_POST["cod_user"];
+  $cod_area = $_POST["cod_area"];
 
-  echo $objTramiteControlador->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente);
+
+  echo $objTramiteControlador->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_user,$cod_area);
 ?>

@@ -138,23 +138,24 @@
 							</div>
 						</div>
 					</div>
-					<!--
+
 					<div class="panel panel-default">
 						<div class="panel-heading">Documentos Adjuntos</div>
 						<div class="panel-body" >
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<thead>
 									<tr>
-										<th>Codigo</th>
-										<th>Descripcion</th>
+										<!--<th>Codigo</th>
+										<th>Descripcion</th>-->
 										<th>Archivo</th>
+										<th width="35px"></th>
 									</tr>
 								</thead>
 								<tbody id="contenedor_adjuntos">
 								</tbody>
 							</table>
 						</div>
-					</div>-->
+					</div><!-- -->
 					<!-- Fin Lilstado Documentos Adjuntos -->
 					<div class="form-group row">
 						<div class="col-xs-1">
@@ -388,17 +389,24 @@
 				$('#input-4').fileinput('enable');
 				$("#cod_referencia_documento").val("");
 				$("#descripcion_iteracion").val("");
-				/*
-				$.post("inc_mostrar_adjuntos_temporal.php",{},
+
+				$.post("inc_mostrar_adjuntos_temporal.php",{removeId:''},
 					function(data, status){
 						$("#contenedor_adjuntos").html(data);
 						$('#input-4').fileinput('clear');
 						$('#input-4').fileinput('enable');
 						$("#cod_referencia_documento").val("");
 						$("#descripcion_iteracion").val("");
-				});*/
+				});/**/
 		});
 	});
+
+	function removeDocument(id){
+		$.post("inc_mostrar_adjuntos_temporal.php",{removeId: id},
+			function(data, status){
+				$("#contenedor_adjuntos").html(data);
+		});
+	}
 
 	function guardarAdjunto(){
 		var referencia = $("#cod_referencia_documento").val();
@@ -559,6 +567,8 @@
 				folio: folio,
 				asunto: asunto,
 				recibo: recibo,
+				cod_user : "<?php echo $_SESSION["cod_user"];?>",
+				cod_area : "<?php echo $_SESSION["cod_area"];?>",
 				cod_tipo_tramite: codigoTipoTramite,
         codigoExpediente: codigoExpediente
 			},

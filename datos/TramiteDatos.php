@@ -39,13 +39,18 @@ private $lt_TipTramite;
       return($this->lt_Tramite);
     }
 
-    function aprobarRespuesta($cod_tramite){
+    function aprobarRespuesta($cod_tramite, $cod_usuario, $cod_area){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
       $sql = "UPDATE tb_tramite SET cod_estado = 'EST007' WHERE cod_tramite = '".$cod_tramite."'";
 
       sqlsrv_query($con,$sql);
+
+      $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
+                      VALUES('".$cod_tramite."',GETDATE(),'".$cod_usuario."','EST007','".$cod_area."')";
+
+      sqlsrv_query ($con, $sql_flujo);
 
     }
 
@@ -70,7 +75,43 @@ private $lt_TipTramite;
 
     }
 
-    function listarTramitesActivar($f1,$f2,$ad,$tipo_docu){
+    function listarTramitesAtender($f1,$f2,$ad,$cod_usu){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT tb_1.*
+               FROM (SELECT t.cod_tramite, cod_tipo_tramite,
+                        (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
+                         FROM   tb_administrado AS a
+                         WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                        t.des_tramite,
+                        CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                        (SELECT des_exp
+                         FROM   tb_tip_expediente te
+                         WHERE  te.cod_tip_expediente = t.cod_exp)       AS desexpediente,
+                        (SELECT tex.dias_maximo
+                         FROM   tb_tip_expediente tex
+                         WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
+                         DAY(GETDATE()-t.fec_recepcion) AS diasTrans,
+                        r.des_asignacion
+                 FROM   tb_tramite AS t
+                 JOIN tb_asignacion r ON r.cod_tramite = t.cod_tramite
+                 WHERE  t.cod_estado = 'EST005'  AND r.cod_usu_asignado = '".$cod_usu."') tb_1
+                 WHERE tb_1.administrado LIKE '%".$ad."%'
+                  AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')";
+
+        $consulta = sqlsrv_query ($con,$sql);
+
+
+        while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+          $this->lt_Tramite[] = $row;
+        }
+
+        return($this->lt_Tramite);
+
+    }
+
+    function listarTramitesAprobarRespuesta($f1,$f2,$ad,$tipo_docu,$cod_are_em){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -82,9 +123,10 @@ private $lt_TipTramite;
                         t.des_tramite,
                         CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
                         r.observacion
-                 FROM   tb_tramite AS t
+                 FROM tb_tramite AS t
                  INNER JOIN TB_TRAMITE_RESP r ON r.cod_tramite = t.cod_tramite
-                 WHERE  t.cod_estado = 'EST006') tb_1
+                 INNER JOIN tb_tramite_area_asignada x on x.cod_tramite = t.cod_tramite
+                 WHERE  t.cod_estado = 'EST006' AND x.cod_area = '".$cod_are_em."') tb_1
                  WHERE tb_1.administrado LIKE '%".$ad."%'
                   AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                   AND tb_1.cod_tipo_tramite LIKE '%".$tipo_docu."%'";
@@ -101,7 +143,7 @@ private $lt_TipTramite;
 
     }
 
-    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos){
+    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos, $cod_user, $cod_area){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
       $id = 0;
@@ -130,15 +172,21 @@ private $lt_TipTramite;
 
         }
 
+        $sql_flujo = "";
         if($aprobacionJefe == 0){
           $sql = "UPDATE tb_tramite SET ind_confir_jefe = ".$aprobacionJefe.", cod_estado = 'EST007'
                   WHERE cod_tramite = '".$cod_tramite."'";
+          $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area,cod_tramite_resp)
+                        VALUES('".$cod_tramite."',GETDATE(),'".$cod_user."','EST007','".$cod_area."',".$id.")";
         }else{
           $sql = "UPDATE tb_tramite SET ind_confir_jefe = ".$aprobacionJefe.", cod_estado = 'EST006'
                   WHERE cod_tramite = '".$cod_tramite."'";
+          $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area,cod_tramite_resp)
+                        VALUES('".$cod_tramite."',GETDATE(),'".$cod_user."','EST006','".$cod_area."',".$id.")";
         }
 
         sqlsrv_query($con,$sql);
+        sqlsrv_query ($con, $sql_flujo);
 
         return $id;
       }
@@ -243,7 +291,7 @@ private $lt_TipTramite;
 
     }
 
-    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente){
+    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
@@ -256,7 +304,11 @@ private $lt_TipTramite;
         $sql = "INSERT tb_tramite(cod_tramite, cod_administrado, des_tramite, fec_recepcion, observaciones, folio, asunto, cod_exp,cod_estado, recibo, cod_tipo_tramite)
                 VALUES('".$id."','".$codAdministrado."','".$desTramite."',GETDATE(),'".$observacion."','".$folio."','".$asunto."','".$codigoExpediente."','EST001','".$recibo."','".$cod_tipo_tramite."')";
 
+        $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
+                        VALUES('".$id."',GETDATE(),'".$cod_usuario."','EST001','".$cod_area."')";
+
         sqlsrv_query ($con, $sql);
+        sqlsrv_query ($con, $sql_flujo);
       }
 
       return $id;
@@ -480,7 +532,7 @@ private $lt_TipTramite;
 			          inner join tb_area as are on are.cod_area = tra.cod_area
               WHERE tb_1.administrado LIKE '%".$ad."%'
                 AND tra.cod_area LIKE '%".$cod_are_em."%'
-                and are.cod_jefe LIKE '%".$id_emple."%'
+                AND are.cod_jefe LIKE '%".$id_emple."%'
                         AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
                         ORDER BY tb_1.diasTrans";
 
@@ -589,7 +641,7 @@ private $lt_TipTramite;
 		$tramite->cod_tramite=$codigo;
                 //mssql_select_db('TramiteDocumentario',$con);
                $sql = "select t.cod_tramite ,
-       t.des_tramite ,
+       t.des_tramite , t.ind_confir_jefe,
        t.cod_administrado,
        (
 select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
@@ -624,9 +676,10 @@ from tb_tramite as t
              $tramite->observaciones = trim($fila['observaciones']);
              $tramite->folio = trim($fila['folio']);
              $tramite->asunto = trim($fila['asunto']);
-              $tramite->cod_tipo_tramite = trim($fila['cod_tipo_tramite']);
+             $tramite->cod_tipo_tramite = trim($fila['cod_tipo_tramite']);
              $tramite->indicador_tramite = trim($fila['indicador_tramite']);
              $tramite->cod_exp = trim($fila['cod_exp']);
+             $tramite->ind_confir_jefe = trim($fila['ind_confir_jefe']);
 
              return $tramite;
 

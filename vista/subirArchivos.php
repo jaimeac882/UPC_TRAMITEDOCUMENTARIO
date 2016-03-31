@@ -47,6 +47,6 @@ if($_FILES[$source]["name"][0])
         }*/
     }
 }else{
-    echo "{No se ha subido ninguna imagen}";
+    echo "{}";
 }
 ?>

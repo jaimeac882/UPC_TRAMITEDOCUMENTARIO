@@ -3,13 +3,26 @@
     session_start();
   }
 
-  //var_dump($_SESSION);
+  $removeId = $_POST["removeId"];
+
 
   $adjuntos_tramite = $_SESSION['adjuntos_tramite'];
 
-  for($i=0;$i<count($adjuntos_tramite);$i++){
+  if($removeId != ''){
+    unset($adjuntos_tramite[$removeId]);
+    $_SESSION['adjuntos_tramite'] = $adjuntos_tramite;
+    //array_values($adjuntos_tramite);
+  }
 
-    echo "<tr><td>".$adjuntos_tramite[$i][0]."</td><td>".$adjuntos_tramite[$i][1]."</td><td>".$adjuntos_tramite[$i][2]["tmp_name"][0]."</td></tr>";
+  //$i=0;$i<count($adjuntos_tramite);$i++
+  foreach($adjuntos_tramite as $i => $v){
+    //<td>'.$v[0].'</td>          <td>'.$v[1].'</td>
+    echo '<tr>
+          <td>'.$v[3].'</td>
+          <td>
+          <button class="btn btn-danger btn-sm" onclick="removeDocument('.$i.')" title="Quitar">
+              <span class="glyphicon glyphicon-remove"></span>
+          </button></td></tr>';
 
   }
 

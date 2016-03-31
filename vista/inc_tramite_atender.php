@@ -6,7 +6,8 @@
   $administrado = $_GET["ad"];
   $cod_are_em = '';//$_GET["cod_area_emp"];
   $id_emple = '';//$_GET["cod_emp"];
-  $lt_tramitessinactivar = $objTramites->obtenerTramitesPorAsignar($fecha_1, $fecha_2, $administrado,$cod_are_em,$id_emple);
+  $cod_usu = $_GET["cod_usu"];
+  $lt_tramitessinactivar = $objTramites->listarTramitesAtender($fecha_1, $fecha_2, $administrado,$cod_usu);
 ?>
 <?php foreach ($lt_tramitessinactivar as $row) { ?>
   <tr>

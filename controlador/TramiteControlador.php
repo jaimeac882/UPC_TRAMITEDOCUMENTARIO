@@ -27,19 +27,24 @@
       return $obj->listarAdjuntosRespuesta($cod_tramite);
     }
 
-    function aprobarRespuesta($cod_tramite){
+    function aprobarRespuesta($cod_tramite, $cod_usuario, $cod_area){
       $obj = new TramiteDatos();
-      $obj->aprobarRespuesta($cod_tramite);
+      $obj->aprobarRespuesta($cod_tramite, $cod_usuario, $cod_area);
     }
 
-    function listarTramitesActivar($f1,$f2,$ad,$tipo_docu){
+    function listarTramitesAtender($f1,$f2,$ad,$cod_usu){
       $obj = new TramiteDatos();
-      return $obj->listarTramitesActivar($f1,$f2,$ad,$tipo_docu);
+      return $obj->listarTramitesAtender($f1,$f2,$ad,$cod_usu);
     }
 
-    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos){
+    function listarTramitesAprobarRespuesta($f1,$f2,$ad,$tipo_docu,$cod_are_em){
       $obj = new TramiteDatos();
-      return $obj->aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos);
+      return $obj->listarTramitesAprobarRespuesta($f1,$f2,$ad,$tipo_docu,$cod_are_em);
+    }
+
+    function aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos, $cod_user, $cod_area){
+      $obj = new TramiteDatos();
+      return $obj->aprobarTramite($cod_tramite, $respuesta, $aprobacionJefe, $archivos, $cod_user, $cod_area);
     }
 
     function guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo){
@@ -52,9 +57,9 @@
       $obj->actualizarTramite($codTramite, $observaciones);
     }
 
-    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente){
+    function insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area){
       $obj = new TramiteDatos();
-      return $obj->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente);
+      return $obj->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area);
     }
 
     function empleadosAsignacion($cod_area, $nombre, $codigo){

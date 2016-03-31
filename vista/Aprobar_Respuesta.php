@@ -101,8 +101,9 @@
     var administrado = $("#buscar").val();
     var empleado = $("#empleado").val();
   	var cbo = $("#cbotiptramite").val();
-
-    $.get("inc_atender_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo+"&empleado="+empleado, function(data, status){
+    if(cbo == '999999') cbo = "";
+    var area = "<?php echo $_SESSION["cod_area"];?>";
+    $.get("inc_aprobar_respuesta.php?fecha1="+fecha1+"&fecha2="+fecha2+"&cod_area_emp="+area+"&ad="+administrado+"&cbo="+cbo+"&empleado="+empleado, function(data, status){
       $("#body_contenedor").html(data);
     });
   }
@@ -113,8 +114,9 @@
     var administrado = $("#buscar").val();
     var empleado = $("#empleado").val();
   	var cbo = $("#cbotiptramite").val();
-
-    $.get("inc_atender_tramite.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cbo="+cbo+"&empleado="+empleado, function(data, status){
+    if(cbo == '999999') cbo = "";
+    var area = "<?php echo $_SESSION["cod_area"];?>";
+    $.get("inc_aprobar_respuesta.php?fecha1="+fecha1+"&fecha2="+fecha2+"&cod_area_emp="+area+"&ad="+administrado+"&cbo="+cbo+"&empleado="+empleado, function(data, status){
       $("#body_contenedor").html(data);
   		$("#table_activar").DataTable();
     });
@@ -125,8 +127,8 @@
     		{
     			cod_tramite: cod_tramite,
     			operation: "5",
-          cod_user: "",
-          cod_area: ""
+          cod_user: "<?php echo $_SESSION["cod_user"];?>",
+          cod_area: "<?php echo $_SESSION["cod_area"];?>"
     		},
     		function(data, status){
     			document.location.href="Aprobar_Respuesta.php";

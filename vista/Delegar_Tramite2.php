@@ -185,11 +185,11 @@
           <!-- Fin empleados para delegacion -->
           <div class="form-group row">
               <div class="col-xs-1">
-                	<button type="button" onclick="guardarTramite()" class="btn btn-success btn-sm" onclick="">Guardar</button>
+                	<button type="button" data-toggle="modal" data-target="#confirm" class="btn btn-success btn-sm" onclick="">Guardar</button>
               </div>
               <div class="col-xs-1">
                   <!--<button type="button" onclick="rechazarTramite()" class="btn btn-danger btn-sm">Rechazar</button>-->
-                  <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
+                  <button type="button" style="margin-left:10px" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>
 
               <!-- Modal Init -->
@@ -225,6 +225,30 @@
 		</div>
 	</div>
 	<!-- Accordion - END -->
+  <div class="modal fade" id="confirm" role="dialog">
+  	<form id="frm_new_administrado" >
+  		<div class="modal-dialog">Modal content
+  			<div class="modal-content">
+  				<div class="modal-header">
+  					<button type="button" class="close" data-dismiss="modal">&times;</button>
+  					<h4 class="modal-title">Confirm</h4>
+  				</div>
+  				<div class="modal-body">
+  					<div class="form-group row">
+  						<div class="col-xs-3"></div>
+  						<div class="col-xs-6">
+  							¿Esta seguro de guardar la asignación?
+  						</div>
+  						<div class="col-xs-3"></div>
+  					</div>
+  				</div>
+  				<div class="modal-footer">
+  					<button type="button" onclick="guardarTramite()" class="btn btn-primary btn-sm"  id="btndata" >Guardar</button>
+  				</div>
+  			</div>
+  		</div>
+  	</form>
+  </div>
 	<?php include_once("template/pie.php"); ?>
   <script>
   $(function() {
@@ -250,7 +274,6 @@
       confirmacionJefe2 = 1;
     }
     if(!isBlank(descripcion)){
-      if(confirm('¿Esta seguro de guardar la asignación?')){
         $.post("inc_cambiar_estado.php",
           {
             cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
@@ -262,10 +285,10 @@
             confirmacionJefe : confirmacionJefe2
           },
           function(data, status){
-            //document.location.href="Delegar_Tramite.php";
+            document.location.href="Delegar_Tramite.php";
         });
-      }
     }else{
+      $('#confirm').modal('toggle');
       $("#descripcion_asignacion").focus();
       alert("Ingresar una descripción.");
     }

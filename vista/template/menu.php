@@ -15,14 +15,14 @@
                                   <?php if( $_SESSION["cod_user"] == 'USU002'){  ?>
                                   <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Activar_Tramite.php">Activar Tramites</a>
                                   <?php } ?>
-                                      
+
                                        <?php if( $_SESSION["cod_user"] == 'USU003'){  ?>
                                   <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a style="color: red" href="../vista/Atender_Tramite.php">Atender Tramite (Trabajador de Area)</a>
                                    <?php } ?>
                                         <?php if( $_SESSION["cod_user"] == 'USU004'){  ?>
                                   <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a style="color: red" href="../vista/Aprobar_Respuesta.php">Aprobar Respuesta de Trámite (Jefe del Area)</a>
                                           <?php } ?>
-                                  <?php if( $_SESSION["cod_user"] == 'USU004'){  ?>
+                                  <?php if( $_SESSION["cod_user"] == 'USU004' || $_SESSION["cod_user"] == 'USU005'){  ?>
                                   <li class="list-group-item"><span class="glyphicon glyphicon-edit text-primary"></span> <a href="../vista/Delegar_Tramite.php">Delegar Carga de Trabajo Expediente</a></li>
                                   <?php } ?>
 
@@ -70,13 +70,13 @@
                                 <ul class="list-group">
                                          <?php if( $_SESSION["cod_user"] == 'USU001'){  ?>
                                      <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Registrar_Tramite.php">Registrar Tramites</a>
-                                    
+
                                          <?php } ?>
                                     <!--<li class="list-group-item"><span class="glyphicon glyphicon-minus text-primary"></span> <a>Registrar Tramite</a></li>-->
 <!--                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-success"></span> <a>Publish Blog</a></li>
                                     <li class="list-group-item"><span class="glyphicon glyphicon-minus text-warning"></span> <a>Delete Blog</a></li>-->
                                 </ul>
-                          
+
                             <!-- <li class="list-group-item"><span class="glyphicon glyphicon-share-alt text-info"></span> <a>Share</a></li>
                             <li class="list-group-item"><span class="glyphicon glyphicon-bell text-success"></span> <a>Users online</a><span class="badge">7</span></li>
                            -->

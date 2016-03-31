@@ -64,7 +64,7 @@
           <div class="form-group row">
             <div class="col-xs-4">
               <label for="formGroupExampleInput2">Confirmación de Jefe</label>&nbsp;
-              <input type="checkbox" id="confirmacionJefe" name="confirmacionJefe" >
+              <input type="checkbox" disabled id="confirmacionJefe" name="confirmacionJefe" >
             </div>
           </div>
           <!-- Fin Datos tramite -->
@@ -236,15 +236,15 @@
           <!-- Fin Lilstado Documentos Adjuntos -->
           <!-- Fin empleados para delegacion -->
           <div class="form-group row">
-              <div class="col-xs-2">
+              <div class="col-xs-1">
                 	<button type="button" data-toggle="modal" data-target="#aprobarTramite" class="btn btn-success btn-sm">Aprobar</button>
               </div>
-              <div class="col-xs-2">
+              <div class="col-xs-1">
                   <!--<button type="button" onclick="rechazarTramite()" class="btn btn-danger btn-sm">Rechazar</button>-->
-                  <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
+                  <button type="button" style="margin-left:10px" data-toggle="modal" data-target="#myModal" class="btn btn-danger btn-sm">Rechazar</button>
               </div>
-              <div class="col-xs-2">
-                  <button type="button" data-toggle="modal" data-target="#generarSolicutud" class="btn btn-success btn-sm">Generar Solicitud</button>
+              <div class="col-xs-1">
+                  <button type="button" style="margin-left:25px" data-toggle="modal" data-target="#generarSolicutud" class="btn btn-success btn-sm">Generar Solicitud</button>
               </div>
               <!-- Modal Init -->
               <div class="modal fade" id="myModal" role="dialog">
@@ -351,6 +351,10 @@
 	<?php include_once("template/pie.php"); ?>
   <script>
   $(function() {
+    if('<?php echo $beanTramite->POST_ind_confir_jefe(); ?>' == '1'){
+      $("#confirmacionJefe").prop("checked", true);
+    }
+
     buscarEmpleados();
     $("#input-4").fileinput({
   		uploadUrl: "subirArchivos.php",
@@ -425,35 +429,6 @@
     });
   }
 
-  function guardarTramite(){
-    var codigo_empleado = $('input:radio[name=seleccionado]:checked').val();
-    var descripcion =$("#descripcion_asignacion").val();
-    var confirmacionJefe = $("#confirmacionJefe").is(':checked');
-    var confirmacionJefe2 = 0;
-    if(confirmacionJefe){
-      confirmacionJefe2 = 1;
-    }
-    if(!isBlank(descripcion)){
-      if(confirm('¿Esta seguro de guardar la asignación?')){
-        $.post("inc_cambiar_estado.php",
-          {
-            cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
-            operation: "3",
-            cod_user : "<?php echo $_SESSION["cod_user"];?>",
-            cod_area : "<?php echo $_SESSION["cod_area"];?>",
-            cod_empleado : codigo_empleado,
-            descripcion : descripcion,
-            confirmacionJefe : confirmacionJefe2
-          },
-          function(data, status){
-            //document.location.href="Delegar_Tramite.php";
-        });
-      }
-    }else{
-      $("#descripcion_asignacion").focus();
-      alert("Ingresar una descripción.");
-    }
-  }
   function rechazarTramite(){
     if(confirm('¿Esta seguro de rechazar el tramite?')){
       $.post("inc_cambiar_estado.php",
@@ -464,7 +439,7 @@
     		  cod_area : "<?php echo $_SESSION["cod_area"];?>"
     		},
     		function(data, status){
-    			document.location.href="Delegar_Tramite.php";
+    			document.location.href="Atender_Tramite.php";
     	});
     }
   }
@@ -544,7 +519,7 @@
   			    administrado : "<?php echo $beanTramite->POST_cod_administrado();?>",
   				},
   			function(data, status){
-  				document.location.href="Delegar_Tramite.php";
+  				document.location.href="Atender_Tramite.php";
   			});
   	}
   }
@@ -562,13 +537,15 @@
          cod_tramite: "<?php echo $beanTramite->POST_cod_tramite();?>",
          respuesta: respuestaAprobacion,
          aprobacionJefe : confirmacionJefe2,
-         archivos : obtenerNombresArchivos2()
+         archivos : obtenerNombresArchivos2(),
+         cod_user : "<?php echo $_SESSION["cod_user"];?>",
+         cod_area : "<?php echo $_SESSION["cod_area"];?>"
        },
      function(data, status){
        console.log(data);
        $("#cod_referencia_documento_file2").val(data);
        $("#input-5").fileinput('upload');
-       //document.location.href="Delegar_Tramite.php";
+       document.location.href="Atender_Tramite.php";
      });
     }else{
       $("#respuestaAprobacion").focus();
