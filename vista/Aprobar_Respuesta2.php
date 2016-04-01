@@ -87,7 +87,7 @@
                         if($row['ruta_doc_adjunta'] != null){ ?>
                       <tr>
                         <td>
-                          <?php echo $row['nom_docu'];?>
+                          <?php echo $row['nom_archivo'];?>
                         </td>
                         <td style="width: 35px">
     											<a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
@@ -122,7 +122,7 @@
           <!-- Fin empleados para delegacion -->
           <div class="form-group row">
             <div class="col-xs-1">
-                <button type="button" onclick="aprobarRespuesta('<?php echo $_GET['id']; ?>')" class="btn btn-success btn-sm">Aprobar</button>
+                <button type="button" data-toggle="modal" data-target="#myModals" class="btn btn-success btn-sm">Aprobar</button>
             </div>
             <div class="col-xs-1">
                 <button type="button" style="margin-left:10px" onclick="cancelar()" class="btn btn-danger btn-sm">Cancelar</button>
@@ -134,20 +134,36 @@
 	</div>
 	<!-- Accordion - END -->
 <?php include_once("template/pie.php"); ?>
+
+<div class="modal fade" id="myModals" role="dialog">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <h4 class="modal-title">Confirm</h4>
+     </div>
+     <div class="modal-body">
+          ¿Esta seguro de aprobar la respuesta?
+     <div>
+     <div class="modal-footer">
+       <button type="button"  onclick="aprobarRespuesta('<?php echo $_GET['id']; ?>')" class="btn btn-primary btn-sm"  id="btndata" >Aprobar</button>
+     </div>
+   </div>
+ </div>
+</div>
+
 <script>
   function aprobarRespuesta(cod_tramite){
-    if(confirm('¿Esta seguro de aprobar la respuesta?')){
-      $.post("inc_cambiar_estado.php",
-        {
-          cod_tramite: cod_tramite,
-          operation: "5",
-          cod_user: "<?php echo $_SESSION["cod_user"];?>",
-          cod_area: "<?php echo $_SESSION["cod_area"];?>"
-        },
-        function(data, status){
-          document.location.href="Aprobar_Respuesta.php";
-      });
-    }
+    $.post("inc_cambiar_estado.php",
+      {
+        cod_tramite: cod_tramite,
+        operation: "5",
+        cod_user: "<?php echo $_SESSION["cod_user"];?>",
+        cod_area: "<?php echo $_SESSION["cod_area"];?>"
+      },
+      function(data, status){
+        document.location.href="Aprobar_Respuesta.php";
+    });
   }
   function cancelar(){
     document.location.href="Aprobar_Respuesta.php";

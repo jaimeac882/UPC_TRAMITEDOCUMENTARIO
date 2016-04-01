@@ -543,15 +543,12 @@
 	}
 
 	function doInsertarTramite(){
-
-
 		var codigoExpediente = '';
 		var codigoTipoTramite = 'TDT002';
 		if($("#cboExpedientes").val() != "999999"){
 			codigoTipoTramite = 'TDT001';
-                        var codigoExpediente = $("#cboExpedientes").val();
+			var codigoExpediente = $("#cboExpedientes").val();
 		}
-
 
 		var codigoAdmin = $("#codigoAdmin").val();
 		var descripcion = $("#descripcion").val();

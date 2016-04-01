@@ -11,11 +11,12 @@
 
   $adjuntos_tramite = $_SESSION['adjuntos_tramite'];
 
-  for($j=0;$j<count($adjuntos_tramite);$j++){
-    $descripcion = $adjuntos_tramite[$j][1];
-    $nomDocu = $adjuntos_tramite[$j][0];
-    $nomTemporal = $adjuntos_tramite[$j][2];
-    $nomArchivo = $adjuntos_tramite[$j][3];
+  //for($j=0;$j<count($adjuntos_tramite);$j++){
+  foreach($adjuntos_tramite as $i => $v){
+    $descripcion = $v[1];
+    $nomDocu = $v[0];
+    $nomTemporal = $v[2];
+    $nomArchivo = $v[3];
     $id = $objTramiteControlador->guardarAdjuntos($codTramite, $codUsu, $descripcion, $nomDocu, $nomArchivo);
 
     # definimos la carpeta destino

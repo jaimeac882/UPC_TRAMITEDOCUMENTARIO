@@ -121,9 +121,14 @@
                     <td>
                       <?php echo $row['nom_docu'];?>
                     </td>
-                    <!--<td>
-                        <?php echo $row['ruta_doc_adjunta'];?>
-                    </td>-->
+										<?php if(strrpos($row['ruta_doc_adjunta'],'.xls') || strrpos($row['ruta_doc_adjunta'],'.xlsx') ||
+															strrpos($row['ruta_doc_adjunta'],'.doc') || strrpos($row['ruta_doc_adjunta'],'.docx')){ ?>
+											<td style="width: 35px">
+												<a class="btn btn-info btn-sm" href="../<?php echo $row['ruta_doc_adjunta'];?>">
+													<span class="glyphicon glyphicon-zoom-in"></span>
+												</a>
+											</td>
+										<?php	}else{ ?>
                     <td style="width: 35px">
 											<a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
 												<span class="glyphicon glyphicon-zoom-in"></span>
@@ -146,6 +151,7 @@
 											  </div>
 											</div>
                     </td>
+										<?php	} ?>
                   </tr>
                   <?php } ?>
                 </tbody>
@@ -226,6 +232,14 @@
                     <td>
                       <?php echo $row['nom_archvio'];?>
                     </td>
+										<?php if(strrpos($row['ruta_doc_adjunta'],'.xls') || strrpos($row['ruta_doc_adjunta'],'.xlsx') ||
+															strrpos($row['ruta_doc_adjunta'],'.doc') || strrpos($row['ruta_doc_adjunta'],'.docx')){ ?>
+											<td style="width: 35px">
+												<a class="btn btn-info btn-sm" href="../<?php echo $row['ruta_doc_adjunta'];?>">
+													<span class="glyphicon glyphicon-zoom-in"></span>
+												</a>
+											</td>
+										<?php	}else{ ?>
                     <td style="width: 35px">
 											<a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
 												<span class="glyphicon glyphicon-zoom-in"></span>
@@ -248,6 +262,7 @@
 											  </div>
 											</div>
                     </td>
+										<?php	} ?>
                   </tr>
                   <?php } ?>
                 </tbody>
