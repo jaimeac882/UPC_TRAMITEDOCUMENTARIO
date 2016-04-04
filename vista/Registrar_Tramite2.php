@@ -380,9 +380,17 @@
 				});
 
 		$('#input-4').on('fileloaded',
-				function(event, file, previewId, index, reader) {
-					$(".file-actions").css("display", "none");
-				});
+		function(event, file, previewId, index, reader) {
+			$(".file-actions").css("display", "none");
+		});
+		$('#input-4').on('fileuploaderror', function(event, data, msg) {
+	    var form = data.form, files = data.files, extra = data.extra,
+	        response = data.response, reader = data.reader;
+			alert("Usted ha subido archivos con extensión invalida reingrese por favor.");
+			$('#input-4').fileinput('clear');
+			$('#input-4').fileinput('enable');
+
+		});
 		$("#input-4").on('filebatchuploadcomplete', function(event, files, extra) {
 		    console.log('File batch upload complete');
 				$('#input-4').fileinput('clear');
