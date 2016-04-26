@@ -38,4 +38,80 @@ function getTupaActivo(){
     
 }
 
+//extendido por gerardo medina para dar mantenibilidad
+
+
+ function crearTupa($cod_tupa,$des_tupa,$anio,$estado)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="INSERT INTO [tb_tupa]
+           ([cod_tupa]
+           ,[des_tupa]
+           ,[anio]
+           ,[estado])
+        VALUES
+           ('".$cod_tupa."'
+           ,'".$des_tupa."'
+           ,'".$anio."'
+           ,".$estado.")";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = "No se grabó a causa: ".sqlsrv_errors();
+        }else{
+           $rpta = "Se grabó correctamente.";
+        }
+       
+        return $rpta;     
+ }
+
+
+
+ function actualizarTupa($cod_tupa,$des_tupa,$anio,$estado)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="UPDATE [tb_tupa] SET 
+        [des_area] = '".$des_tupa."'
+        ,[cod_jefe] = '".$anio."'
+        ,[estado] = '".$estado."'            
+        WHERE [cod_tupa]='".$cod_tupa."'";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = "No se actualizó a causa: ".sqlsrv_errors();
+        }else{
+           $rpta = "Se actualizó correctamente.";
+        }
+       
+        return $rpta;      
+ 
+}
+
+function eliminarTupa($cod_tupa)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="DELETE FROM [tb_tupa]
+                  WHERE cod_tupa = '".$cod_tupa."'";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = "No se eliminó a causa: ".sqlsrv_errors();
+        }else{
+           $rpta = "Se eliminó correctamente.";
+        }
+       
+        return $rpta;       
+}
+
+
+
 ?>

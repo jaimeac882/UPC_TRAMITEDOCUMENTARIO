@@ -74,9 +74,80 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
 
           return($this->lt_Areas);
     }
+
     
+//Implementado reciente para completar el CRUD    
+ function crearArea($codigoArea,$descripcionArea,$codigoJefe)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="INSERT INTO [dbo].[tb_area]
+           ([cod_area]
+           ,[des_area]
+           ,[cod_jefe])
+          VALUES
+           ('".$codigoArea."'
+           ,'".$descripcionArea."'
+           ,'".$codigoJefe."')";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = sqlsrv_errors();
+        }else{
+           $rpta = "Se grabó correctamente.";
+        }
+       
+        return $rpta;     
+ }
     
-    
+ function actualizarArea($codigoArea,$descripcionArea,$codigoJefe)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="UPDATE [tb_area] SET 
+        [des_area] = '".$descripcionArea."'
+        ,[cod_jefe] = '".$codigoJefe."'
+        WHERE [cod_area]='".$codigoArea."'";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = sqlsrv_errors();
+        }else{
+           $rpta = "Se grabó correctamente.";
+        }
+       
+        return $rpta;      
+ 
 }
 
+
+ function eliminarArea($codigoArea)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="DELETE FROM [tb_area]
+                  WHERE cod_area = '".$codigoArea."'";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = sqlsrv_errors();
+        }else{
+           $rpta = "Se eliminó correctamente.";
+        }
+       
+        return $rpta;       
+}
+
+
+
+
+
+
+}
 ?>
