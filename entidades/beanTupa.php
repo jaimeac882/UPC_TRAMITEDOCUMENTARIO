@@ -32,7 +32,7 @@ class beanTupa{
         
         
         
-            public $estado;
+        public $estado;
 	function POST_estado(){
 		return $this->estado;
 	}
@@ -43,7 +43,7 @@ class beanTupa{
         
         
         
-            public $anio;
+        public $anio;
 	function POST_anio(){
 		return $this->anio;
 	}
