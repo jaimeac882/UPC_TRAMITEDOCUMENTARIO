@@ -57,7 +57,8 @@ function getRequisito($cod_Requisito){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       $sql = "select * from tb_requisitos";
+       //$sql = "select * from tb_requisitos";
+       $sql = "EXEC SP_TB_REQUISITOS_LISTAR;";
 
           $consulta = sqlsrv_query ($con,$sql);
 
