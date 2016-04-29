@@ -22,7 +22,7 @@ class AreaDatos{
     
      function getAreaxExpediente($codigo_expediente){
         $cnn = new conexion();
-		$con = $cnn->conectarsql();
+	$con = $cnn->conectarsql();
 
 		$area = new beanArea();
 //		$tramite->cod_tramite=$codigo;
@@ -32,7 +32,7 @@ tb_area as t  on e.cod_area_encargada = t.cod_area
 where t.cod_jefe <> ''
 and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_area,t.cod_jefe";
 //               echo $sql;
-               $consulta = sqlsrv_query ($con,$sql);
+        $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
         if($fila>0){
 //            if(trim($fila['nom_user']) == $usuarios->usuario &&
@@ -45,7 +45,7 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
              $area->cod_area = trim($fila['cod_area']);
              $area->cod_jefe = trim($fila['cod_jefe']);
              $area->des_area = trim($fila['des_area']);
-   
+             $area->cod_rolf = trim($fila['cod_rolf']);
              return $area;
 
         }else{
@@ -77,7 +77,7 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
 
     
 //Implementado reciente para completar el CRUD    
- function crearArea($codigoArea,$descripcionArea,$codigoJefe)
+ function crearArea($codigoArea,$descripcionArea,$codigoJefe,$cod_rolf)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
@@ -85,16 +85,20 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
        $sql="INSERT INTO [dbo].[tb_area]
            ([cod_area]
            ,[des_area]
-           ,[cod_jefe])
+           ,[cod_jefe]
+           ,[cod_rolf]
+            )
+           cod_rolf
           VALUES
            ('".$codigoArea."'
            ,'".$descripcionArea."'
-           ,'".$codigoJefe."')";
+           ,'".$codigoJefe."'
+           ,".$cod_rolf.")";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = sqlsrv_errors();
+           $rpta = "No se grabó correctamente.";
         }else{
            $rpta = "Se grabó correctamente.";
         }
@@ -102,7 +106,7 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
         return $rpta;     
  }
     
- function actualizarArea($codigoArea,$descripcionArea,$codigoJefe)
+ function actualizarArea($codigoArea,$descripcionArea,$codigoJefe,$cod_rolf)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
@@ -110,14 +114,15 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
        $sql="UPDATE [tb_area] SET 
         [des_area] = '".$descripcionArea."'
         ,[cod_jefe] = '".$codigoJefe."'
+        ,[cod_rolf] = '".$cod_rolf."'    
         WHERE [cod_area]='".$codigoArea."'";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = sqlsrv_errors();
+           $rpta = "No se actualizó correctamente.";
         }else{
-           $rpta = "Se grabó correctamente.";
+           $rpta = "Se actualizó correctamente.";
         }
        
         return $rpta;      
@@ -136,7 +141,7 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = sqlsrv_errors();
+           $rpta = "No se eliminó correctamente.";
         }else{
            $rpta = "Se eliminó correctamente.";
         }

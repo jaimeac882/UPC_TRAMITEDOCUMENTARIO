@@ -2,7 +2,6 @@
   require_once('../controlador/RequisitoControlador.php');
   $objRequisito= new RequisitoControlador();
 
-
   //$listar = ;
   
   $lt_Requisito = $objRequisito->obtenerRequisitos();
@@ -62,7 +61,7 @@ if(isset($_GET["insertar"]))
     
     if(isset($_GET["cboEstado"]) && isset($_GET["nom_Req"]) && isset($_GET["desc_Req"])  && isset($_GET["user"])  )
     {
-        print "cumplido";
+        //print "cumplido";
         //$id_eliminar = $_GET["eliminar"];
         $nombreRequisito= $_GET["nom_Req"];
         $descripcionRequisito= $_GET["desc_Req"];
@@ -82,7 +81,7 @@ if(isset($_GET["actualizar"]))
     
     if(isset($_GET["cboEstado"]) && isset($_GET["nom_Req"]) && isset($_GET["desc_Req"])  && isset($_GET["user"])  )
     {
-        print "cumplido";
+        //print "cumplido";
         $id = $_GET["actualizar"];
         $nombreRequisito= $_GET["nom_Req"];
         $descripcionRequisito= $_GET["desc_Req"];
@@ -90,8 +89,7 @@ if(isset($_GET["actualizar"]))
         $fechaRegistro= date("Y-m-d H:i:s");
         $usuario_registrador = $_GET["user"];;
         echo $objRequisito->actualizarRequisito($id,$nombreRequisito, $descripcionRequisito, $fechaRegistro, $usuario_registrador, $estado);
-                     
-        
+
     }
     
 

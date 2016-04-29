@@ -29,7 +29,7 @@
 	}
         
         
-                     public $cod_jefe;
+        public $cod_jefe;
 	function POST_cod_jefe(){
 		return $this->cod_jefe;
 	}
@@ -38,7 +38,14 @@
 		$this->cod_jefe = $cod_jefe;
 	}
         
+        public $cod_rolf;
+	function POST_cod_rolf(){
+		return $this->cod_rolf;
+	}
         
+        function set_cod_rolf($cod_rolf){
+		$this->cod_rolf = $cod_rolf;
+	}        
         
         
  }

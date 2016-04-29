@@ -24,13 +24,7 @@ function getRequisito($cod_Requisito){
 	$con = $cnn->conectarsql();
 
         $requisito = new beanRequisito();
-        $sql = "SELECT [cod_requisitos]
-                  ,[nom_requisito]
-                  ,[des_requisitos]
-                  ,[fec_registro]
-                  ,[usu_queregistro]
-                  ,[estado]
-              FROM [tb_requisitos]  WHERE cod_requisitos='".$cod_Requisito."'";
+        $sql = "EXEC SP_TB_REQUISITOS_INSTANCIA	'".$cod_Requisito."';";
 
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
@@ -57,7 +51,6 @@ function getRequisito($cod_Requisito){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       //$sql = "select * from tb_requisitos";
        $sql = "EXEC SP_TB_REQUISITOS_LISTAR;";
 
           $consulta = sqlsrv_query ($con,$sql);
@@ -81,26 +74,12 @@ function getRequisito($cod_Requisito){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="
-           
-            DECLARE @codigo AS char(8) ;
-            SELECT  @codigo = 'RE'+format(max(right([cod_requisitos],6)+1),'000000') FROM [tb_requisitos];
-            
-
-            INSERT INTO [tb_requisitos]
-           ([cod_requisitos]
-           ,[nom_requisito]
-           ,[des_requisitos]
-           ,[fec_registro]
-           ,[usu_queregistro]
-           ,[estado])
-          VALUES
-           (@codigo
-           ,'".$nom_requisito."'
+       $sql="EXEC SP_TB_REQUISITOS_INSERTAR 
+           '".$nom_requisito."'
            ,'".$des_requisitos."'     
            ,'".$fec_registro."'   
            ,'".$usu_queregistro."'                  
-           ,".$estado.");";
+           ,".$estado.";";
        
        $consulta = sqlsrv_query ($con,$sql);
        
@@ -123,14 +102,14 @@ function getRequisito($cod_Requisito){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="UPDATE [tb_requisitos]
-               SET [cod_requisitos] = '".$cod_requisitos."'
-                  ,[nom_requisito] = '".$nom_requisito."'
-                  ,[des_requisitos] = '".$des_requisitos."'
-                  ,[fec_registro] = '".$fec_registro."'
-                  ,[usu_queregistro] = '".$usu_queregistro."'
-                  ,[estado] = ".$estado."
-                  WHERE cod_requisitos = '".$cod_requisitos."'";
+       $sql="exec SP_TB_REQUISITOS_ACTUALIZAR 
+                '".$cod_requisitos."'
+               ,'".$nom_requisito."'
+               ,'".$des_requisitos."'
+               ,'".$fec_registro."'
+               ,'".$usu_queregistro."'
+               ,".$estado."";
+
        
        $consulta = sqlsrv_query ($con,$sql);
        
@@ -150,19 +129,18 @@ function getRequisito($cod_Requisito){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="DELETE FROM [tb_requisitos]
-                  WHERE cod_requisitos = '".$cod_requisitos."'";
+       $sql="exec SP_TB_REQUISITOS_ELIMINAR '".$cod_requisitos."';";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
           $rpta = "No se pudo eliminar.";
-          $rpta2="";
-          foreach(sqlsrv_errors()  as $fallo ) {
-               $rpta2 =  " Causa: ".$fallo['code'];
-               $rpta2 = $rpta2. "/ Mensaje: ".$fallo['message'];               
-          }                   
-          $rpta=$rpta.$rpta2 ;
+//          $rpta2="";
+//          foreach(sqlsrv_errors()  as $fallo ) {
+//               $rpta2 =  " Causa: ".$fallo['code'];
+//               $rpta2 = $rpta2. "/ Mensaje: ".$fallo['message'];               
+//          }                   
+//          $rpta=$rpta.$rpta2 ;
             
         }else{
            $rpta = "Se eliminó correctamente.";

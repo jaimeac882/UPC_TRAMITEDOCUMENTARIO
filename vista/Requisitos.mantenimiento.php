@@ -79,10 +79,17 @@ if(isset($_GET["editar"]))
 
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
+              <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
+								<span>Nuevo</span>
+	      </button>
+            </div>   
+
+            <div class="col-xs-1">
+              <label class="control-label">&nbsp;</label>
               <button id="btnbuscar" name="btnbuscar" onclick="editarRequisito()" class="btn btn-primary btn-sm" title="Guardar">
 								<span>Guardar</span>
 	      </button>
-            </div>   
+            </div>  
               
             <div class="col-xs-12">
                 <br>
@@ -204,4 +211,12 @@ function editarRequisito(){
         }
  
 }
+
+function PrepararNuevo()
+{
+  location.href='Requisitos.mantenimiento.php';
+}
+
+
+
 </script>

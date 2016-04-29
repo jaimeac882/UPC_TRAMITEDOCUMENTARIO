@@ -334,6 +334,7 @@ CREATE PROCEDURE SP_tb_area_INSERTAR
 			
             @des_area varchar(200)
            ,@cod_jefe char(10)
+		   ,@cod_rolf int
 
 AS           
        DECLARE @codigo AS char(6) ;
@@ -342,13 +343,15 @@ AS
        INSERT INTO [tb_area]
            ([cod_area]
            ,[des_area]
-           ,[cod_jefe]	   
+           ,[cod_jefe]	
+		   ,[cod_rolf]   
 		   ) 
         VALUES
            (
 		    @codigo
            ,@des_area
            ,@cod_jefe
+		   ,@cod_rolf
 		   );
 
 */
@@ -358,6 +361,7 @@ CREATE PROCEDURE SP_tb_area_ACTUALIZAR
 			@cod_area char(6)
            ,@des_area varchar(200)
            ,@cod_jefe char(10)
+		   ,@cod_rolf int 
 
 AS           
 
@@ -437,4 +441,205 @@ EXEC SP_tb_area_LISTAR_AreaxExpediente '@cod_tip_expediente';
 EXEC SP_tb_area_INSTANCIA '@cod_area';
 
 
+*/
+
+
+
+
+
+/*
+
+--TB_ROLF
+
+CREATE PROCEDURE SP_tb_rolf_INSERTAR
+			
+            @anio int
+           ,@descripcion varchar(255)
+		   ,@ESTADO int
+
+AS           
+
+       INSERT INTO [tb_rolf]
+           (
+           [anio]
+           ,[descripcion]	
+		   ,[ESTADO]   
+		   ) 
+        VALUES
+           (
+		    @anio
+           ,@descripcion
+		   ,@ESTADO
+		   );
+
+*/
+
+/*
+CREATE PROCEDURE SP_tb_rolf_ACTUALIZAR
+			@cod_rolf int
+           ,@anio int
+           ,@descripcion varchar(255)
+		   ,@ESTADO int 
+
+AS           
+
+       UPDATE [tb_rolf]
+               SET 
+                  anio = @anio
+				  ,descripcion= @descripcion
+				  ,ESTADO= @ESTADO
+                  WHERE cod_rolf = @cod_rolf
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_rolf_ELIMINAR
+			@cod_rolf int 
+AS                 
+       DELETE FROM [tb_rolf]  WHERE cod_rolf = @cod_rolf
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_rolf_LISTAR		
+AS        
+SELECT * FROM tb_rolf
+*/
+
+
+
+
+
+/*
+
+--TB_CARGO
+
+CREATE PROCEDURE SP_tb_cargo_INSERTAR
+			
+           @des_cargo varchar(200)
+
+AS           
+
+       INSERT INTO [tb_cargo]
+           (
+           [des_cargo]	
+		   ) 
+        VALUES
+           (
+           @des_cargo
+		   );
+
+*/
+
+/*
+CREATE PROCEDURE SP_tb_cargo_ACTUALIZAR
+			@cod_cargo char(6)
+           ,@des_cargo varchar(200)
+
+
+AS           
+
+       UPDATE [tb_cargo]
+               SET 
+                  des_cargo = @des_cargo
+                  WHERE cod_cargo = @cod_cargo
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_cargo_ELIMINAR
+			@cod_cargo char(6)
+AS                 
+       DELETE FROM [tb_cargo]  WHERE cod_cargo = @cod_cargo
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_cargo_LISTAR		
+AS        
+SELECT * FROM tb_cargo
+*/
+
+
+
+---------------------------------
+
+
+
+
+/*
+
+--TB_AREA_CARGO
+
+CREATE PROCEDURE SP_tb_area_cargo_INSERTAR
+		    @cod_area char(6)
+		   ,@cod_cargo char(6)
+           ,@estado int
+
+AS           
+
+       INSERT INTO [tb_area_cargo]
+           (
+		   cod_area
+		   ,cod_cargo
+           ,estado
+		   ) 
+        VALUES
+           (
+		   @cod_area
+		   ,@cod_cargo
+           ,@estado
+		   );
+
+*/
+
+/*
+CREATE PROCEDURE SP_tb_area_cargo_ACTUALIZAR
+			@cod_area_cargo int
+		   ,@cod_area char(6)
+		   ,@cod_cargo char(6)
+           ,@estado int
+
+
+AS           
+
+       UPDATE [tb_area_cargo]
+               SET 
+			      cod_area=@cod_area
+				 ,cod_cargo=@cod_cargo
+                 ,estado = @estado
+                  WHERE cod_area_cargo = @cod_area_cargo
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_area_cargo_ELIMINAR
+			@cod_area_cargo char(6)
+AS                 
+       DELETE FROM [tb_area_cargo]  WHERE cod_area_cargo = @cod_area_cargo
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_area_cargo_LISTAR		
+AS        
+SELECT * FROM tb_area_cargo
 */
