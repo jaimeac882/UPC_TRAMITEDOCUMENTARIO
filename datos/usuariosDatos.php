@@ -80,6 +80,54 @@ class usuariosDatos{
         }
 
     }
+    
+    
+     function validarsqlSP($usuario,$pass){
+        $cnn = new conexion();
+		$con = $cnn->conectarsql();
+
+		$usuarios = new usuarios();
+		$usuarios->usuario=$usuario;
+		$usuarios->contrasena = $pass;
+                
+                $params = array( 
+                 array($usuarios->usuario, SQLSRV_PARAM_IN),
+                 array($usuarios->contrasena, SQLSRV_PARAM_IN)
+               );
+                
+                $tsql_callSP = "{call sp_validar_usuario( ?, ? )}";
+
+                //mssql_select_db('TramiteDocumentario',$con);
+               /*$sql = "select cod_user as cod_user,
+ 						 					(select (e.nom_empleado + ' ' +e.ape_pat +' ' +e.ape_mat ) as nomusu from tb_empleado as e where e.cod_empleado = u.cod_empleado  ) as nomusu,
+											(select e.cod_area from tb_empleado e where cod_empleado = u.cod_empleado ) as cod_area,
+											nom_user,clave_user
+ 											from tb_user as u
+ 											where u.nom_user='".$usuarios->usuario."' and u.clave_user='".$usuarios->contrasena."'";
+*/
+                
+                
+                
+                
+               $consulta = sqlsrv_query( $con, $tsql_callSP, $params);
+        $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        if($fila>0){
+            if(trim($fila['nom_user']) == $usuarios->usuario &&
+                    trim($fila['clave_user'])==$usuarios->contrasena){
+
+                $usuarios->nomusu = trim($fila['nomusu']);
+								$usuarios->id =trim($fila['cod_user']);
+								$usuarios->cod_area =trim($fila['cod_area']);
+                return $usuarios;
+            }
+        }else{
+            echo 'xx';
+              return null;
+        }
+
+    }
+    
+    
 
 }
 /*

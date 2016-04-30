@@ -10,7 +10,7 @@ if(isset($_POST["usuario"]) || isset($_POST["pass"])){
         $usuariosCon = new usuariosControlador();
         $usu = new usuarios();
 
-        $usu = $usuariosCon->validarsql($_POST["usuario"],$_POST["pass"]);
+        $usu = $usuariosCon->validarsqlSP($_POST["usuario"],$_POST["pass"]);
 
         if($usu  != NULL ){
             session_start();

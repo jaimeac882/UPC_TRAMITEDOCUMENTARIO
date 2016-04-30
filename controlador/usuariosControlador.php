@@ -23,6 +23,12 @@ class usuariosControlador{
         $usu = new usuarios();
 		return $obj->validarsql($usuario,$pass);
       }
+      
+      function validarsqlSP($usuario,$pass){
+        $obj = new usuariosDatos();
+        $usu = new usuarios();
+		return $obj->validarsqlSP($usuario,$pass);
+      }
 }
 
 ?>
