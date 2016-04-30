@@ -612,7 +612,6 @@ CREATE PROCEDURE SP_tb_area_cargo_ACTUALIZAR
 		   ,@cod_cargo char(6)
            ,@estado int
 
-
 AS           
 
        UPDATE [tb_area_cargo]
@@ -642,4 +641,105 @@ AS
 CREATE PROCEDURE SP_tb_area_cargo_LISTAR		
 AS        
 SELECT * FROM tb_area_cargo
+*/
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+--TB_EMPLEADO
+
+/*
+CREATE PROCEDURE SP_tb_empleado_INSERTAR
+		    @nom_empleado varchar(200)
+		   ,@ape_pat varchar(200)
+		   ,@ape_mat varchar(200)
+           ,@cod_area char(6)
+		   ,@cod_cargo char(6)
+		   ,@estado int
+		   ,@cod_jefe  char(10)
+		   ,@ind_jefedearea int
+
+AS           
+
+		DECLARE @codigo AS char(10) ;
+		SELECT  @codigo = 'EMP'+format(max(right([cod_empleado],7)+1),'0000000') FROM tb_empleado;
+
+       INSERT INTO [tb_empleado]
+           (
+		   [cod_empleado]
+		   ,nom_empleado
+		   ,ape_pat
+		   ,ape_mat
+           ,cod_area
+		   ,cod_cargo
+		   ,estado
+		   ,cod_jefe
+		   ,ind_jefedearea
+		   ) 
+        VALUES
+           (
+		    @codigo
+		   ,@nom_empleado
+		   ,@ape_pat
+		   ,@ape_mat
+           ,@cod_area
+		   ,@cod_cargo
+		   ,@estado
+		   ,@cod_jefe
+		   ,@ind_jefedearea
+		   );
+
+*/
+
+/*
+CREATE PROCEDURE SP_tb_empleado_ACTUALIZAR
+			@cod_empleado char(10)
+		   ,@nom_empleado varchar(200)
+		   ,@ape_pat varchar(200)
+		   ,@ape_mat varchar(200)
+           ,@cod_area char(6)
+		   ,@cod_cargo char(6)
+		   ,@estado int
+		   ,@cod_jefe  char(10)
+		   ,@ind_jefedearea int
+
+AS           
+
+       UPDATE [tb_empleado]
+               SET 			
+		   nom_empleado=@nom_empleado
+		   ,ape_pat=@ape_pat
+		   ,ape_mat=@ape_mat
+           ,cod_area=@cod_area
+		   ,cod_cargo=@cod_cargo
+		   ,estado=@estado
+		   ,cod_jefe=@cod_jefe
+		   ,ind_jefedearea=@ind_jefedearea
+                  WHERE cod_empleado=@cod_empleado
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_empleado_ELIMINAR
+	  @cod_empleado char(10)
+AS                 
+      DELETE FROM [tb_empleado]  WHERE cod_empleado = @cod_empleado
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_empleado_LISTAR		
+AS        
+SELECT * FROM tb_tb_empleado
 */
