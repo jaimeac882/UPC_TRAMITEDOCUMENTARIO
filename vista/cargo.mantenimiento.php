@@ -25,7 +25,7 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar Requisito: <?php echo $objRequisito->cod_requisito; ?>  </h3>
+                                    <h3 class="panel-title">Editar Cargo: <?php echo $objRequisito->cod_requisito; ?>  </h3>
 				</div>
 
         <div class="panel-body">
@@ -34,49 +34,13 @@ if(isset($_GET["editar"]))
               
               
             <div class="col-xs-4">
-              <label class="control-label">Nombre Requisito:</label>
+              <label class="control-label">Nombre Cargo:</label>
               <input type="text" class="form-control input-sm" maxlength="100" value="<?php echo $objRequisito->nom_requisito;  ?> "  id="txtNombreRequisito">
               <input type="hidden" value="<?php echo $objRequisito->cod_requisito; ?>"  id="txtCodigoRequisito"  />
             </div>
 
-             
+            
               
-            <div class="col-xs-2">
-                <label class="control-label">Estado</label>
-                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
-
-                       <?php
-                       $listaOpciones = array(
-                            1 => "Activo",
-                            0 => "Inactivo",
-                            2 => "-Ninguno-",
-                        );
-                       
-                       if(isset($objRequisito->estado))  
-                       {
-                           
-                           foreach($listaOpciones as $k => $v)
-                           {
-                               if($objRequisito->estado == $k)
-                               {
-                                   echo "<option selected value='".$k."'>".$v."</option>";
-                                }else{
-                                   echo "<option value='".$k."'>".$v."</option>";
-                               }
-
-                            }    
-                               
-                       }else{
-                           echo "<option selected value='3'>-Ninguno-</option>";
-                           echo "<option value='1'>Activo</option>";
-                           echo "<option value='0'>Inactivo</option>";
-                           
-                       }
-                       ?> 
-                        
-                    </select>
-            </div>
-
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
               <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
@@ -91,14 +55,7 @@ if(isset($_GET["editar"]))
 	      </button>
             </div>  
               
-            <div class="col-xs-12">
-                <br>
-                    
-              <label for="txtDescripcionRequisito">Descripción Requisito:</label>
-              <textarea class="form-control input-sm"  type="textarea"
-                  id="txtDescripcionRequisito" name="txtDescripcionRequisito" placeholder="Definición del requisito"
-                  maxlength="500" rows="5"><?php echo $objRequisito->des_requisitos; ?></textarea>
-            </div>
+
                       
            
                     
