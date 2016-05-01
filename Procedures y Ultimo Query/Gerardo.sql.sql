@@ -55,10 +55,9 @@ AS
 
 /*
 CREATE PROCEDURE SP_TB_REQUISITOS_ELIMINAR
-			@cod_requisitos char(8)  
-AS           
-      
-       DELETE FROM [tb_requisitos]    WHERE cod_requisitos = @cod_requisitos
+	@cod_requisitos char(8)  
+AS                 
+    DELETE FROM [tb_requisitos]    WHERE cod_requisitos = @cod_requisitos
 */
 
 
@@ -503,7 +502,14 @@ AS
 
 */
 
+/*
 
+CREATE PROCEDURE SP_tb_rolf_INSTANCIA		
+			@cod_rolf int
+AS  
+SELECT * FROM tb_rolf WHERE cod_rolf = @cod_rolf
+
+*/
 
 
 /*
@@ -525,6 +531,9 @@ CREATE PROCEDURE SP_tb_cargo_INSERTAR
            @des_cargo varchar(200)
 
 AS           
+
+       DECLARE @codigo AS char(6) ;
+       SELECT  @codigo = 'CAR'+format(max(right([cod_cargo],3)+1),'000') FROM [tb_cargo];
 
        INSERT INTO [tb_cargo]
            (
@@ -563,7 +572,12 @@ AS
 
 */
 
-
+/*
+CREATE PROCEDURE SP_tb_cargo_INSTANCIA		
+			@cod_cargo char(6)
+AS  
+SELECT * FROM tb_cargo WHERE cod_cargo = @cod_cargo
+*/
 
 
 /*
@@ -643,9 +657,12 @@ AS
 SELECT * FROM tb_area_cargo
 */
 
-
-
-
+/*
+CREATE PROCEDURE SP_tb_area_cargo_INSTANCIA		
+			@cod_area_cargo char(6)
+AS  
+SELECT * FROM tb_area_cargo WHERE cod_area_cargo = @cod_area_cargo
+*/
 
 
 ----------------------------------------------------------
