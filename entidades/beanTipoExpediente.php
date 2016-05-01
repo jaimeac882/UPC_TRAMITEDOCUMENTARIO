@@ -5,38 +5,81 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- class beanRequisitosExpediente{
+ class beantTipoExpediente{
      
      
-        public $cod_detalle_requisitos_exp;
-	function POST_cod_detalle_requisitos_exp(){
-		return $this->cod_detalle_requisitos_exp;
-	}
-        
-        function set_cod_detalle_requisitos_exp($cod_detalle_requisitos_exp){
-		$this->cod_detalle_requisitos_exp= $cod_detalle_requisitos_exp;
-	}
-        
-        
-        
         public $cod_tip_expediente;
 	function POST_cod_tip_expediente(){
 		return $this->cod_tip_expediente;
 	}
         
         function set_cod_tip_expediente($cod_tip_expediente){
-		$this->cod_tip_expediente = $cod_tip_expediente;
+		$this->cod_tip_expediente= $cod_tip_expediente;
+	}
+        
+
+        public $cod_tupa;
+	function POST_cod_tupa(){
+		return $this->cod_tupa;
+	}
+        
+        function set_cod_tupa($cod_tupa){
+		$this->cod_tupa = $cod_tupa;
 	}
         
         
-        public $cod_requisitos;
-	function POST_cod_requisitos(){
-		return $this->cod_requisitos;
+        public $des_exp;
+	function POST_des_exp(){
+		return $this->des_exp;
 	}
         
-        function set_cod_requisitos($cod_requisitos){
-		$this->cod_requisitos = $cod_requisitos;
+        function set_des_exp($des_exp){
+		$this->des_exp = $des_exp;
 	}
+ 
+        public $dias_maximo;
+	function POST_dias_maximo(){
+		return $this->dias_maximo;
+	}
+        
+        function set_dias_maximo($dias_maximo){
+		$this->dias_maximo = $dias_maximo;
+	}        
+        
+
+        public $fec_registro;
+	function POST_fec_registro(){
+		return $this->fec_registro;
+	}
+        
+        function set_fec_registro($fec_registro){
+		$this->fec_registro = $fec_registro;
+	}       
+        
+        
+
+        
+        public $usu_queregistro;
+	function POST_usu_queregistro(){
+		return $this->usu_queregistro;
+	}
+        
+        function set_usu_queregistro($usu_queregistro){
+		$this->usu_queregistro = $usu_queregistro;
+	}          
+        
+        
+        public $cod_area_encargada;
+	function POST_cod_area_encargada(){
+		return $this->cod_area_encargada;
+	}
+        
+        function set_cod_area_encargada($cod_area_encargada){
+		$this->usu_queregistro = $cod_area_encargada;
+	}          
+                
+        
+        
         
         public $estado;
 	function POST_estado(){
