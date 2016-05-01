@@ -24,11 +24,7 @@ class RequisitosExpedienteDatos{
 	$con = $cnn->conectarsql();
 
         $requisitosExpediente = new beanRequisitosExpediente();
-        $sql = "SELECT [cod_detalle_requisitos_exp]
-                  ,[cod_tip_expediente]
-                  ,[cod_requisitos]
-                  ,[estado]
-              FROM [tb_detalle_requisitos_exp]=".$cod_detalle_requisitos_exp."";
+        $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR ".$cod_detalle_requisitos_exp."";
 
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
@@ -51,7 +47,7 @@ class RequisitosExpedienteDatos{
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       $sql = "select * from tb_detalle_requisitos_exp";
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR";
 
           $consulta = sqlsrv_query ($con,$sql);
 
@@ -64,29 +60,23 @@ class RequisitosExpedienteDatos{
           return($this->lt_RequisitosExpediente);
     }
     
- function crearRequisitosExpediente($cod_detalle_requisitos_exp
-      ,$cod_tip_expediente
-      ,$cod_requisitos
-      ,$estado)
+ function crearRequisitosExpediente(
+            $cod_tip_expediente
+           ,$cod_requisitos
+           ,$estado)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="INSERT INTO [tb_requisitos]
-           ([cod_detalle_requisitos_exp]
-           ,[cod_tip_expediente]
-           ,[cod_requisitos]
-           ,[estado])
-          VALUES
-           ('".$cod_detalle_requisitos_exp."'
-           ,'".$cod_tip_expediente."'
-           ,'".$cod_requisitos."'                 
-           ,".$estado.")";
+       $sql="EXEC SP_tb_detalle_requisitos_exp_INSERTAR 
+            '$cod_tip_expediente'
+           ,'$cod_requisitos'    
+           ,$estado";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se grabó a causa del error:".sqlsrv_errors();
+           $rpta = "No se grabó a causa del error:";
         }else{
            $rpta = "Se grabó correctamente";
         }
@@ -95,25 +85,25 @@ class RequisitosExpedienteDatos{
  }
     
  function actualizarRequisitosExpediente($cod_detalle_requisitos_exp
-      ,$cod_tip_expediente
-      ,$cod_requisitos
-      ,$estado)
+           ,$cod_tip_expediente
+           ,$cod_requisitos
+           ,$estado)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="UPDATE [tb_detalle_requisitos_exp]
-               SET [cod_tip_expediente] = '".$cod_tip_expediente."'
-                  ,[cod_requisitos] = '".$cod_requisitos."'
-                  ,[estado] = ".$estado."
-                  WHERE cod_detalle_requisitos_exp = '".$cod_detalle_requisitos_exp."'";
+       $sql="EXEC SP_tb_detalle_requisitos_exp_ACTUALIZAR "
+               . "'$cod_detalle_requisitos_exp'"
+               . ",'$cod_tip_expediente'"
+               . ",'$cod_requisitos'"
+               . ", $estado";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = sqlsrv_errors();
+           $rpta = "No se pudo actualizar el registro.";
         }else{
-           $rpta = "Se grabó correctamente.";
+           $rpta = "Se actualizó correctamente.";
         }
        
         return $rpta;      
@@ -126,13 +116,12 @@ class RequisitosExpedienteDatos{
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="DELETE FROM [tb_detalle_requisitos_exp]
-                  WHERE cod_detalle_requisitos_exp = '".$cod_detalle_requisitos_exp."'";
+       $sql="EXEC SP_tb_detalle_requisitos_exp_ELIMINAR '".$cod_detalle_requisitos_exp."'";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se eliminó a causa : ".sqlsrv_errors();
+           $rpta = "No se pudo eliminar el registro.";
         }else{
            $rpta = "Se eliminó correctamente.";
         }
