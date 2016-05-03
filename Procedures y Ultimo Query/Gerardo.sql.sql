@@ -760,3 +760,114 @@ CREATE PROCEDURE SP_tb_empleado_LISTAR
 AS        
 SELECT * FROM tb_tb_empleado
 */
+
+
+
+/*
+CREATE PROCEDURE SP_tb_empleado_INSTANCIA		
+			@cod_empleado char(10)
+AS  
+SELECT * FROM tb_empleado WHERE cod_empleado = @cod_empleado
+
+*/
+----------------------------------------------------------
+
+
+-- tb_tip_expediente
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_INSERTAR
+		    @cod_tupa char(6)
+		   ,@des_exp varchar(500)
+           ,@dias_maximo int
+		   ,@fec_registro datetime
+		   ,@usu_queregistro char(6)
+		   ,@estado int
+		   ,@cod_area_encargada char(6)
+
+AS           
+
+		DECLARE @codigo AS char(10) ;
+		SELECT  @codigo = 'EXP'+format(max(right([cod_tip_expediente],7)+1),'0000000') FROM tb_tip_expediente;
+
+       INSERT INTO [tb_tip_expediente]
+           (
+		    cod_tip_expediente
+		   ,cod_tupa
+		   ,des_exp
+           ,dias_maximo
+		   ,fec_registro
+		   ,usu_queregistro
+		   ,estado
+		   ,cod_area_encargada
+		   ) 
+        VALUES
+           (
+		    @codigo
+		   ,@cod_tupa
+		   ,@des_exp
+           ,@dias_maximo
+		   ,@fec_registro
+		   ,@usu_queregistro
+		   ,@estado
+		   ,@cod_area_encargada
+		   );
+
+*/
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_ACTUALIZAR
+
+			@cod_tip_expediente char(10)
+		   ,@cod_tupa char(6)
+		   ,@des_exp varchar(500)
+           ,@dias_maximo int
+		   ,@fec_registro datetime
+		   ,@usu_queregistro char(6)
+		   ,@estado int
+		   ,@cod_area_encargada char(6)
+
+AS           
+
+       UPDATE [tb_tip_expediente]
+
+	   SET 			
+		    cod_tupa = @cod_tupa
+		   ,des_exp = @des_exp
+		   ,dias_maximo = @dias_maximo
+           ,fec_registro = @fec_registro
+		   ,usu_queregistro = @usu_queregistro
+		   ,estado = @estado
+		   ,cod_area_encargada = @cod_area_encargada
+
+       WHERE cod_tip_expediente = @cod_tip_expediente
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_ELIMINAR
+	  @cod_tip_expediente char(10)
+AS                 
+      DELETE FROM [tb_tip_expediente]  WHERE cod_tip_expediente = @cod_tip_expediente
+
+*/
+
+
+
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_LISTAR		
+AS        
+SELECT * FROM tb_tip_expediente
+*/
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_INSTANCIA		
+			@cod_tip_expediente char(10)
+AS  
+SELECT * FROM tb_tip_expediente WHERE cod_tip_expediente = @cod_tip_expediente
+
+*/

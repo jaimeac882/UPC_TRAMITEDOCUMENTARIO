@@ -21,7 +21,7 @@ class beanTupa{
 	}
         
         
-            public $des_tupa;
+        public $des_tupa;
 	function POST_des_tupa(){
 		return $this->des_tupa;
 	}

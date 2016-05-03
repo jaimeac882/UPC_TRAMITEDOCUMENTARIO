@@ -71,7 +71,7 @@ function getRolf($cod_rolf){
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se grabó a causa del error.";
+           $rpta = "No se pudo grabar el registro.";
         }else{
            $rpta = "Se grabó correctamente";
         }       
@@ -87,7 +87,7 @@ function getRolf($cod_rolf){
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se actualizó correctamente.";
+           $rpta = "No se pudo actualizar.";
         }else{
            $rpta = "Se actualizó correctamente.";
         }       

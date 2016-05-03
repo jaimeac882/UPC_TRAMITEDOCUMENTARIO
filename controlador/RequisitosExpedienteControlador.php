@@ -26,7 +26,7 @@ class RequisitosExpedienteControlador{
     
      function obtenerRequisitosExpediente(){
         $obj = new RequisitosExpedienteDatos();
-	return $obj->obtenerRequisitos();
+	return $obj->obtenerRequisitosExpediente();
     }
 
 

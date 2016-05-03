@@ -28,6 +28,7 @@ function getRequisito($cod_Requisito){
 
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
         if($fila>0){
 
              $requisito->cod_requisito = trim($fila['cod_requisitos']);

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 require_once "../datos/conexion.php";
-require_once "../entidades/beanRequisitosExepdiente.php";
+require_once "../entidades/beanRequisitosExpediente.php";
 //require_once "../entidades/empleado.php";
 //creado Gerardo Medina
 
@@ -37,7 +37,7 @@ class RequisitosExpedienteDatos{
              return $requisitosExpediente;
 
         }else{
-            //echo 'xx';
+
             return null;
         }
 
