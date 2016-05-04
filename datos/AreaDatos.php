@@ -27,21 +27,12 @@ class AreaDatos{
 		$area = new beanArea();
 //		$tramite->cod_tramite=$codigo;
                 //mssql_select_db('TramiteDocumentario',$con);
-               $sql = "select  t.cod_area , t.des_area,t.cod_jefe   from tb_tip_expediente as e inner join
-tb_area as t  on e.cod_area_encargada = t.cod_area
-where t.cod_jefe <> ''
-and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_area,t.cod_jefe";
+               $sql = "EXEC SP_tb_area_LISTAR_AreaxExpediente '".$codigo_expediente."';";
 //               echo $sql;
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
         if($fila>0){
-//            if(trim($fila['nom_user']) == $usuarios->usuario &&
-//                    trim($fila['clave_user'])==$usuarios->contrasena){
-//
-//                $usuarios->nomusu = trim($fila['nomusu']);
-//
-//                return $tramite;
-//            }
+
              $area->cod_area = trim($fila['cod_area']);
              $area->cod_jefe = trim($fila['cod_jefe']);
              $area->des_area = trim($fila['des_area']);
@@ -54,15 +45,13 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
         }
 
 
-
-
 }
 
  function obtenerAreas(){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       $sql = "select * from tb_area";
+       $sql = "EXEC SP_tb_area_LISTAR;";
 
           $consulta = sqlsrv_query ($con,$sql);
 
@@ -77,23 +66,15 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
 
     
 //Implementado reciente para completar el CRUD    
- function crearArea($codigoArea,$descripcionArea,$codigoJefe,$cod_rolf)
+ function crearArea($descripcionArea,$codigoJefe,$cod_rolf)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="INSERT INTO [dbo].[tb_area]
-           ([cod_area]
-           ,[des_area]
-           ,[cod_jefe]
-           ,[cod_rolf]
-            )
-           cod_rolf
-          VALUES
-           ('".$codigoArea."'
-           ,'".$descripcionArea."'
+       $sql="EXEC SP_tb_area_INSERTAR 
+            '".$descripcionArea."'
            ,'".$codigoJefe."'
-           ,".$cod_rolf.")";
+           ,".$cod_rolf."";
        
        $consulta = sqlsrv_query ($con,$sql);
        
@@ -111,11 +92,10 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="UPDATE [tb_area] SET 
-        [des_area] = '".$descripcionArea."'
-        ,[cod_jefe] = '".$codigoJefe."'
-        ,[cod_rolf] = '".$cod_rolf."'    
-        WHERE [cod_area]='".$codigoArea."'";
+       $sql="EXEC SP_tb_area_ACTUALIZAR '".$codigoArea."'
+        ,'".$descripcionArea."'
+        ,'".$codigoJefe."'
+        ,".$cod_rolf."";    
        
        $consulta = sqlsrv_query ($con,$sql);
        
@@ -135,8 +115,7 @@ and e.cod_tip_expediente ='".$codigo_expediente."' group by t.cod_area ,t.des_ar
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="DELETE FROM [tb_area]
-                  WHERE cod_area = '".$codigoArea."'";
+       $sql="EXEC SP_tb_area_ELIMINAR '".$codigoArea."'";
        
        $consulta = sqlsrv_query ($con,$sql);
        

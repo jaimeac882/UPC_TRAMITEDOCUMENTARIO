@@ -20,12 +20,14 @@ class RequisitosExpedienteDatos{
     
 
     function get_RequisitosExpediente($cod_detalle_requisitos_exp){
+        
         $cnn = new conexion();
 	$con = $cnn->conectarsql();
 
         $requisitosExpediente = new beanRequisitosExpediente();
-        $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR ".$cod_detalle_requisitos_exp."";
-
+        $sql = "EXEC SP_tb_detalle_requisitos_exp_INSTANCIA ".$cod_detalle_requisitos_exp.";";
+        
+        //echo $sql;
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
         if($fila>0){
@@ -47,7 +49,7 @@ class RequisitosExpedienteDatos{
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR";
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR ";
 
           $consulta = sqlsrv_query ($con,$sql);
 
@@ -93,7 +95,7 @@ class RequisitosExpedienteDatos{
        $con = $cnn->conectarsql();
        
        $sql="EXEC SP_tb_detalle_requisitos_exp_ACTUALIZAR "
-               . "'$cod_detalle_requisitos_exp'"
+               . "  $cod_detalle_requisitos_exp"
                . ",'$cod_tip_expediente'"
                . ",'$cod_requisitos'"
                . ", $estado";
@@ -116,7 +118,7 @@ class RequisitosExpedienteDatos{
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="EXEC SP_tb_detalle_requisitos_exp_ELIMINAR '".$cod_detalle_requisitos_exp."'";
+       $sql="EXEC SP_tb_detalle_requisitos_exp_ELIMINAR ".$cod_detalle_requisitos_exp."";
        
        $consulta = sqlsrv_query ($con,$sql);
        

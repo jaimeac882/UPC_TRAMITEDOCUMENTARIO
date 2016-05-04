@@ -21,7 +21,7 @@ class RequisitosExpedienteControlador{
     
     function getRequisitosExpediente($cod_detalle_requisitos_exp){
       $obj = new RequisitosExpedienteDatos();
-      return $obj->getRequisitosExpediente($cod_detalle_requisitos_exp);
+      return $obj->get_RequisitosExpediente($cod_detalle_requisitos_exp);
     }
     
      function obtenerRequisitosExpediente(){
@@ -29,16 +29,15 @@ class RequisitosExpedienteControlador{
 	return $obj->obtenerRequisitosExpediente();
     }
 
-
     
-    function crearRequisitoExpediente($cod_detalle_requisitos_exp
-      ,$cod_tip_expediente
+    function crearRequisitoExpediente(
+      $cod_tip_expediente
       ,$cod_requisitos
       ,$estado)
     {
         $obj = new RequisitosExpedienteDatos();
-	return $obj->crearRequisitosExpediente($cod_detalle_requisitos_exp
-      ,$cod_tip_expediente
+	return $obj->crearRequisitosExpediente(
+       $cod_tip_expediente
       ,$cod_requisitos
       ,$estado);
     }

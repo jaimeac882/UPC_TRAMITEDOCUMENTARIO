@@ -16,9 +16,7 @@
   $objRequisitoController = new RequisitoControlador();
   $objRequisito= new beanRequisito();
   
-  
-  
-    
+      
   $lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpediente();
   
 ?>
@@ -36,22 +34,28 @@ foreach ($lt_RequisitoExpediente as $row) { ?>
     <td>
       <?php 
       $objTipoExpediente= $objTipoExpedienteController->getTipoExpediente($row['cod_tip_expediente']);      
-      echo $objTipoExpediente->des_exp;              
+      echo utf8_encode($objTipoExpediente->des_exp);              
       ?>
     </td>
     <td>
       <?php      
       $objRequisito = $objRequisitoController->getRequisito($row['cod_requisitos']);      
-      echo $objRequisito->nom_requisito;
+      echo utf8_encode($objRequisito->nom_requisito);
       ?>
 
     </td>
     <td>
       <?php 
-      if($row['estado'] ==1)
-      {echo "Activo";}
+      
+      if($row['estado'] == 1)
+      {
+          echo "Activo";          
+      }
       else
-      {echo "Inactivo";}
+      {
+          echo "Inactivo";          
+      }
+      
       ?>
     </td>
     <td style="width: 35px">
@@ -60,7 +64,7 @@ foreach ($lt_RequisitoExpediente as $row) { ?>
       </a>
     </td>
     <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Eliminar requisito" onclick="eliminarRequisito('<?php echo $row['cod_detalle_requisitos_exp']; ?>')">
+      <a class="btn btn-info btn-sm" title="Eliminar requisito" onclick="eliminarRequsitosExpediente('<?php echo $row['cod_detalle_requisitos_exp']; ?>')">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>    
@@ -75,23 +79,23 @@ foreach ($lt_RequisitoExpediente as $row) { ?>
 if(isset($_GET["eliminar"]))
 {    
     $id_eliminar = $_GET["eliminar"];
-    echo $objRequisito->eliminarRequisito($id_eliminar);
+    echo $objRequisitoExpediente->eliminarRequisitosExpediente($id_eliminar);
 }
 
 
 if(isset($_GET["insertar"]))
 {    
     
-    if(isset($_GET["cboEstado"]) && isset($_GET["nom_Req"]) && isset($_GET["desc_Req"])  && isset($_GET["user"])  )
+    if(isset($_GET["cboEstado"]) && isset($_GET["cboTipoExpediente"]) && isset($_GET["cboTipoRequisito"])  )
     {
         //print "cumplido";
         //$id_eliminar = $_GET["eliminar"];
-        $nombreRequisito = $_GET["nom_Req"];
-        $descripcionRequisito = $_GET["desc_Req"];
+        
+        $cod_tip_expediente = $_GET["cboTipoExpediente"];
+        $cod_requisitos = $_GET["cboTipoRequisito"];
         $estado = $_GET["cboEstado"];
-        $fechaRegistro = date("Y-m-d H:i:s");
-        $usuario_registrador = $_GET["user"];;
-        echo $objRequisito->crearRequisito( $nombreRequisito, $descripcionRequisito, $fechaRegistro, $usuario_registrador, $estado) ;     
+        
+        echo $objRequisitoExpediente->crearRequisitoExpediente( $cod_tip_expediente, $cod_requisitos, $estado);
         
     }
     
@@ -102,16 +106,16 @@ if(isset($_GET["insertar"]))
 if(isset($_GET["actualizar"]))
 {    
     
-    if(isset($_GET["cboEstado"]) && isset($_GET["nom_Req"]) && isset($_GET["desc_Req"])  && isset($_GET["user"])  )
+    if(isset($_GET["cboEstado"]) && isset($_GET["cboTipoExpediente"]) && isset($_GET["cboTipoRequisito"])  )
     {
         //print "cumplido";
-        $id = $_GET["actualizar"];
-        $nombreRequisito= $_GET["nom_Req"];
-        $descripcionRequisito= $_GET["desc_Req"];
+        $cod_detalle_requisitos_exp = $_GET["actualizar"];
+        $cod_tip_expediente= $_GET["cboTipoExpediente"];
+        $cod_requisitos= $_GET["cboTipoRequisito"];
         $estado= $_GET["cboEstado"];
-        $fechaRegistro= date("Y-m-d H:i:s");
-        $usuario_registrador = $_GET["user"];;
-        echo $objRequisito->actualizarRequisito($id,$nombreRequisito, $descripcionRequisito, $fechaRegistro, $usuario_registrador, $estado);
+        //$fechaRegistro= date("Y-m-d H:i:s");        
+        //$usuario_registrador = $_GET["user"];;        
+        echo $objRequisitoExpediente->actualizarRequisitosExpediente($cod_detalle_requisitos_exp, $cod_tip_expediente, $cod_requisitos, $estado);
 
     }
     

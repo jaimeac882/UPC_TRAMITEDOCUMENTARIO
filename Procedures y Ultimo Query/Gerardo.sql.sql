@@ -2,6 +2,7 @@
 /*
 
 --TB_REQUISITOS
+--LiSTO CRUD EN PHP
 
 CREATE PROCEDURE SP_TB_REQUISITOS_INSERTAR
 
@@ -105,7 +106,7 @@ EXEC SP_TB_REQUISITOS_ELIMINAR '@cod_requisitos';
 
 EXEC SP_TB_REQUISITOS_LISTAR;	
 
-EXEC SP_TB_REQUISITOS_INSTANCIA	'@cod_requisitos';
+EXEC SP_TB_REQUISITOS_INSTANCIA	'RE000001';
 
 
 
@@ -119,6 +120,7 @@ EXEC SP_TB_REQUISITOS_INSTANCIA	'@cod_requisitos';
 
 
 --tb_detalle_requisitos_exp
+--LiSTO CRUD EN PHP
 
 /*
 CREATE PROCEDURE SP_TB_detalle_requisitos_exp_INSERTAR
@@ -870,4 +872,27 @@ CREATE PROCEDURE SP_tb_tip_expediente_INSTANCIA
 AS  
 SELECT * FROM tb_tip_expediente WHERE cod_tip_expediente = @cod_tip_expediente
 
+
 */
+
+/*
+CREATE PROCEDURE SP_tb_tip_expediente_PorTupaActivo_LISTAR		
+			@cod_tip_expediente char(10)
+AS  
+
+select  top 1 '999999' as cod_tip_expediente , '(NINGUNO)' as des_exp
+              union all
+              select cod_tip_expediente , des_exp from tb_tip_expediente
+              WHERE cod_tupa = @cod_tip_expediente
+*/
+/*
+
+CREATE PROCEDURE SP_tb_tip_expediente_INSTANCIA_2		
+			@cod_tip_expediente char(10)
+AS  
+
+SELECT r.* FROM tb_detalle_requisitos_exp d
+              INNER JOIN tb_requisitos r ON d.cod_requisitos = r.cod_requisitos
+              WHERE d.cod_tip_expediente = @cod_tip_expediente
+
+			  */
