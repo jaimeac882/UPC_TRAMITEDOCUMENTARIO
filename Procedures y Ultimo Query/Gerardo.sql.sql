@@ -230,7 +230,7 @@ EXEC SP_tb_detalle_requisitos_exp_INSTANCIA	'@cod_detalle_requisitos_exp';
 /*
 CREATE PROCEDURE SP_tb_tupa_INSERTAR
 			
-           @des_tupa varchar(400)
+            @des_tupa varchar(400)
            ,@anio char(4)
            ,@estado int
 
@@ -298,7 +298,14 @@ SELECT * FROM tb_tupa WHERE cod_tupa = @cod_tupa
 
 */
 
+/*
+CREATE PROCEDURE SP_tb_tupa_INSTANCIA_TupaActivo		
 
+AS  
+select top 1 * from tb_tupa
+                where estado = 1
+
+*/
 
 /*
 

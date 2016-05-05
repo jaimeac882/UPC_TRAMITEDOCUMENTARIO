@@ -11,21 +11,25 @@ require_once "../entidades/beanTupa.php";
 
 class TupaControlador_Datos{
 
+    private $lt_tupas;
 
+    public function __construct() {
+        $this->lt_tupas = array();
+    }
+    
 
 
 function getTupaActivo(){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
 
-      $sql = "select top 1 * from tb_tupa
-                where estado = 1";
-
+      $sql = "EXEC SP_tb_tupa_INSTANCIA_TupaActivo";
       $consulta = sqlsrv_query ($con,$sql);
 
       $tupa = new beanTupa();
 
       if($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)){
+          
           $tupa->cod_tupa = trim($row['cod_tupa']);
           $tupa->des_tupa = trim($row['des_tupa']);
           $tupa->estado = trim($row['estado']);
@@ -36,31 +40,25 @@ function getTupaActivo(){
       return $tupa;
     }
     
-}
+
 
 //extendido por gerardo medina para dar mantenibilidad
 
 
- function crearTupa($cod_tupa,$des_tupa,$anio,$estado)
+ function crearTupa($des_tupa,$anio,$estado)
  {
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="INSERT INTO [tb_tupa]
-           ([cod_tupa]
-           ,[des_tupa]
-           ,[anio]
-           ,[estado])
-        VALUES
-           ('".$cod_tupa."'
-           ,'".$des_tupa."'
+       $sql="EXEC SP_tb_tupa_INSERTAR
+            '".$des_tupa."'
            ,'".$anio."'
-           ,".$estado.")";
+           ,".$estado."";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se grabó a causa: ".sqlsrv_errors();
+           $rpta = "No se pudo grabar el registro.";
         }else{
            $rpta = "Se grabó correctamente.";
         }
@@ -75,16 +73,16 @@ function getTupaActivo(){
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="UPDATE [tb_tupa] SET 
-        [des_area] = '".$des_tupa."'
-        ,[cod_jefe] = '".$anio."'
-        ,[estado] = '".$estado."'            
-        WHERE [cod_tupa]='".$cod_tupa."'";
+       $sql="EXEC SP_tb_tupa_ACTUALIZAR 
+             '".$cod_tupa."'
+             ,'".$des_tupa."'
+             ,'".$anio."'
+             , ".$estado."";
        
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se actualizó a causa: ".sqlsrv_errors();
+           $rpta = "No se pudo actualizar.";
         }else{
            $rpta = "Se actualizó correctamente.";
         }
@@ -98,13 +96,11 @@ function eliminarTupa($cod_tupa)
        $cnn = new conexion();
        $con = $cnn->conectarsql();
        
-       $sql="DELETE FROM [tb_tupa]
-                  WHERE cod_tupa = '".$cod_tupa."'";
-       
+       $sql="EXEC SP_tb_tupa_ELIMINAR '".$cod_tupa."'";       
        $consulta = sqlsrv_query ($con,$sql);
        
        if( $consulta === false ) {
-           $rpta = "No se eliminó a causa: ".sqlsrv_errors();
+           $rpta = "No se pudo eliminar el registro.";
         }else{
            $rpta = "Se eliminó correctamente.";
         }
@@ -112,6 +108,46 @@ function eliminarTupa($cod_tupa)
         return $rpta;       
 }
 
+
+function getTupa($cod_tupa){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "EXEC SP_tb_tupa_INSTANCIA '".$cod_tupa."'";
+
+      $consulta = sqlsrv_query ($con,$sql);
+      $tupa = new beanTupa();
+
+      if($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)){
+          $tupa->cod_tupa = trim($row['cod_tupa']);
+          $tupa->des_tupa = trim($row['des_tupa']);
+          $tupa->estado = trim($row['estado']);
+          $tupa->anio = trim($row['anio']);
+
+      }
+
+      return $tupa;
+      
+    }
+    
+function obtenerTupas(){
+        
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "EXEC SP_tb_tupa_LISTAR;";
+      $consulta = sqlsrv_query ($con,$sql);
+
+      while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_tupas[] = $row;
+      }
+
+      sqlsrv_free_stmt( $consulta);
+      return($this->lt_tupas);
+      
+    }    
+    
+}
 
 
 ?>
