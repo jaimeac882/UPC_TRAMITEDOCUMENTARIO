@@ -18,15 +18,40 @@ class AreaControlador{
     }
     
     
-      function getAreaxExpediente($codigo_expediente){
+    function getAreaxExpediente($codigo_expediente){
       $obj = new AreaDatos();
       return $obj->getAreaxExpediente($codigo_expediente);
     }
     
-     function obtenerAreas(){
+     function obtenerAreas()
+    {
         $obj = new AreaDatos();
-		return $obj->obtenerAreas();
+	return $obj->obtenerAreas();
     }
+    
+    function crearArea($descripcionArea, $codigoJefe, $cod_rolf)
+    {
+        $obj = new AreaDatos();
+	return $obj->crearArea($descripcionArea, $codigoJefe, $cod_rolf);
+    }
+    
+    function eliminarArea($codigoArea)
+    {
+        $obj = new AreaDatos();
+	return $obj->eliminarArea($codigoArea) ;
+    }    
+    
+    function get_Area($codigoArea)
+    {
+        $obj = new AreaDatos();
+	return $obj->get_Area($codigoArea) ;
+    }  
+
+    function actualizarArea($codigoArea, $descripcionArea, $codigoJefe, $cod_rolf)
+    {
+        $obj = new AreaDatos();
+	return $obj->actualizarArea($codigoArea, $descripcionArea, $codigoJefe, $cod_rolf);
+    }      
     
 }
 

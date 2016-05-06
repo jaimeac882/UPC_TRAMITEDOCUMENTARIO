@@ -20,6 +20,7 @@ class RolfDatos{
     
 
 function getRolf($cod_rolf){
+    
         $cnn = new conexion();
 	$con = $cnn->conectarsql();
 
@@ -28,12 +29,13 @@ function getRolf($cod_rolf){
 
         $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
         if($fila>0){
             
              $rolf->cod_rolf  = trim($fila['cod_rolf']);
              $rolf->anio = trim($fila['anio']);
              $rolf->descripcion = trim($fila['descripcion']);
-             $rolf->estado = trim($fila['estado']);
+             $rolf->estado = trim($fila['ESTADO']);
             
              return $rolf;
 
@@ -105,7 +107,7 @@ function getRolf($cod_rolf){
        if( $consulta === false ) {
           $rpta = "No se pudo eliminar.";            
         }else{
-           $rpta = "Se eliminó correctamente.";
+          $rpta = "Se eliminó correctamente.";
         }        
         return $rpta;
 }

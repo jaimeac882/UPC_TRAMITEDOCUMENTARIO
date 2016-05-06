@@ -100,8 +100,7 @@ if(isset($_GET["editar"]))
               <label for="txtDescripcionTupa">Descripción :</label>
               <textarea maxlength="400" class="form-control input-sm"  type="textarea"
                   id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"
-                   rows="5"><?php echo utf8_encode($objTupa->des_tupa); ?>
-              </textarea>
+                   rows="5"><?php echo utf8_encode($objTupa->des_tupa); ?></textarea>
             </div>              
               
              
@@ -235,13 +234,13 @@ function validar()
     }    
     
     
-    if(!$("#txtAnio").numeric())
+    if(!$.isNumeric(anio))
     {
        alert("El año debe ser un valor numérico.");
        return false;
     }else{
         
-        if(anio >= 2015 && anio <= 2050)
+        if(!(anio >= 2015 && anio <= 2050))
         {
            alert("El año debe estar comprendido entre 2015 al 2050");
            return false;            

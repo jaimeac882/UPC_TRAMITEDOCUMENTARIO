@@ -21,8 +21,7 @@ foreach ($lt_Tupas as $row) { ?>
     </td>
     <td>
       <?php echo $row['anio'];?>
-    </td>
-    
+    </td>    
     <td>
       <?php 
       
@@ -91,7 +90,7 @@ if(isset($_GET["actualizar"]))
     if(isset($_GET["estado"]) && isset($_GET["descripcionTupa"]) && isset($_GET["anio"])  )
     {
         $cod_tupa = $_GET["actualizar"];
-        $des_tupa = $_GET["descripcionTupa"];
+        $des_tupa = utf8_decode($_GET["descripcionTupa"]);
         $anio = $_GET["anio"];
         $estado = $_GET["estado"];
    

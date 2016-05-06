@@ -2,32 +2,20 @@
 session_start();
 include_once("template/cabecera.php");
 
-require_once('../controlador/RequisitosExpedienteControlador.php');
-require_once('../entidades/beanRequisitosExpediente.php');
+require_once('../controlador/RolfControlador.php');
+require_once('../entidades/beanRolf.php');
 
-$objRequisitosExpedienteControlador = new RequisitosExpedienteControlador();
-$requisitoExpediente= new beanRequisitosExpediente();
-
-
-require_once('../controlador/RequisitoControlador.php');
-$objRequisitosControlador = new RequisitoControlador();
-
-
-require_once('../controlador/Tip_ExpedientesControlador.php');
-$objTipoExpedienteControlador = new Tip_ExpedientesControlador();
+$objRolfController = new RolfControlador();
+$objRolf = new beanRolf();
 
 
 if(isset($_GET["editar"]))
-{
-    
-    $cod_requisitoExpediente = $_GET["editar"];    
-    $requisitoExpediente = $objRequisitosExpedienteControlador->getRequisitosExpediente($cod_requisitoExpediente);
-    
+{    
+    $cod_rolf = $_GET["editar"];    
+    $objRolf = $objRolfController->get_Rolf($cod_rolf);
 }
 
-
 ?>
-
 <!-- Accordion - START -->
 <div class="container">
 	<div class="row">
@@ -36,87 +24,24 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar ROLF : <?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>  </h3>
+                                    <h3 class="panel-title">Editar ROLF : <?php echo $objRolf->cod_rolf; ?>  </h3>
 				</div>
 
         <div class="panel-body">
           <!-- Inicio Buscador -->
           <div class="row">
               
-               
-            <div class="col-xs-8">
-              <label class="control-label">Tipo Expediente :</label>
               
-                  <select id="cboTipoExpediente" class="form-control input-sm" name="marca" required="">
-
-                       <?php
-
-                       $listaOpciones = $objTipoExpedienteControlador->obtenerTipoExpediente();                                              
-                       if(isset($requisitoExpediente->cod_tip_expediente))  
-                       {       
-                           echo "<option value='0'>- Ninguno -</option>";
-                           foreach($listaOpciones as $valor)
-                           {                               
-                               if($requisitoExpediente->cod_tip_expediente == $valor['cod_tip_expediente'])
-                               {
-                                   echo "<option SELECTED value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
-                                }else{
-                                   echo "<option value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
-                               }
-                            }                                   
-                       }else{    
-                           
-                           echo "<option selected value='0'>- Ninguno -</option>";
-                           foreach($listaOpciones as $valor)
-                           {
-                              echo "<option value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
-                            }                                                       
-                       }
-                       ?> 
-                        
-                    </select>              
+            <div class="col-xs-3">
+              <label class="control-label">Año :</label>
               
+              <input type="text" value="<?php echo $objRolf->anio; ?>"  id="txtAnio" />              
+              <input type="hidden" value="<?php echo $objRolf->cod_rolf; ?>"  id="txtCodigoRolf" />
               
-            </div>
-              
-              
-            <div class="col-xs-4">
-              <label class="control-label">Tipo Requisito :</label>
-              
-                  <select id="cboTipoRequisito" class="form-control input-sm" name="marca" required="">
-
-                       <?php
-
-                       $listaOpciones = $objRequisitosControlador->obtenerRequisitos();                                              
-                       if(isset($requisitoExpediente->cod_requisitos))  
-                       {                       
-                           echo "<option selected value='0'>- Ninguno -</option>";
-                           foreach($listaOpciones as $valor)
-                           {                               
-                               if($requisitoExpediente->cod_requisitos == $valor['cod_requisitos'])
-                               {
-                                   echo "<option SELECTED value='".$valor['cod_requisitos']."'>".utf8_decode($valor['nom_requisito'])."</option>";
-                                }else{
-                                   echo "<option value='".$valor['cod_requisitos']."'>".utf8_decode($valor['nom_requisito'])."</option>";
-                               }
-                            }                                   
-                       }else{                           
-                           echo "<option selected value='0'>- Ninguno -</option>";
-                           foreach($listaOpciones as $valor)
-                           {
-                              echo "<option value='".$valor['cod_requisitos']."'>".utf8_decode($valor['nom_requisito'])."</option>";
-                            }                                                       
-                       }
-                       ?> 
-                        
-                    </select>              
-              
-              <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
-            </div>          
-              
+            </div>                                                 
+          
               
             <div class="col-xs-2">
-                <br>  
                 <label class="control-label">Estado :</label>
                    <select id="cboEstado" class="form-control input-sm" name="marca" required="">
 
@@ -127,20 +52,18 @@ if(isset($_GET["editar"]))
                             2 => "-Ninguno-",
                         );
                        
-                       if(isset($requisitoExpediente->estado))  
+                       if(isset($objRolf->estado))  
                        {
                            
                            foreach($listaOpciones as $k => $v)
                            {
-                               if($requisitoExpediente->estado == $k)
+                               if($objRolf->estado == $k)
                                {
                                    echo "<option selected value='".$k."'>".$v."</option>";
                                 }else{
                                    echo "<option value='".$k."'>".$v."</option>";
                                }
-
-                            }    
-                               
+                            }                                   
                        }else{
                            echo "<option selected value='3'>- Ninguno -</option>";
                            echo "<option value='1'>Activo</option>";
@@ -151,18 +74,8 @@ if(isset($_GET["editar"]))
                     </select>
             </div>
 
-            <div class="col-xs-12">
-                <br>
-                    
-              <label for="txtDescripcionRolf">Descripción :</label>
-              <textarea class="form-control input-sm"  type="textarea"
-                  id="txtDescripcionRequisito" name="txtDescripcionRequisito" placeholder="Definición del requisito"
-                  maxlength="500" rows="5"><?php echo $objRequisito->des_requisitos; ?>
-              </textarea>
-            </div>              
               
-            <div class="col-xs-1">
-              <br>  
+            <div class="col-xs-1"> 
               <label class="control-label">&nbsp;</label>
               <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
 								<span>Nuevo</span>
@@ -170,20 +83,26 @@ if(isset($_GET["editar"]))
             </div>   
 
             <div class="col-xs-1">
-                  <br>  
                 <label class="control-label">&nbsp;</label>
               <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
 								<span>Guardar</span>
 	      </button>
             </div>  
               
-
-                      
+              
+              
+              
+            <div class="col-xs-12">
+              <label for="txtDescripcionRolf">Descripción :</label>
+              <textarea class="form-control input-sm"  type="textarea"
+                  id="txtDescripcionRolf" name="txtDescripcionRolf" placeholder="Definición del ROLF"
+                  maxlength="255" rows="5"><?php echo utf8_encode($objRolf->descripcion); ?></textarea>
+            </div>   
+              
+              
+              
+              
            
-                    
-             
-             
-             
           </div>
           <!-- Fin Buscador -->
           <hr>
@@ -191,9 +110,9 @@ if(isset($_GET["editar"]))
           <table class="table table-striped table-hover " id="table_activar">
             <thead class="thead-inverse">
               <tr>
-                  <th>Cod. Requisito<br>de Expediente</th>
-                <th>Tipo Expediente</th>
-                <th>Requisito</th>
+                <th>Cod. ROLF</th>
+                <th>Año</th>
+                <th>Descripción</th>
                 <th>Estado</th>
                 
                 <th>Editar</th>
@@ -216,72 +135,73 @@ if(isset($_GET["editar"]))
 <?php include_once("template/pie.php"); ?>
 <script>
 $(function() {
-  buscarRequsitosExpedienteInicial();
+  buscarRolfInicial();
 });
-function buscarRequsitosExpediente(){
+function buscarRolf(){
   $("#body_contenedor").html("");
 
-  $.get("inc_requisitosExpediente.php", function(data, status){
+  $.get("inc_rolf.php", function(data, status){
     $("#body_contenedor").html(data);
   });
 }
 
-function buscarRequsitosExpedienteInicial(){
+function buscarRolfInicial(){
 	$("#body_contenedor").html("");
 
-  $.get("inc_requisitosExpediente.php?listar=true", function(data, status){
+  $.get("inc_rolf.php?listar=true", function(data, status){
     $("#body_contenedor").html(data);
 		$("#table_activar").DataTable();
   });
 }
 
-function eliminarRequsitosExpediente(id){
+function eliminarRolf(id){
 
         var rpta = confirm("¿Estas seguro(a) que desea eliminar el requisito?");
         if (rpta == true) {
-              $.get("inc_requisitosExpediente.php?eliminar="+id, function(data, status){
+              $.get("inc_rolf.php?eliminar="+id, function(data, status){
                 alert(data);                
                 //$("#error").html(data);
               });
-              location.href='RequisitosExpediente.mantenimiento.php';
+              location.href='Rolf.mantenimiento.php';
  
         } 
  
 }
 
-function editarRequisitosExpediente(){
+function editarRolf(){
 
-        var id = $("#txtCodigoRequisitoExpediente").val();
-        var cboTipoExpediente = $("#cboTipoExpediente").val();
-        var cboTipoRequisito = $("#cboTipoRequisito").val();
-        var cboEstado = $("#cboEstado").val();
+        var id = $("#txtCodigoRolf").val();
+        var DescripcionRolf = $("#txtDescripcionRolf").val();
+        var Estado = $("#cboEstado").val();
+        var Anio = $("#txtAnio").val();
+        
         var user = '<?php echo $_SESSION['cod_user'];?>';
 
 
-        if($("#txtCodigoRequisitoExpediente").val() == "")
+        if($("#txtCodigoRolf").val() == "")
         {
 
-            var rpta = confirm("¿Estas seguro(a) que desea guardar el requisito para el Expediente?");
+            var rpta = confirm("¿Estas seguro(a) que desea guardar el ROLF?");
             if (rpta == true) 
             {
-                  $.get("inc_requisitosExpediente.php?insertar=1&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
+                  $.get("inc_rolf.php?insertar=1&DescripcionRolf="+DescripcionRolf+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
                     alert(data);                
                     //$("#error").html(data);
                   });
-                location.href='RequisitosExpediente.mantenimiento.php';
+                location.href='Rolf.mantenimiento.php';
             } 
         
  
         }else{
 
-            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito para el Expediente?");
+            var rpta = confirm("¿Estas seguro(a) que desea modificar el ROLF?");
             if (rpta == true) 
             {
-                  $.get("inc_requisitosExpediente.php?actualizar="+id+"&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
+                  $.get("inc_rolf.php?actualizar="+id+"&DescripcionRolf="+DescripcionRolf+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
                     alert(data);                
                   //  $("#error").html(data);
                   });
-                location.href='RequisitosExpediente.mantenimiento.php';
+                location.href='Rolf.mantenimiento.php';
             }  
 
         }
@@ -290,56 +210,55 @@ function editarRequisitosExpediente(){
 
 function PrepararNuevo()
 {
-  location.href='RequisitosExpediente.mantenimiento.php';
+  location.href='Rolf.mantenimiento.php';
 }
 
 function validar()
 {
 
-    //var id = $("#txtCodigoRequisitoExpediente").val();
-    var cboTipoExpediente = $("#cboTipoExpediente").val();
-    var cboTipoRequisito = $("#cboTipoRequisito").val();
-    var cboEstado = $("#cboEstado").val();
+    var id = $("#txtCodigoRolf").val();
+    var DescripcionRolf = $("#txtDescripcionRolf").val();
+    var Estado = $("#cboEstado").val();
+    var Anio = $("#txtAnio").val();
         
-    if(isBlank(cboTipoExpediente))
+    if(isBlank(DescripcionRolf))
     {
-       alert("Debe tener definido un tipo de expediente.")
+       alert("Debe tener definido la descripción del ROLF.");
        return false;
     }
     
-    if(isBlank(cboTipoRequisito))
+    if(isBlank(Anio))
     {
-       alert("Debe tener definido un tipo de requisito.")
+       alert("Debe tener definido un Año.");
        return false;
     }    
-    
-    if(isBlank(cboEstado))
+
+    if(!$.isNumeric(Anio))
     {
-       alert("Debe tener definido un tipo de estado.")
+       alert("El año debe ser un valor numérico.");
+       return false;
+    }else{
+        
+        if(!(Anio >= 2015 && Anio <= 2050))
+        {
+           alert("El año debe estar comprendido entre 2015 al 2050.");
+           return false;            
+        }                
+    }    
+        
+    if(isBlank(Estado))
+    {
+       alert("Debe tener definido un tipo de estado.");
        return false;
     }  
-
-    if(cboTipoExpediente==0)
+     
+    if(Estado==3)
     {
-       alert("Debe elegir un tipo de Expediente.")
-       return false;
-    }
-    
-    
-    if(cboTipoRequisito==0)
-    {
-       alert("Debe elegir un tipo de requisito.")
-       return false;
-    }      
-    
-    
-    if(cboEstado==3)
-    {
-       alert("Debe elegir un tipo de Estado.")
+       alert("Debe elegir un tipo de Estado.");
        return false;
     }  
         
-    editarRequisitosExpediente();
+    editarRolf();
     
 }
 

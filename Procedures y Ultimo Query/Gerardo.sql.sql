@@ -388,7 +388,7 @@ AS
 CREATE PROCEDURE SP_tb_area_ELIMINAR
 			@cod_area char(6) 
 AS                 
-       DELETE FROM [tb_tupa]  WHERE cod_area = @cod_area
+       DELETE FROM [tb_area]  WHERE cod_area = @cod_area
 
 */
 
@@ -420,7 +420,8 @@ AS
 select  t.cod_area , t.des_area,t.cod_jefe   from tb_tip_expediente as e inner join
 tb_area as t  on e.cod_area_encargada = t.cod_area
 where t.cod_jefe <> ''
-and e.cod_tip_expediente =@cod_tip_expediente group by t.cod_area ,t.des_area,t.cod_jefe
+and e.cod_tip_expediente = @cod_tip_expediente 
+group by t.cod_area ,t.des_area,t.cod_jefe
 
 */
 
@@ -508,7 +509,6 @@ CREATE PROCEDURE SP_tb_rolf_ELIMINAR
 			@cod_rolf int 
 AS                 
        DELETE FROM [tb_rolf]  WHERE cod_rolf = @cod_rolf
-
 */
 
 /*
@@ -529,6 +529,11 @@ SELECT * FROM tb_rolf
 
 
 
+/*
+CREATE PROCEDURE SP_tb_rolf_INSTANCIA_ACTIVO 
+AS        
+SELECT TOP 1 * FROM tb_rolf WHERE ESTADO=1
+*/
 
 
 /*
