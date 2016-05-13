@@ -72,6 +72,10 @@
                                      <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Registrar_Tramite.php">Registrar Tramites</a>
 
                                          <?php } ?>
+                                         
+                                            <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Registrar_Tramite_Area_Valores.php">Registrar Tramites Area Valores</a>
+
+                                         
                                     <!--<li class="list-group-item"><span class="glyphicon glyphicon-minus text-primary"></span> <a>Registrar Tramite</a></li>-->
 <!--                                    <li class="list-group-item"><span class="glyphicon glyphicon-minus text-success"></span> <a>Publish Blog</a></li>
                                     <li class="list-group-item"><span class="glyphicon glyphicon-minus text-warning"></span> <a>Delete Blog</a></li>-->

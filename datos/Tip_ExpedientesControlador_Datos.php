@@ -30,6 +30,23 @@ class Tip_ExpedientesControlador_Datos{
       return($this->lt_Expedientes);
 
     }
+    
+    
+     function getExpedientesValorizacionPorTupaActivo($cod_tupa){
+        
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "EXEC SP_tb_tip_expedientevalorizados_PorTupaActivo_LISTAR  '".$cod_tupa."'";
+      $consulta = sqlsrv_query ($con,$sql);
+
+      while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Expedientes[] = $row;
+      }
+
+      return($this->lt_Expedientes);
+
+    }
 
     function getRequisitosExpediente($codExpediente){
         

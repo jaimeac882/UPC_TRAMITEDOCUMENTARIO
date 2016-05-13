@@ -256,6 +256,27 @@ private $lt_TipTramite;
 
     }
 
+    
+    
+    function getTiposTramiteExpedientes(){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "select * from tb_tipo_tramite
+          where des_tipo_tramite like '%Exped%'
+                order by des_tipo_tramite";
+
+      $consulta = sqlsrv_query ($con,$sql);
+
+
+      while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_TipTramite[] = $row;
+      }
+
+      return($this->lt_TipTramite);
+
+    }
+
     function getEmpleadoSugerido($cod_area){
       $cnn = new conexion();
       $con = $cnn->conectarsql();
@@ -313,6 +334,37 @@ private $lt_TipTramite;
 
       return $id;
     }
+    
+    function insertTramiteval($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area,$codval){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "SELECT 'TRA'+RIGHT('0000000'+CAST(CAST(RIGHT(MAX(cod_tramite),7) AS INT)+1 AS VARCHAR),7) AS id FROM tb_tramite";
+      $consultaId = sqlsrv_query ($con ,$sql);
+
+      if($row = sqlsrv_fetch_array($consultaId, SQLSRV_FETCH_ASSOC)){
+        $id = $row["id"];
+
+        $sql = "INSERT tb_tramite(cod_tramite, cod_administrado, des_tramite, fec_recepcion, observaciones, folio, asunto, cod_exp,cod_estado, recibo, cod_tipo_tramite,cod_valor)
+                VALUES('".$id."','".$codAdministrado."','".$desTramite."',GETDATE(),'".$observacion."','".$folio."','".$asunto."','".$codigoExpediente."','EST001','".$recibo."','".$cod_tipo_tramite."','".$codval."')";
+
+        $sql_flujo = "INSERT INTO tb_flujo_tramite_real(cod_tramite,fec_registro,cod_usuario,cod_estado,cod_area)
+                        VALUES('".$id."',GETDATE(),'".$cod_usuario."','EST001','".$cod_area."')";
+
+        
+        $sql_flujo2 = "insert into TB_REFERENCIAVALOR values (GETDATE(),'".$codval."','".$id."','EST01')";
+       
+        sqlsrv_query ($con, $sql);
+        sqlsrv_query ($con, $sql_flujo);
+        
+        
+        sqlsrv_query ($con, $sql_flujo2);
+      }
+
+      return $id;
+    }
+
+    
 
     function guardarTramite($cod_tramite, $cod_usuario, $cod_area, $cod_empleado, $descripcion_asignacion, $confirmacionJefe){
       $cnn = new conexion();
@@ -429,6 +481,47 @@ private $lt_TipTramite;
     }
 
 
+    
+    
+    
+     function obtenerTramites_Registro_are_v($f1,$f2,$ad,$tipo_docu){
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "SELECT tb_1.*
+                FROM (SELECT cod_tramite,cod_tipo_tramite,
+                         (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
+                          FROM   tb_administrado AS a
+                          WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                         t.des_tramite,
+                         t.cod_valor,
+                         CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                         (SELECT des_exp
+                          FROM   tb_tip_expediente te
+                          WHERE  te.cod_tip_expediente = t.cod_exp)       AS desexpediente,
+                         (SELECT tex.dias_maximo
+                          FROM   tb_tip_expediente tex
+                          WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
+                          DAY(GETDATE()-t.fec_recepcion) AS diasTrans
+                  FROM   tb_tramite AS t
+                  WHERE  t.cod_estado = 'EST001') tb_1
+                  WHERE tb_1.administrado LIKE '%".$ad."%'
+                  and tb_1.cod_valor <> ''
+                  AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
+                  and tb_1.cod_tipo_tramite = '".$tipo_docu."'
+                 ORDER BY tb_1.diasTrans";
+
+          $consulta = sqlsrv_query ($con,$sql);
+
+          while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_Tramite[] = $row;
+          }
+
+          sqlsrv_free_stmt( $consulta);
+
+          return($this->lt_Tramite);
+    }
+
 
     function obtenerTramites_RegistroInicial($f1,$f2,$ad){
        $cnn = new conexion();
@@ -465,6 +558,46 @@ private $lt_TipTramite;
           return($this->lt_Tramite);
     }
 
+
+    
+    
+
+    function obtenerTramites_RegistroInicial_are_v($f1,$f2,$ad){
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "SELECT tb_1.*
+                FROM (SELECT cod_tramite,
+                         (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
+                          FROM   tb_administrado AS a
+                          WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                         t.des_tramite,
+                         t.cod_valor,
+                         CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                         (SELECT des_exp
+                          FROM   tb_tip_expediente te
+                          WHERE  te.cod_tip_expediente = t.cod_exp)       AS desexpediente,
+                         (SELECT tex.dias_maximo
+                          FROM   tb_tip_expediente tex
+                          WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
+                          DAY(GETDATE()-t.fec_recepcion) AS diasTrans
+                  FROM   tb_tramite AS t
+                  WHERE  t.cod_estado = 'EST001') tb_1
+                  WHERE tb_1.administrado LIKE '%".$ad."%'
+                   and  tb_1.cod_valor <> ''
+                  AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
+                  ORDER BY tb_1.diasTrans";
+
+          $consulta = sqlsrv_query ($con,$sql);
+    
+          while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_Tramite[] = $row;
+          }
+
+          sqlsrv_free_stmt( $consulta);
+
+          return($this->lt_Tramite);
+    }
 
 
     function obtenerTramitesPorActivar($f1,$f2,$ad,$exp){

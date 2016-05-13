@@ -61,6 +61,11 @@
       $obj = new TramiteDatos();
       return $obj->insertTramite($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area);
     }
+    
+     function insertTramiteval($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area,$codval){
+      $obj = new TramiteDatos();
+      return $obj->insertTramiteval($codAdministrado, $desTramite, $observacion, $folio, $asunto, $recibo, $cod_tipo_tramite,$codigoExpediente, $cod_usuario, $cod_area,$codval);
+    }
 
     function empleadosAsignacion($cod_area, $nombre, $codigo){
       $obj = new TramiteDatos();
@@ -71,6 +76,12 @@
       $obj = new TramiteDatos();
       return $obj->getTiposTramite();
     }
+    
+        function getTiposTramiteExpedientes(){
+      $obj = new TramiteDatos();
+      return $obj->getTiposTramiteExpedientes();
+    }
+
 
     function getEmpleadoSugerido($cod_area){
       $obj = new TramiteDatos();
@@ -105,6 +116,17 @@
     function obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu){
       $obj = new TramiteDatos();
 		  return $obj->obtenerTramites_Registro($f1,$f2,$ad,$tipo_docu);
+    }
+    
+    
+        function obtenerTramites_RegistroInicial_are_v($f1,$f2,$ad){
+      $obj = new TramiteDatos();
+		  return $obj->obtenerTramites_RegistroInicial_are_v($f1,$f2,$ad);
+    }
+
+    function obtenerTramites_Registro_are_v($f1,$f2,$ad,$tipo_docu){
+      $obj = new TramiteDatos();
+		  return $obj->obtenerTramites_Registro_are_v($f1,$f2,$ad,$tipo_docu);
     }
 
     function obtenerTramitesPorActivar($f1,$f2,$ad,$exp){
