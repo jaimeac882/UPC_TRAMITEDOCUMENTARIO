@@ -24,7 +24,17 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar ROLF : <?php echo $objRolf->cod_rolf; ?>  </h3>
+                                    <h3 class="panel-title">
+                                        <?php                                         
+                                        if(isset($objRolf->cod_rolf))
+                                        {
+                                            echo "Editar";
+                                        }else{
+                                            echo "Registrar";                                            
+                                        }
+                                        ?>                                                                                                                        
+                                        ROLF : <?php echo $objRolf->cod_rolf; ?>  
+                                    </h3>
 				</div>
 
         <div class="panel-body">
@@ -108,32 +118,7 @@ if(isset($_GET["editar"]))
            
           </div>
           <!-- Fin Buscador -->
-          <hr>
-          <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
-          <table class="table table-striped table-hover " id="table_activar">
-            <thead class="thead-inverse">
-              <tr>
-                <th>Cod. ROLF</th>
-                <th>Año</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                
-                <th>Editar</th>
-                <th>Eliminar</th>   
-                
-              </tr>
-            </thead>
-            <tbody id="body_contenedor">
-            </tbody>
-          </table>
-          <!-- Fin Grilla -->
-        </div>
-			</div>
-		</div>
-	</div>
-</div>
-<div id="error"></div>
-<!-- Accordion - END -->
+ 
 
 
 <div class="modal fade" id="searchAdministrator" role="dialog">
@@ -209,9 +194,7 @@ if(isset($_GET["editar"]))
 
 <?php include_once("template/pie.php"); ?>
 <script>
-$(function() {
-  buscarRolfInicial();
-});
+
 function buscarRolf(){
   $("#body_contenedor").html("");
 
@@ -220,14 +203,6 @@ function buscarRolf(){
   });
 }
 
-function buscarRolfInicial(){
-	$("#body_contenedor").html("");
-
-  $.get("inc_rolf.php?listar=true", function(data, status){
-    $("#body_contenedor").html(data);
-		$("#table_activar").DataTable();
-  });
-}
 
 function eliminarRolf(id){
 
@@ -337,13 +312,13 @@ function validar()
     
 }
 
-	function seleccionaAdministrado(codigo, administrado){
-		$("#codigoAdmin").val(codigo);
-		$("#nombreAdmin").val(administrado);
-                $("#monto").val('');
-                $("#codigoValor").val('');
-		$('#searchAdministrator').modal('toggle');
-	}
+
+    function seleccionaAdministrado(codigo, administrado){
+
+            $('#searchAdministrator').modal('toggle');
+
+
+    }
 
 
 

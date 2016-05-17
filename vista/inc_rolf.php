@@ -80,19 +80,13 @@ if(isset($_GET["actualizar"]))
     
     if(isset($_GET["DescripcionRolf"]) && isset($_GET["Estado"]) && isset($_GET["Anio"]) )
     {
-
         $cod_rolf = $_GET["actualizar"];
         $anio= $_GET["Anio"];
         $descripcion = $_GET["DescripcionRolf"];
         $estado= $_GET["Estado"];
-
         echo $objRolfController->actualizarRolf($cod_rolf, $anio, $descripcion, $estado);
-
     }
     
-
 }
-
-
 
 ?>
