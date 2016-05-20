@@ -81,7 +81,7 @@ GO
 
 /*
 
---Cómo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
+--Cï¿½mo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
 
 EXEC SP_TB_REQUISITOS_INSERTAR
             '@nom_requisito'
@@ -180,7 +180,7 @@ GO
 
 /*
 
---Cómo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
+--Cï¿½mo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
 
 EXEC SP_tb_detalle_requisitos_exp_INSERTAR
             '@nom_requisito'
@@ -276,7 +276,7 @@ GO
 
 /*
 
---Cómo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
+--Cï¿½mo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
 
 EXEC SP_tb_tupa_INSERTAR
             '@des_tupa'
@@ -381,7 +381,7 @@ GO
 
 /*
 
---Cómo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
+--Cï¿½mo ejecutarlo en PHP:Reemplazar las variables de SQL ("@") por las variables de de PHP ("$")
 
 EXEC SP_tb_area_INSERTAR
            ,'@anio'
@@ -820,3 +820,207 @@ SELECT r.* FROM tb_detalle_requisitos_exp d
               INNER JOIN tb_requisitos r ON d.cod_requisitos = r.cod_requisitos
               WHERE d.cod_tip_expediente = @cod_tip_expediente
 GO
+
+
+
+
+
+
+---
+
+CREATE PROCEDURE SP_tbl_rolf_EXISTE_ESTADO_ACTIVO
+AS
+DECLARE @VECES int;
+DECLARE @resultado int;
+
+--Query que cuenta existen con estado =1
+SET @VECES= (SELECT COUNT([cod_rolf]) AS EXISTENTE 
+FROM [tb_rolf] 
+WHERE ESTADO=1);
+
+IF @VECES IS NULL 
+BEGIN	
+	Set @resultado=0;
+	--no existe: 0=false
+END
+ELSE 
+BEGIN
+	IF @VECES = 0 
+	BEGIN	
+		Set @resultado=0;
+		--no existe: 0=false
+	END
+	ELSE 
+	BEGIN
+		Set @resultado=1;
+		--existe: 1=true
+	END
+END
+select @resultado as EXISTE_ACTIVO;
+GO
+
+---
+
+CREATE PROCEDURE SP_tbl_tupa_EXISTE_ESTADO_ACTIVO
+AS
+DECLARE @VECES int;
+DECLARE @resultado int;
+
+--Query que cuenta existen con estado =1
+SET @VECES= (SELECT COUNT([cod_tupa]) AS EXISTENTE 
+FROM [tb_tupa] 
+WHERE ESTADO=1);
+
+IF @VECES IS NULL 
+BEGIN	
+	Set @resultado=0;
+	--no existe: 0=false
+END
+ELSE 
+BEGIN
+	IF @VECES = 0 
+	BEGIN	
+		Set @resultado=0;
+		--no existe: 0=false
+	END
+	ELSE 
+	BEGIN
+		Set @resultado=1;
+		--existe: 1=true
+	END
+END
+select @resultado as EXISTE_ACTIVO;
+GO
+-------
+
+CREATE PROCEDURE SP_tbl_requisitos_EXISTE_ESTADO_ACTIVO
+AS
+DECLARE @VECES int;
+DECLARE @resultado int;
+
+--Query que cuenta existen con estado =1
+SET @VECES= (SELECT COUNT([cod_requisitos]) AS EXISTENTE 
+FROM [tb_requisitos] 
+WHERE ESTADO=1);
+
+IF @VECES IS NULL 
+BEGIN	
+	Set @resultado=0;
+	--no existe: 0=false
+END
+ELSE 
+BEGIN
+	IF @VECES = 0 
+	BEGIN	
+		Set @resultado=0;
+		--no existe: 0=false
+	END
+	ELSE 
+	BEGIN
+		Set @resultado=1;
+		--existe: 1=true
+	END
+END
+select @resultado as EXISTE_ACTIVO;
+GO
+
+
+---
+
+
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp_EXISTE_ESTADO_ACTIVO
+AS
+
+DECLARE @VECES int;
+DECLARE @resultado int;
+
+--Query que cuenta existen con estado =1
+SET @VECES= (SELECT COUNT([cod_detalle_requisitos_exp]) AS EXISTENTE 
+FROM [tb_detalle_requisitos_exp] 
+WHERE ESTADO=1);
+
+IF @VECES IS NULL 
+BEGIN	
+	Set @resultado=0;
+	--no existe: 0=false
+END
+ELSE 
+BEGIN
+	IF @VECES = 0 
+	BEGIN	
+		Set @resultado=0;
+		--no existe: 0=false
+	END
+	ELSE 
+	BEGIN
+		Set @resultado=1;
+		--existe: 1=true
+	END
+END
+select @resultado as EXISTE_ACTIVO;
+GO
+
+
+--
+
+
+CREATE PROCEDURE SP_tb_rolf_ActivarEstado @Codigo int
+AS
+
+--DECLARE @codigo int;
+UPDATE [tb_rolf]
+SET [ESTADO]=0;
+
+UPDATE [tb_rolf]
+SET [ESTADO]=0
+  WHERE
+  [cod_rolf]=@codigo;
+
+go
+
+
+----
+
+
+
+CREATE PROCEDURE SP_tb_requisitos_ActivarEstado @Codigo int, @valor int
+AS
+--DECLARE @codigo int;
+UPDATE tb_requisitos
+SET [ESTADO]=@valor
+  WHERE
+  cod_requisitos=@codigo;
+go
+
+
+
+
+----
+
+
+CREATE PROCEDURE SP_tb_tupa_ActivarEstado @Codigo int
+AS
+
+--DECLARE @codigo int;
+UPDATE tb_tupa
+SET cod_tupa=0;
+
+UPDATE tb_tupa
+SET [ESTADO]=0
+  WHERE
+  cod_tupa=@codigo;
+go
+
+
+----
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp @Codigo int, @valor int
+AS
+--DECLARE @codigo int;
+UPDATE tb_detalle_requisitos_exp 
+SET [ESTADO]= @valor
+  WHERE
+  cod_tupa=@codigo;
+
+go
