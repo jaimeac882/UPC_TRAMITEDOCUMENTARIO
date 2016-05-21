@@ -146,6 +146,42 @@ function obtenerTupas(){
       return($this->lt_tupas);
       
     }    
+//
+function activarTupa($cod_tupa)
+{
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="exec SP_tb_tupa_ActivarEstado ".$cod_tupa.";";       
+       $consulta = sqlsrv_query ($con, $sql);
+        
+       if( $consulta === false ) {
+          $rpta = "No se pudo activar.";            
+        }else{
+          $rpta = "Se activó.";
+        }        
+        return $rpta;        
+}
+
+
+ function existeEstadoActivoTupa()
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql = "exec SP_tbl_tupa_EXISTE_ESTADO_ACTIVO;";     
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
+        if($fila>0){
+           return $fila['EXISTE_ACTIVO'];
+        }else{
+            return null;
+        }
+}      
+    
+    
     
 }
 

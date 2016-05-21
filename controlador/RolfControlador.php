@@ -15,8 +15,7 @@ class RolfControlador{
     
     public function __construct() {
         $this->lt_Rolfs = array();
-    }
-    
+    }    
     
     function getAreaxExpediente($codigo_expediente){
       $obj = new RolfDatos();
@@ -51,7 +50,20 @@ class RolfControlador{
     {
         $obj = new RolfDatos();
 	return $obj->actualizarRolf($cod_rolf, $anio, $descripcion, $estado);
-    }      
+    }   
+    
+    function activarRolf($cod_rolf)
+    {
+        $obj = new RolfDatos();
+	return $obj->activarRolf($cod_rolf);
+    }     
+
+    function existeEstadoActivoRolf()
+    {
+        $obj = new RolfDatos();
+	return $obj->existeEstadoActivoRolf();
+    }     
+           
     
 }
 

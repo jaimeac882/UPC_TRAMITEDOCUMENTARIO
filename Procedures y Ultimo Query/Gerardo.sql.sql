@@ -1001,7 +1001,6 @@ go
 
 CREATE PROCEDURE SP_tb_tupa_ActivarEstado @Codigo int
 AS
-
 --DECLARE @codigo int;
 UPDATE tb_tupa
 SET cod_tupa=0;
@@ -1021,6 +1020,5 @@ AS
 UPDATE tb_detalle_requisitos_exp 
 SET [ESTADO]= @valor
   WHERE
-  cod_tupa=@codigo;
-
+  cod_detalle_requisitos_exp=@codigo;
 go

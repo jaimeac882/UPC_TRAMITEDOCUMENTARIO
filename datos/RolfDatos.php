@@ -112,6 +112,43 @@ function getRolf($cod_rolf){
         return $rpta;
 }
 
+ function activarRolf($cod_rolf)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="exec SP_tb_rolf_ActivarEstado ".$cod_rolf.";";       
+       $consulta = sqlsrv_query ($con, $sql);
+        
+       if( $consulta === false ) {
+          $rpta = "No se pudo activar.";            
+        }else{
+          $rpta = "Se activó.";
+        }        
+        return $rpta;
+        
+}
+
+
+ function existeEstadoActivoRolf()
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql = "exec SP_tbl_rolf_EXISTE_ESTADO_ACTIVO;";     
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
+        if($fila>0){
+           return $fila['EXISTE_ACTIVO'];
+        }else{
+            return null;
+        }
+}
+
+
+
 }
 
 ?>

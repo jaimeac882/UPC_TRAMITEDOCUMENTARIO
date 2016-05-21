@@ -43,7 +43,22 @@ class TupaControlador{
       $obj = new TupaControlador_Datos();
       return $obj->eliminarTupa($cod_tupa);
     }    
-        
+
+    
+    function activarTupa($cod_rolf)
+    {
+        $obj = new TupaControlador_Datos();
+	return $obj->activarTupa($cod_rolf);
+    }     
+
+    
+    
+    function existeEstadoActivoTupa()
+    {
+        $obj = new TupaControlador_Datos();
+	return $obj->existeEstadoActivoTupa();
+    }         
+    
     
 }
 
