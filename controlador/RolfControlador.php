@@ -22,11 +22,19 @@ class RolfControlador{
       return $obj->getAreaxExpediente($codigo_expediente);
     }
     
+    
+     function obtenerRolfsFiltrado($descripcion, $anio,$estado)
+    {
+        $obj = new RolfDatos();
+	return $obj->obtenerRolfsFiltrado($descripcion, $anio,$estado);
+    }
+
+    
      function obtenerRolfs()
     {
         $obj = new RolfDatos();
 	return $obj->obtenerRolfs();
-    }
+    }    
     
     function crearRolf($anio, $descripcion, $estado)
     {

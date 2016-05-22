@@ -45,7 +45,7 @@ if(isset($_GET["editar"]))
             <div class="col-xs-3">
               <label class="control-label">Año :</label>
               
-              <input type="text" value="<?php echo $objRolf->anio; ?>"  id="txtAnio" />              
+              <input type="text" class="form-control input-sm"  value="<?php echo $objRolf->anio; ?>"  id="txtAnio" />              
               <input type="hidden" value="<?php echo $objRolf->cod_rolf; ?>"  id="txtCodigoRolf" />
               
             </div>                                                 
@@ -53,7 +53,14 @@ if(isset($_GET["editar"]))
               
             <div class="col-xs-2">
                 <label class="control-label">Estado :</label>
-                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
+                <select id="cboEstado"  class="form-control input-sm" name="marca" required="" accesskey="" 
+                    <?php
+                        if(!isset($objRolf->cod_rolf) || $objRolf->estado==1)
+                        {
+                            echo 'disabled="disabled"';                                            
+                        }
+                        ?>                 
+                 >
 
                        <?php
                        $listaOpciones = array(
@@ -84,39 +91,30 @@ if(isset($_GET["editar"]))
                     </select>
             </div>
 
-              
-            <div class="col-xs-1"> 
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Nuevo</span>
-	      </button>
-            </div>   
+          </div>                
 
-            <div class="col-xs-1">
-                <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Guardar</span>
-	      </button>
-            </div>  
-              
-            <div class="col-xs-1">
-                    <label class="control-label">&nbsp;</label>
-                    <button id="btnbuscar" data-toggle="modal" data-target="#searchAdministrator" class="btn btn-primary btn-sm" title="Buscar">Buscar</button>
-            </div>              
-              
-              
+          <div class="row">
             <div class="col-xs-12">
+                <br>
               <label for="txtDescripcionRolf">Descripción :</label>
               <textarea class="form-control input-sm"  type="textarea"
                   id="txtDescripcionRolf" name="txtDescripcionRolf" placeholder="Definición del ROLF"
                   maxlength="255" rows="5"><?php echo utf8_encode($objRolf->descripcion); ?></textarea>
+                            <br>
             </div>   
-              
-              
-              
-              
-           
+
           </div>
+                            
+              
+        <div class="form-group row">
+                <div class="col-xs-1">
+                        <button type="button" onclick="validar()" class="btn btn-success btn-sm">Guardar</button>
+                </div>
+                <div class="col-xs-1" style="margin-left: 10px">
+                        <button type="button" data-toggle="modal" onclick="Cancelar()" data-target="#searchAdministrator" class="btn btn-danger btn-sm">Cancelar</button>
+                </div>
+        </div>           
+
           <!-- Fin Buscador -->
  
 
@@ -189,6 +187,9 @@ if(isset($_GET["editar"]))
 		</div>
 	</div>
 	</form>
+    
+    
+    
 </div>
 
 
@@ -244,6 +245,13 @@ function editarRolf(){
  
         }else{
 
+            if(Estado==2)
+            {
+               alert("Debe elegir un tipo de Estado.");
+               return false;
+            }  
+
+
             var rpta = confirm("¿Estas seguro(a) que desea modificar el ROLF?");
             if (rpta == true) 
             {
@@ -258,7 +266,7 @@ function editarRolf(){
  
 }
 
-function PrepararNuevo()
+function Cancelar()
 {
   location.href='Rolf.mantenimiento.php';
 }
@@ -301,13 +309,7 @@ function validar()
        alert("Debe tener definido un tipo de estado.");
        return false;
     }  
-     
-    if(Estado==3)
-    {
-       alert("Debe elegir un tipo de Estado.");
-       return false;
-    }  
-        
+       
     editarRolf();
     
 }

@@ -432,16 +432,21 @@ CREATE PROCEDURE SP_tb_rolf_ACTUALIZAR
            ,@descripcion varchar(255)
 		   ,@ESTADO int 
 
-AS           
+AS     
+      
+if @ESTADO=1
+begin
+		UPDATE [tb_rolf]
+		SET [ESTADO]=0;
+
+end 
 
        UPDATE [tb_rolf]
                SET 
                   anio = @anio
 				  ,descripcion= @descripcion
 				  ,ESTADO= @ESTADO
-                  WHERE cod_rolf = @cod_rolf
-
-GO
+                  WHERE cod_rolf = @cod_rolf;
 
 
 
@@ -1022,3 +1027,28 @@ SET [ESTADO]= @valor
   WHERE
   cod_detalle_requisitos_exp=@codigo;
 go
+
+
+--
+
+CREATE PROCEDURE SP_TBL_ROLF_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
+AS
+--SET @DESCRIPCION='ROLF';
+--SET @ANIO=2016;
+--SET @ESTADO=1;
+
+SELECT [cod_rolf]
+      ,[anio]
+      ,[descripcion]
+      ,[ESTADO]
+  FROM  [tb_rolf]
+  where
+ [anio] = @ANIO
+ AND
+ [descripcion] like '%'+@DESCRIPCION+'%'
+ AND
+ [ESTADO] = @ESTADO
+
+ GO
+
+ EXEC SP_TBL_ROLF_LISTAR_FILTRADO 'rolf',,1

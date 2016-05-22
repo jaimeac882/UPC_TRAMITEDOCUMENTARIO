@@ -18,31 +18,33 @@ if(isset($_GET["editar"]))
 ?>
 <!-- Accordion - START -->
 <div class="container">
+  
 	<div class="row">
 		<?php include_once("template/menu.php"); ?>
 
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar ROLF : <?php echo $objRolf->cod_rolf; ?>  </h3>
+                                    <h3 class="panel-title">Lista de ROLF : <?php echo $objRolf->cod_rolf; ?>  </h3>
 				</div>
 
         <div class="panel-body">
-          <!-- Inicio Buscador -->
+            
+ <!--Inicio Buscador -->
           <div class="row">
-              
-              
-            <div class="col-xs-3">
-              <label class="control-label">Año :</label>
-              
-              <input type="text" value="<?php echo $objRolf->anio; ?>"  id="txtAnio" />              
-              <input type="hidden" value="<?php echo $objRolf->cod_rolf; ?>"  id="txtCodigoRolf" />
-              
-            </div>                                                 
-          
-              
+
             <div class="col-xs-2">
-                <label class="control-label">Estado :</label>
+              <label class="control-label">Año:</label>
+              <input type="text" class="form-control input-sm" id="txtAnio">
+            </div>
+              
+            <div class="col-xs-5">
+              <label class="control-label">Descripción:</label>
+              <input type="text" class="form-control input-sm" id="txtDescripcionRolf">
+            </div>              
+              
+	    <div class="col-xs-2">
+             		<label class="control-label">Estado</label>
                    <select id="cboEstado" class="form-control input-sm" name="marca" required="">
 
                        <?php
@@ -72,42 +74,29 @@ if(isset($_GET["editar"]))
                        ?> 
                         
                     </select>
-            </div>
-
+	    </div>
               
-            <div class="col-xs-1"> 
+              
+            <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Nuevo</span>
-	      </button>
-            </div>   
-
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRolf()" title="Buscar">
+								<span>Buscar</span>
+							</button>
+            </div>
             <div class="col-xs-1">
-                <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Guardar</span>
-	      </button>
-            </div>  
-              
-            <div class="col-xs-1">
-                    <label class="control-label">&nbsp;</label>
-                    <button id="btnbuscar" data-toggle="modal" data-target="#searchAdministrator" class="btn btn-primary btn-sm" title="Buscar">Buscar</button>
+            <label class="control-label">&nbsp;</label>
+            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo ROLF">
+                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
+	    </button>
             </div>              
               
               
-            <div class="col-xs-12">
-              <label for="txtDescripcionRolf">Descripción :</label>
-              <textarea class="form-control input-sm"  type="textarea"
-                  id="txtDescripcionRolf" name="txtDescripcionRolf" placeholder="Definición del ROLF"
-                  maxlength="255" rows="5"><?php echo utf8_encode($objRolf->descripcion); ?></textarea>
-            </div>   
-              
-              
-              
-              
-           
           </div>
-          <!-- Fin Buscador -->
+
+
+
+          <!-- Fin Buscador -->            
+
           <hr>
           <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
           <table class="table table-striped table-hover " id="table_activar">
@@ -119,7 +108,7 @@ if(isset($_GET["editar"]))
                 <th>Estado</th>
                 
                 <th>Editar</th>
-                <th>Eliminar</th>   
+                <!--th>Desactivar</th-->   
                 
               </tr>
             </thead>
@@ -215,7 +204,39 @@ $(function() {
 function buscarRolf(){
   $("#body_contenedor").html("");
 
-  $.get("inc_rolf.php", function(data, status){
+  var DescripcionRolf = $("#txtDescripcionRolf").val();
+  var Estado = $("#cboEstado").val();
+  var Anio = $("#txtAnio").val();
+
+   if(isBlank(DescripcionRolf) && isBlank(Anio))
+   {
+        buscarRolfInicial();       
+        return false;
+        
+   }else{
+       
+        if(!$.isNumeric(Anio))
+        {
+           alert("El año debe ser un valor numérico.");
+           return false;
+        }else{
+
+            if(!(Anio >= 2015 && Anio <= 2050))
+            {
+               alert("El año debe estar comprendido entre 2015 al 2050.");
+               return false;            
+            }                
+        }
+       
+       
+   }
+        
+
+
+
+
+
+  $.get("inc_rolf.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionRolf="+DescripcionRolf, function(data, status){
     $("#body_contenedor").html(data);
   });
 }
@@ -285,7 +306,7 @@ function editarRolf(){
 
 function PrepararNuevo()
 {
-  location.href='Rolf.mantenimiento.php';
+  location.href='Rolf.mantenimiento2.php';
 }
 
 function validar()
@@ -344,6 +365,10 @@ function validar()
                 $("#codigoValor").val('');
 		$('#searchAdministrator').modal('toggle');
 	}
+
+
+
+
 
 
 

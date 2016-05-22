@@ -5,8 +5,8 @@ class conexion{
 	}
 
   function conectarsql(){
-      $serverName = "(Local)\SQLEXPRESS";
-       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql");
+      $serverName = "GERARDO-PC";
+       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"Gerardo50");
 			 return sqlsrv_connect( $serverName, $connectionInfo);
 	}
 }
