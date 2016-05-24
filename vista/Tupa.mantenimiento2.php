@@ -29,7 +29,19 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Lista TUPA : <?php echo $objTupa->cod_tupa; ?>  </h3>
+                                    <h3 class="panel-title">
+                                        
+                                        <?php                                         
+                                        if(isset($objTupa->cod_tupa))
+                                        {
+                                            echo "Editar ";
+                                        }else{
+                                            echo "Registrar ";                                            
+                                        }
+                                        ?>                                                                                                                        
+                                        TUPA : <?php echo $objTupa->cod_tupa; ?>                                          
+
+                                    </h3>
 				</div>
 
         <div class="panel-body">
@@ -37,10 +49,10 @@ if(isset($_GET["editar"]))
           <div class="row">
                                           
               
-            <div class="col-xs-2">
+            <div class="col-xs-3">
               <label class="control-label">Año :</label>
               
-              <input type="text" class="form-control input-sm" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
+              <input class="form-control input-sm" type="text" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
               <input type="hidden" value="<?php echo $objTupa->cod_tupa; ?>"  id="txtCodigoTupa"  />
               
             </div>          
@@ -80,55 +92,61 @@ if(isset($_GET["editar"]))
                         
                     </select>
             </div>
-              
-            <div class="col-xs-4"> 
-              <label for="txtDescripcionTupa">Descripción :</label> 
-              <input type="text" maxlength="200" class="form-control input-sm"  
-                  id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"   >
-            </div>   
-              
 
-           
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRolf()" title="Buscar">
-								<span>Buscar</span>
-							</button>
-            </div>
-            <div class="col-xs-1">
-            <label class="control-label">&nbsp;</label>
-            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo ROLF">
-                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
-	    </button>
+              <button id="btnbuscar" name="btnbuscar" onclick="Cancelar()" class="btn btn-primary btn-sm" title="Cancelar">
+								<span>Cancelar</span>
+	      </button>
             </div>   
+
+            <div class="col-xs-1"> 
+                <label class="control-label">&nbsp;</label>
+              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
+		<span>Guardar</span>
+	      </button>
+            </div>  
+              
+              
+            <div class="col-xs-12">
+              <label for="txtDescripcionTupa">Descripción :</label>
+              <textarea maxlength="400" class="form-control input-sm"  type="textarea"
+                  id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"
+                  rows="5"><?php echo utf8_encode($objTupa->des_tupa); ?></textarea></br>
+            </div>      
               
               
               
+              
+              
+             
           </div>
+          
+          
+          <div class="form-group row">
+                <div class="col-xs-1">
+                        <button type="button" onclick="validar()" class="btn btn-success btn-sm">Guardar</button>
+                </div>
+                <div class="col-xs-1" style="margin-left: 10px">
+                        <button type="button" data-toggle="modal" onclick="Cancelar()" data-target="#searchAdministrator" class="btn btn-danger btn-sm">Cancelar</button>
+                </div>
+          </div>           
+
+          
           <!-- Fin Buscador -->
-          <hr>
-          <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
-          <table class="table table-striped table-hover " id="table_activar">
-            <thead class="thead-inverse">
-              <tr>
-                <th>Cod. Tupa</th>
-                <th>Año</th>
-                <th>Estado</th>
-                <th>Descripción</th>                
-                <th>Editar</th>
-                <th>Eliminar</th>                   
-              </tr>
-            </thead>
-            <tbody id="body_contenedor">
-            </tbody>
-          </table>
-          <!-- Fin Grilla -->
+          
         </div>
 			</div>
 		</div>
 	</div>
+    
+   
+    
 </div>
 <div id="error"></div>
+
+         
+
 <!-- Accordion - END -->
 
 <?php include_once("template/pie.php"); ?>
@@ -207,9 +225,9 @@ function editarTupa(){
  
 }
 
-function PrepararNuevo()
+function Cancelar()
 {
-  location.href='Tupa.mantenimiento2.php';
+  location.href='Tupa.mantenimiento.php';
 }
 
 function validar()

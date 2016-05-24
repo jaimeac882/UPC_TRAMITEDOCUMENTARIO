@@ -179,11 +179,11 @@ if(isset($_GET["editar"]))
 				<button type="button" style="display: none;" onclick="regresarBusqueda()" class="btn btn-primary btn-sm"  id="btn_regresar" >Regresar</button>
 			</div>
 
-				<div class="alert alert-error" style="color: red" id="alertaobser" hidden="true">
-					<span>
-						<p>Ingresar el Motivo de rechazo</p>
-					</span>
-				</div>
+                        <div class="alert alert-error" style="color: red" id="alertaobser" hidden="true">
+                                <span>
+                                        <p>Ingresar el Motivo de rechazo</p>
+                                </span>
+                        </div>
 		</div>
 	</div>
 	</form>
