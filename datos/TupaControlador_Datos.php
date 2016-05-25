@@ -182,6 +182,28 @@ function activarTupa($cod_tupa)
 }      
     
     
+
+ function obtenerTupasFiltrado($descripcion,$anio,$estado){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_TBL_ROLF_LISTAR_FILTRADO '$descripcion',$anio,$estado;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+          while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_Rolfs[] = $row;
+          }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_Rolfs);
+    }    
+    
+
+
+
+
+
     
 }
 

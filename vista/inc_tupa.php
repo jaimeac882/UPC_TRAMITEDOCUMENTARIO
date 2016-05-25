@@ -42,7 +42,7 @@ foreach ($lt_Tupas as $row) { ?>
     </td>
 
     <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Editar TUPA" href="Tupa.mantenimiento.php?editar=<?php echo $row['cod_tupa']; ?>">
+      <a class="btn btn-info btn-sm" title="Editar TUPA" href="Tupa.mantenimiento2.php?editar=<?php echo $row['cod_tupa']; ?>">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>
