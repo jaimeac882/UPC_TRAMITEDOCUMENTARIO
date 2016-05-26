@@ -1051,4 +1051,25 @@ SELECT [cod_rolf]
 
  GO
 
- EXEC SP_TBL_ROLF_LISTAR_FILTRADO 'rolf',,1
+ --EXEC SP_TBL_ROLF_LISTAR_FILTRADO 'rolf',,1
+
+
+ CREATE PROCEDURE SP_TBL_RTUPA_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
+AS
+--SET @DESCRIPCION='ROLF';
+--SET @ANIO=2016;
+--SET @ESTADO=1;
+
+SELECT [cod_rolf]
+      ,[anio]
+      ,[descripcion]
+      ,[ESTADO]
+  FROM  [tb_rolf]
+  where
+ [anio] = @ANIO
+ AND
+ [descripcion] like '%'+@DESCRIPCION+'%'
+ AND
+ [ESTADO] = @ESTADO
+
+ GO

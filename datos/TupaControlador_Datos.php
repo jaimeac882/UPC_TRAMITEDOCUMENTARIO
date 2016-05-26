@@ -188,7 +188,7 @@ function activarTupa($cod_tupa)
        $cnn = new conexion();
        $con = $cnn->conectarsql();
 
-       $sql = "EXEC SP_TBL_ROLF_LISTAR_FILTRADO '$descripcion',$anio,$estado;";
+       $sql = "EXEC SP_TBL_TUPA_LISTAR_FILTRADO '$descripcion',$anio,$estado;";
        //echo $sql;
        $consulta = sqlsrv_query ($con,$sql);
 

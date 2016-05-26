@@ -40,7 +40,7 @@ if(isset($_GET["editar"]))
               
             <div class="col-xs-5">
               <label class="control-label">Descripción:</label>
-              <input type="text" class="form-control input-sm" id="txtDescripcionRolf">
+              <input type="text" class="form-control input-sm" id="txtDescripcionTupa">
             </div>              
               
 	    <div class="col-xs-2">
@@ -79,7 +79,7 @@ if(isset($_GET["editar"]))
               
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRolf()" title="Buscar">
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarTupa()" title="Buscar">
 								<span>Buscar</span>
 							</button>
             </div>
@@ -199,18 +199,18 @@ if(isset($_GET["editar"]))
 <?php include_once("template/pie.php"); ?>
 <script>
 $(function() {
-  buscarRolfInicial();
+  buscarTupaInicial();
 });
-function buscarRolf(){
+function buscarTupa(){
   $("#body_contenedor").html("");
 
-  var DescripcionRolf = $("#txtDescripcionRolf").val();
+  var DescripcionTupa = $("#txtDescripcionTups").val();
   var Estado = $("#cboEstado").val();
   var Anio = $("#txtAnio").val();
 
-   if(isBlank(DescripcionRolf) && isBlank(Anio))
+   if(isBlank(DescripcionTupa) && isBlank(Anio))
    {
-        buscarRolfInicial();       
+        buscarTupaInicial();       
         return false;
         
    }else{
@@ -236,12 +236,12 @@ function buscarRolf(){
 
 
 
-  $.get("inc_rolf.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionRolf="+DescripcionRolf, function(data, status){
+  $.get("inc_rolf.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa, function(data, status){
     $("#body_contenedor").html(data);
   });
 }
 
-function buscarRolfInicial(){
+function buscarTupaInicial(){
 	$("#body_contenedor").html("");
 
   $.get("inc_rolf.php?listar=true", function(data, status){
@@ -258,7 +258,7 @@ function eliminarRolf(id){
                 alert(data);                
                 //$("#error").html(data);
               });
-              location.href='Rolf.mantenimiento.php';
+              location.href='tupa.mantenimiento.php';
  
         } 
  
@@ -266,38 +266,38 @@ function eliminarRolf(id){
 
 function editarRolf(){
 
-        var id = $("#txtCodigoRolf").val();
-        var DescripcionRolf = $("#txtDescripcionRolf").val();
+        var id = $("#txtCodigoTupa").val();
+        var DescripcionTupa = $("#txtDescripcionTupa").val();
         var Estado = $("#cboEstado").val();
         var Anio = $("#txtAnio").val();
         
         var user = '<?php echo $_SESSION['cod_user'];?>';
 
 
-        if($("#txtCodigoRolf").val() == "")
+        if($("#txtCodigoTupa").val() == "")
         {
 
-            var rpta = confirm("¿Estas seguro(a) que desea guardar el ROLF?");
+            var rpta = confirm("¿Estas seguro(a) que desea guardar el TUPA?");
             if (rpta == true) 
             {
-                  $.get("inc_rolf.php?insertar=1&DescripcionRolf="+DescripcionRolf+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
+                  $.get("inc_rolf.php?insertar=1&DescripcionTupa="+DescripcionTupa+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
                     alert(data);                
                     //$("#error").html(data);
                   });
-                location.href='Rolf.mantenimiento.php';
+                location.href='Tupa.mantenimiento.php';
             } 
         
  
         }else{
 
-            var rpta = confirm("¿Estas seguro(a) que desea modificar el ROLF?");
+            var rpta = confirm("¿Estas seguro(a) que desea modificar el TUPA?");
             if (rpta == true) 
             {
-                  $.get("inc_rolf.php?actualizar="+id+"&DescripcionRolf="+DescripcionRolf+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
+                  $.get("inc_rolf.php?actualizar="+id+"&DescripcionTupa="+DescripcionTupa+"&Estado="+Estado+"&Anio="+Anio+"&user="+user, function(data, status){
                     alert(data);                
                   //  $("#error").html(data);
                   });
-                location.href='Rolf.mantenimiento.php';
+                location.href='Tupa.mantenimiento.php';
             }  
 
         }

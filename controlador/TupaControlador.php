@@ -60,6 +60,13 @@ class TupaControlador{
     }         
     
     
+    function obtenerTupasFiltrado($descripcion, $anio, $estado)
+    {
+        $obj = new TupaControlador_Datos();
+	return $obj->obtenerTupasFiltrado($descripcion, $anio, $estado);
+    }        
+    
+    
 }
 
 

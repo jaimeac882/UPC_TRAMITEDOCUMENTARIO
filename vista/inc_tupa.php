@@ -5,14 +5,14 @@
   require_once('../entidades/beanTupa.php');
   $objTupa = new beanTupa();
         
-  $lt_Tupas = $objTupaController->obtenerTupas();
+
   
 ?>
 
 <?php 
 if (isset($_GET["listar"]))
 {
-
+$lt_Tupas = $objTupaController->obtenerTupas();
 foreach ($lt_Tupas as $row) { ?>
 
   <tr>
@@ -26,13 +26,9 @@ foreach ($lt_Tupas as $row) { ?>
       <?php 
       
       if($row['estado'] == 1)
-      {
-          echo "Activo";          
-      }
+      {echo "Activo";}
       else
-      {
-          echo "Inactivo";          
-      }
+      {echo "Inactivo";}
       
       ?>
     </td>    
@@ -46,11 +42,11 @@ foreach ($lt_Tupas as $row) { ?>
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>
-    <td style="width: 35px">
+    <!--td style="width: 35px">
       <a class="btn btn-info btn-sm" title="Eliminar TUPA" onclick="eliminarTupa('<?php echo $row['cod_tupa']; ?>')">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
-    </td>    
+    </td-->    
     
     </th>
   </tr>
@@ -98,9 +94,59 @@ if(isset($_GET["actualizar"]))
 
     }
     
+if(isset($_GET["listar_filtrado"]))
+{    
+    
+    if(isset($_GET["DescripcionRolf"]) && isset($_GET["Estado"]) && isset($_GET["Anio"]) )
+    {
+        $anio= $_GET["Anio"];
+        $descripcion = utf8_decode($_GET["DescripcionRolf"]);
+        $estado= $_GET["Estado"];
+        $lt_Rolfs = $objTupaController->obtenerTupasFiltrado($descripcion, $anio, $estado);
+         
+        foreach ($lt_Rolfs as $row) { ?> 
+?>        
+        
 
+  <tr>
+    <td>
+      <?php echo $row['cod_tupa'];?>
+    </td>
+    <td>
+      <?php echo $row['anio'];?>
+    </td>
+    <td>
+      <?php echo utf8_encode($row['des_tupa']);?>
+    </td>
+    <td>
+      <?php 
+      if($row['ESTADO'] ==1)
+      {echo "Activo";}
+      else
+      {echo "Inactivo";}
+      ?>
+    </td>
+    <td style="width: 35px">
+      <a class="btn btn-info btn-sm" title="Editar ROLF" href="Rolf.mantenimiento2.php?editar=<?php echo $row['cod_rolf']; ?>">
+        <span class="glyphicon glyphicon-edit"></span>
+      </a>
+    </td>
+    
+    <!--td style="width: 35px">
+      <a class="btn btn-info btn-sm" title="Eliminar ROLF" onclick="eliminarRolf('<?php echo $row['cod_rolf']; ?>')">
+        <span class="glyphicon glyphicon-edit"></span>
+      </a>
+    </td-->    
+    
+    </th>
+  </tr>
+  
+  
+<?php    
+        }
+    }
+    
 }
-
-
+}
 
 ?>
