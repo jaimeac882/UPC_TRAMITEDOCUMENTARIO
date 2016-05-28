@@ -1,7 +1,5 @@
 <?php
 session_start();
-include_once("template/cabecera.php");
-
 
 require_once('../controlador/TupaControlador.php');
 $objTupaController= new TupaControlador();  
@@ -9,15 +7,20 @@ $objTupaController= new TupaControlador();
 require_once('../entidades/beanTupa.php');
 $objTupa = new beanTupa();
 
-//$lt_Tupas = $objTupaController->obtenerTupas();
 
 
 if(isset($_GET["editar"]))
 {    
     $cod_tupa = $_GET["editar"];    
-    $objTupa = $objTupaController->getTupa($cod_tupa);    
+    $objTupa = $objTupaController->getTupa($cod_tupa); 
+    
+    if(!isset($objTupa))
+    {
+        header('Location: tupa.mantenimiento.php');    
+    }    
 }
 
+include_once("template/cabecera.php");
 
 ?>
 
@@ -60,8 +63,15 @@ if(isset($_GET["editar"]))
               
             <div class="col-xs-2">
                 <label class="control-label">Estado :</label>
-                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
-
+                   <select id="cboEstado" class="form-control input-sm" name="marca" required=""
+                        <?php    
+                        if(!isset($objTupa->cod_tupa) || $objTupa->estado==1)
+                        {
+                            echo 'disabled="disabled"';                                            
+                        }
+                        ?>                             
+                       
+                           >
                        <?php
                        $listaOpciones = array(
                             1 => "Activo",
@@ -70,8 +80,7 @@ if(isset($_GET["editar"]))
                         );
                        
                        if(isset($objTupa->estado))  
-                       {
-                           
+                       {                           
                            foreach($listaOpciones as $k => $v)
                            {
                                if($objTupa->estado == $k)
@@ -80,7 +89,6 @@ if(isset($_GET["editar"]))
                                 }else{
                                    echo "<option value='".$k."'>".$v."</option>";
                                }
-
                             }    
                                
                        }else{
@@ -88,24 +96,10 @@ if(isset($_GET["editar"]))
                            echo "<option value='1'>Activo</option>";
                            echo "<option value='0'>Inactivo</option>";                           
                        }
-                       ?> 
-                        
+                       ?>                         
                     </select>
             </div>
 
-            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="Cancelar()" class="btn btn-primary btn-sm" title="Cancelar">
-								<span>Cancelar</span>
-	      </button>
-            </div>   
-
-            <div class="col-xs-1"> 
-                <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
-		<span>Guardar</span>
-	      </button>
-            </div>  
               
               
             <div class="col-xs-12">
@@ -114,10 +108,6 @@ if(isset($_GET["editar"]))
                   id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"
                   rows="5"><?php echo utf8_encode($objTupa->des_tupa); ?></textarea></br>
             </div>      
-              
-              
-              
-              
               
              
           </div>
@@ -274,11 +264,11 @@ function validar()
        return false;
     }  
 
-    if(estado==3)
-    {
-       alert("Debe elegir un tipo de Estado.");
-       return false;
-    }  
+//    if(estado==3)
+//    {
+//       alert("Debe elegir un tipo de Estado.");
+//       return false;
+//    }  
            
 
     editarTupa();

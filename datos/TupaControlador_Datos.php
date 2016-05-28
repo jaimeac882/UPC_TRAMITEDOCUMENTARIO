@@ -119,14 +119,18 @@ function getTupa($cod_tupa){
       $tupa = new beanTupa();
 
       if($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)){
+          
           $tupa->cod_tupa = trim($row['cod_tupa']);
           $tupa->des_tupa = trim($row['des_tupa']);
           $tupa->estado = trim($row['estado']);
           $tupa->anio = trim($row['anio']);
-
+          return $tupa;
+        }else{
+            //echo 'xx';
+            return null;                    
       }
 
-      return $tupa;
+
       
     }
     

@@ -1,6 +1,5 @@
 <?php
 session_start();
-include_once("template/cabecera.php");
 
 require_once('../controlador/RolfControlador.php');
 require_once('../entidades/beanRolf.php');
@@ -12,8 +11,14 @@ $objRolf = new beanRolf();
 if(isset($_GET["editar"]))
 {    
     $cod_rolf = $_GET["editar"];    
-    $objRolf = $objRolfController->get_Rolf($cod_rolf);
+    $objRolf = $objRolfController->get_Rolf($cod_rolf);    
+    if(!isset($objRolf))
+    {
+        header('Location: Rolf.mantenimiento.php');    
+    }
+        
 }
+include_once("template/cabecera.php");
 
 ?>
 <!-- Accordion - START -->

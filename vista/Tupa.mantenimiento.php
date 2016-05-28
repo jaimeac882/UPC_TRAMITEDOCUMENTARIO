@@ -91,13 +91,13 @@ if(isset($_GET["editar"]))
            
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRolf()" title="Buscar">
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarTupa()" title="Buscar">
 								<span>Buscar</span>
 							</button>
             </div>
             <div class="col-xs-1">
             <label class="control-label">&nbsp;</label>
-            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo ROLF">
+            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo TUPA">
                 <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
 	    </button>
             </div>   
@@ -116,7 +116,7 @@ if(isset($_GET["editar"]))
                 <th>Estado</th>
                 <th>Descripción</th>                
                 <th>Editar</th>
-                <th>Eliminar</th>                   
+                <!--th>Eliminar</th-->                   
               </tr>
             </thead>
             <tbody id="body_contenedor">
@@ -137,11 +137,47 @@ $(function() {
   buscarTupaInicial();
 });
 function buscarTupa(){
+    
+//  $("#body_contenedor").html("");
+//
+//  $.get("inc_tupa.php", function(data, status){
+//    $("#body_contenedor").html(data);
+//  });
+
   $("#body_contenedor").html("");
 
-  $.get("inc_tupa.php", function(data, status){
+  var DescripcionTupa = $("#txtDescripcionTupa").val();
+  var Estado = $("#cboEstado").val();
+  var Anio = $("#txtAnio").val();
+
+   if(isBlank(DescripcionTupa) && isBlank(Anio))
+   {
+        buscarTupaInicial();       
+        return false;        
+   }else{
+       
+        if(!$.isNumeric(Anio))
+        {
+           alert("El año debe ser un valor numérico.");
+           return false;
+        }else{
+
+            if(!(Anio >= 2015 && Anio <= 2050))
+            {
+               alert("El año debe estar comprendido entre 2015 al 2050.");
+               return false;            
+            }                
+        }
+       
+       
+   }
+  alert("inc_tupa.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa);        
+  $.get("inc_tupa.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa, function(data, status){
     $("#body_contenedor").html(data);
   });
+
+
+
 }
 
 function buscarTupaInicial(){
@@ -162,7 +198,6 @@ function eliminarTupa(id){
                 //$("#error").html(data);
               });
               location.href='Tupa.mantenimiento.php';
- 
         } 
  
 }

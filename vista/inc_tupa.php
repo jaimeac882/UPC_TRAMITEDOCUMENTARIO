@@ -68,7 +68,7 @@ if(isset($_GET["insertar"]))
     if(isset($_GET["estado"]) && isset($_GET["descripcionTupa"]) && isset($_GET["anio"])  )
     {
         
-        $des_tupa = $_GET["descripcionTupa"];
+        $des_tupa = utf8_decode($_GET["descripcionTupa"]);
         $anio = $_GET["anio"];
         $estado = $_GET["estado"];
         
@@ -97,14 +97,14 @@ if(isset($_GET["actualizar"]))
 if(isset($_GET["listar_filtrado"]))
 {    
     
-    if(isset($_GET["DescripcionRolf"]) && isset($_GET["Estado"]) && isset($_GET["Anio"]) )
+    if(isset($_GET["DescripcionTupa"]) && isset($_GET["Estado"]) && isset($_GET["Anio"]) )
     {
         $anio= $_GET["Anio"];
-        $descripcion = utf8_decode($_GET["DescripcionRolf"]);
+        $descripcion = utf8_decode($_GET["DescripcionTupa"]);
         $estado= $_GET["Estado"];
-        $lt_Rolfs = $objTupaController->obtenerTupasFiltrado($descripcion, $anio, $estado);
+        $lt_Tupas = $objTupaController->obtenerTupasFiltrado($descripcion, $anio, $estado);
          
-        foreach ($lt_Rolfs as $row) { ?> 
+        foreach ($lt_Tupas as $row) { ?> 
 ?>        
         
 
@@ -127,13 +127,13 @@ if(isset($_GET["listar_filtrado"]))
       ?>
     </td>
     <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Editar ROLF" href="Rolf.mantenimiento2.php?editar=<?php echo $row['cod_rolf']; ?>">
+      <a class="btn btn-info btn-sm" title="Editar TUPA" href="Tupa.mantenimiento2.php?editar=<?php echo $row['cod_tupa']; ?>">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>
     
     <!--td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Eliminar ROLF" onclick="eliminarRolf('<?php echo $row['cod_rolf']; ?>')">
+      <a class="btn btn-info btn-sm" title="Eliminar ROLF" onclick="eliminarRolf('<?php echo $row['cod_tupa']; ?>')">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td-->    

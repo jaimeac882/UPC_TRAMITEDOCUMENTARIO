@@ -5,7 +5,7 @@ class conexion{
 	}
 
   function conectarsql(){
-      $serverName = "GERARDO-PC";
+      $serverName = "D3SUS161\MS_SQLSERVER";
        $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"Gerardo50");
 			 return sqlsrv_connect( $serverName, $connectionInfo);
 	}

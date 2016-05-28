@@ -242,6 +242,22 @@ AS
                   ,anio = @anio
 				  ,estado= @estado
                   WHERE cod_tupa = @cod_tupa
+
+
+if @ESTADO=1
+begin
+		UPDATE [tb_tupa]
+		SET [ESTADO]=0;
+
+end 
+
+       UPDATE [tb_tupa]
+               SET des_tupa = @des_tupa
+                  ,anio = @anio
+				  ,estado= @estado
+                  WHERE cod_tupa = @cod_tupa
+
+
 GO
 
 
@@ -1054,7 +1070,7 @@ SELECT [cod_rolf]
  --EXEC SP_TBL_ROLF_LISTAR_FILTRADO 'rolf',,1
 
 
- CREATE PROCEDURE SP_TBL_RTUPA_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
+CREATE PROCEDURE SP_TBL_TUPA_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
 AS
 --SET @DESCRIPCION='ROLF';
 --SET @ANIO=2016;
