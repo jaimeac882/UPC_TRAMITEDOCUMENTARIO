@@ -1053,7 +1053,7 @@ AS
 
 
 
-IF @ESTADO=3 
+IF @ESTADO=2
 BEGIN
 
 SELECT [cod_tupa]
@@ -1097,7 +1097,7 @@ AS
 --SET @ANIO=2016;
 --SET @ESTADO=1;
 
-IF @ESTADO=3 
+IF @ESTADO=2
 BEGIN
 
 SELECT [cod_tupa]
@@ -1131,3 +1131,49 @@ END
 
  GO
 
+
+
+CREATE PROCEDURE SP_TBL_REQUISITOS_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @NOMBRE VARCHAR(255), @ESTADO INT
+AS
+
+IF @ESTADO=2 
+BEGIN
+
+SELECT [cod_requisitos]
+      ,[nom_requisito]
+      ,[des_requisitos]
+      ,[fec_registro]
+      ,[usu_queregistro]
+      ,[estado]
+  FROM [tb_requisitos]
+
+  where
+ [nom_requisito] like '%'+ @NOMBRE +'%'
+ AND
+ [des_requisitos] like '%'+@DESCRIPCION+'%'
+
+END
+ELSE
+BEGIN
+
+SELECT [cod_requisitos]
+      ,[nom_requisito]
+      ,[des_requisitos]
+      ,[fec_registro]
+      ,[usu_queregistro]
+      ,[estado]
+  FROM [tb_requisitos]
+
+  where
+ [nom_requisito] like '%'+ @NOMBRE +'%'
+ AND
+ [des_requisitos] like '%'+@DESCRIPCION+'%'
+ AND
+ [ESTADO] = @ESTADO
+
+END  
+
+
+ GO
+
+ exec SP_TBL_REQUISITOS_LISTAR_FILTRADO 'copia','',2

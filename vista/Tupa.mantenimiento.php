@@ -291,12 +291,7 @@ function validar()
        return false;
     }  
 
-    if(estado==3)
-    {
-       alert("Debe elegir un tipo de Estado.");
-       return false;
-    }  
-           
+   
 
     editarTupa();
     
