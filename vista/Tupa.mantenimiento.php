@@ -171,7 +171,7 @@ function buscarTupa(){
        
        
    }
-  alert("inc_tupa.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa);        
+  
   $.get("inc_tupa.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa, function(data, status){
     $("#body_contenedor").html(data);
   });

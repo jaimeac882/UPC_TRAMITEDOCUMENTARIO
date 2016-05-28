@@ -256,8 +256,6 @@ end
                   ,anio = @anio
 				  ,estado= @estado
                   WHERE cod_tupa = @cod_tupa
-
-
 GO
 
 
@@ -1053,39 +1051,83 @@ AS
 --SET @ANIO=2016;
 --SET @ESTADO=1;
 
-SELECT [cod_rolf]
+
+
+IF @ESTADO=3 
+BEGIN
+
+SELECT [cod_tupa]
       ,[anio]
-      ,[descripcion]
+      ,[des_tupa]
       ,[ESTADO]
-  FROM  [tb_rolf]
+  FROM  [tb_tupa]
   where
  [anio] = @ANIO
  AND
- [descripcion] like '%'+@DESCRIPCION+'%'
+ [des_tupa] like '%'+@DESCRIPCION+'%'
+
+END
+ELSE
+BEGIN
+
+SELECT [cod_tupa]
+      ,[anio]
+      ,[des_tupa]
+      ,[ESTADO]
+  FROM  [tb_tupa]
+  where
+ [anio] = @ANIO
+ AND
+ [des_tupa] like '%'+@DESCRIPCION+'%'
  AND
  [ESTADO] = @ESTADO
 
- GO
+END  
+
+GO
+
+
 
  --EXEC SP_TBL_ROLF_LISTAR_FILTRADO 'rolf',,1
 
 
 CREATE PROCEDURE SP_TBL_TUPA_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
 AS
---SET @DESCRIPCION='ROLF';
+--SET @DESCRIPCION='TUPA';
 --SET @ANIO=2016;
 --SET @ESTADO=1;
 
-SELECT [cod_rolf]
+IF @ESTADO=3 
+BEGIN
+
+SELECT [cod_tupa]
       ,[anio]
-      ,[descripcion]
+      ,[des_tupa]
       ,[ESTADO]
-  FROM  [tb_rolf]
+  FROM  [tb_tupa]
   where
  [anio] = @ANIO
  AND
- [descripcion] like '%'+@DESCRIPCION+'%'
+ [des_tupa] like '%'+@DESCRIPCION+'%'
+
+END
+ELSE
+BEGIN
+
+SELECT [cod_tupa]
+      ,[anio]
+      ,[des_tupa]
+      ,[ESTADO]
+  FROM  [tb_tupa]
+  where
+ [anio] = @ANIO
+ AND
+ [des_tupa] like '%'+@DESCRIPCION+'%'
  AND
  [ESTADO] = @ESTADO
 
+END  
+
+
  GO
+

@@ -184,8 +184,7 @@ function activarTupa($cod_tupa)
             return null;
         }
 }      
-    
-    
+        
 
  function obtenerTupasFiltrado($descripcion,$anio,$estado){    
      
@@ -197,10 +196,10 @@ function activarTupa($cod_tupa)
        $consulta = sqlsrv_query ($con,$sql);
 
           while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
-            $this->lt_Rolfs[] = $row;
+            $this->lt_tupas[] = $row;
           }
        sqlsrv_free_stmt($consulta);          
-       return($this->lt_Rolfs);
+       return($this->lt_tupas);
     }    
     
 

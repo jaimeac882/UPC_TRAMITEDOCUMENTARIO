@@ -314,19 +314,19 @@ function validar()
        alert("Debe tener definido un tipo de estado.");
        return false;
     }  
-       
+
+    if(Estado==2)
+    {
+       alert("Debe elegir un tipo de estado.");
+       return false;
+    }  
     editarRolf();
     
 }
 
 
     function seleccionaAdministrado(codigo, administrado){
-
             $('#searchAdministrator').modal('toggle');
-
-
     }
-
-
 
 </script>

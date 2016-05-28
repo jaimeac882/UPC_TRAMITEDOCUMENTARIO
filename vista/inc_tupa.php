@@ -93,7 +93,8 @@ if(isset($_GET["actualizar"]))
         echo $objTupaController->actualizarTupa($cod_tupa, $des_tupa, $anio, $estado);
 
     }
-    
+}
+
 if(isset($_GET["listar_filtrado"]))
 {    
     
@@ -101,12 +102,11 @@ if(isset($_GET["listar_filtrado"]))
     {
         $anio= $_GET["Anio"];
         $descripcion = utf8_decode($_GET["DescripcionTupa"]);
-        $estado= $_GET["Estado"];
+        $estado = $_GET["Estado"];
         $lt_Tupas = $objTupaController->obtenerTupasFiltrado($descripcion, $anio, $estado);
-         
+        //echo "2";
         foreach ($lt_Tupas as $row) { ?> 
-?>        
-        
+   
 
   <tr>
     <td>
@@ -147,6 +147,6 @@ if(isset($_GET["listar_filtrado"]))
     }
     
 }
-}
+
 
 ?>
