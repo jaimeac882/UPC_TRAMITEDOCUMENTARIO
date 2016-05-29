@@ -1,4 +1,4 @@
-
+USE [munives_tramite];
 
 --TB_REQUISITOS
 --LiSTO CRUD EN PHP
@@ -212,7 +212,14 @@ CREATE PROCEDURE SP_tb_tupa_INSERTAR
            ,@anio char(4)
            ,@estado int
 
-AS           
+AS          
+
+
+if @ESTADO=1
+begin
+		UPDATE [tb_tupa]
+		SET [ESTADO]=0;
+end 
        DECLARE @codigo AS char(6) ;
        SELECT  @codigo = 'TUP'+format(max(right([cod_tupa],3)+1),'000') FROM [tb_tupa];
 
@@ -237,13 +244,6 @@ CREATE PROCEDURE SP_tb_tupa_ACTUALIZAR
            ,@estado int
 AS           
 
-       UPDATE [tb_tupa]
-               SET des_tupa = @des_tupa
-                  ,anio = @anio
-				  ,estado= @estado
-                  WHERE cod_tupa = @cod_tupa
-
-
 if @ESTADO=1
 begin
 		UPDATE [tb_tupa]
@@ -256,6 +256,10 @@ end
                   ,anio = @anio
 				  ,estado= @estado
                   WHERE cod_tupa = @cod_tupa
+
+
+
+
 GO
 
 
@@ -422,7 +426,14 @@ CREATE PROCEDURE SP_tb_rolf_INSERTAR
            ,@descripcion varchar(255)
 		   ,@ESTADO int
 
-AS           
+AS     
+
+
+if @ESTADO=1
+begin
+		UPDATE [tb_rolf]
+		SET [ESTADO]=0;
+end 
 
        INSERT INTO [tb_rolf]
            (
@@ -452,9 +463,7 @@ if @ESTADO=1
 begin
 		UPDATE [tb_rolf]
 		SET [ESTADO]=0;
-
 end 
-
        UPDATE [tb_rolf]
                SET 
                   anio = @anio
@@ -463,7 +472,7 @@ end
                   WHERE cod_rolf = @cod_rolf;
 
 
-
+GO
 
 CREATE PROCEDURE SP_tb_rolf_ELIMINAR
 			@cod_rolf int 
@@ -1176,4 +1185,3 @@ END
 
  GO
 
- exec SP_TBL_REQUISITOS_LISTAR_FILTRADO 'copia','',2

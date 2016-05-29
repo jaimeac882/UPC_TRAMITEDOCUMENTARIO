@@ -55,7 +55,7 @@ include_once("template/cabecera.php");
             <div class="col-xs-3">
               <label class="control-label">Año :</label>
               
-              <input class="form-control input-sm" type="text" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
+              <input placeholder="Número de año" class="form-control input-sm" type="text" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
               <input type="hidden" value="<?php echo $objTupa->cod_tupa; ?>"  id="txtCodigoTupa"  />
               
             </div>          
@@ -65,7 +65,7 @@ include_once("template/cabecera.php");
                 <label class="control-label">Estado :</label>
                    <select id="cboEstado" class="form-control input-sm" name="marca" required=""
                         <?php    
-                        if(!isset($objTupa->cod_tupa) || $objTupa->estado==1)
+                        if( $objTupa->estado==1)
                         {
                             echo 'disabled="disabled"';                                            
                         }

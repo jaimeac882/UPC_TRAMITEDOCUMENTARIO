@@ -60,7 +60,7 @@ include_once("template/cabecera.php");
                 <label class="control-label">Estado :</label>
                 <select id="cboEstado"  class="form-control input-sm" name="marca" required="" accesskey="" 
                     <?php
-                        if(!isset($objRolf->cod_rolf) || $objRolf->estado==1)
+                        if($objRolf->estado==1)
                         {
                             echo 'disabled="disabled"';                                            
                         }

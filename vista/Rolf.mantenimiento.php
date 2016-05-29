@@ -211,7 +211,7 @@ function buscarRolf(){
 
    if(isBlank(DescripcionRolf) && isBlank(Anio))
    {
-        buscarTupaInicial();       
+        buscarRolfInicial();       
         return false;
         
    }else{
@@ -237,7 +237,7 @@ function buscarRolf(){
   });
 }
 
-function buscarTupaInicial(){
+function buscarRolfInicial(){
 	$("#body_contenedor").html("");
 
   $.get("inc_rolf.php?listar=true", function(data, status){
