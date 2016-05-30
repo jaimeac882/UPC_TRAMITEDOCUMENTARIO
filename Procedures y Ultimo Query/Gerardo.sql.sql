@@ -1056,38 +1056,33 @@ go
 
 CREATE PROCEDURE SP_TBL_ROLF_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
 AS
---SET @DESCRIPCION='ROLF';
---SET @ANIO=2016;
---SET @ESTADO=1;
-
-
 
 IF @ESTADO=2
 BEGIN
 
-SELECT [cod_tupa]
+SELECT [cod_rolf]
       ,[anio]
-      ,[des_tupa]
+      ,[descripcion]
       ,[ESTADO]
-  FROM  [tb_tupa]
+  FROM [tb_rolf]
   where
  [anio] = @ANIO
  AND
- [des_tupa] like '%'+@DESCRIPCION+'%'
+ [descripcion] like '%'+@DESCRIPCION+'%'
 
 END
 ELSE
 BEGIN
 
-SELECT [cod_tupa]
+SELECT [cod_rolf]
       ,[anio]
-      ,[des_tupa]
+      ,[descripcion]
       ,[ESTADO]
-  FROM  [tb_tupa]
+  FROM [tb_rolf]
   where
  [anio] = @ANIO
  AND
- [des_tupa] like '%'+@DESCRIPCION+'%'
+ [descripcion] like '%'+@DESCRIPCION+'%'
  AND
  [ESTADO] = @ESTADO
 
@@ -1102,9 +1097,6 @@ GO
 
 CREATE PROCEDURE SP_TBL_TUPA_LISTAR_FILTRADO @DESCRIPCION VARCHAR(255), @ANIO INT, @ESTADO INT
 AS
---SET @DESCRIPCION='TUPA';
---SET @ANIO=2016;
---SET @ESTADO=1;
 
 IF @ESTADO=2
 BEGIN
@@ -1136,7 +1128,6 @@ SELECT [cod_tupa]
  [ESTADO] = @ESTADO
 
 END  
-
 
  GO
 

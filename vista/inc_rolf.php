@@ -101,8 +101,7 @@ if(isset($_GET["listar_filtrado"]))
         $lt_Rolfs = $objRolfController->obtenerRolfsFiltrado($descripcion, $anio,$estado);
          
         foreach ($lt_Rolfs as $row) { ?> 
-?>        
-        
+ 
 
   <tr>
     <td>

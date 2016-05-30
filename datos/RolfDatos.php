@@ -69,9 +69,9 @@ function getRolf($cod_rolf){
        //echo $sql;
        $consulta = sqlsrv_query ($con,$sql);
 
-          while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
             $this->lt_Rolfs[] = $row;
-          }
+       }
        sqlsrv_free_stmt($consulta);          
        return($this->lt_Rolfs);
     }    

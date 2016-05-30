@@ -72,7 +72,7 @@ if(isset($_GET["editar"]))
                             }    
                                
                        }else{
-                           echo "<option selected value='3'>- Ninguno -</option>";
+                           echo "<option selected value='2'>- Ninguno -</option>";
                            echo "<option value='1'>Activo</option>";
                            echo "<option value='0'>Inactivo</option>";                           
                        }
