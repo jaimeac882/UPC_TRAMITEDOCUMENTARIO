@@ -65,6 +65,25 @@ function getRequisito($cod_Requisito){
           return($this->lt_requisitos);
     }
     
+ function obtenerRequisitosEstado($codEstado){
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_TB_REQUISITOS_LISTAR $codEstado;";
+
+          $consulta = sqlsrv_query ($con,$sql);
+
+          while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_requisitos[] = $row;
+          }
+
+          sqlsrv_free_stmt( $consulta);
+          
+          return($this->lt_requisitos);
+    }
+        
+    
  function crearRequisito(
       $nom_requisito
       ,$des_requisitos

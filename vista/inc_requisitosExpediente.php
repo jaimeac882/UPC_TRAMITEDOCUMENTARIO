@@ -63,11 +63,7 @@ foreach ($lt_RequisitoExpediente as $row) { ?>
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>
-    <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Eliminar requisito" onclick="eliminarRequsitosExpediente('<?php echo $row['cod_detalle_requisitos_exp']; ?>')">
-        <span class="glyphicon glyphicon-edit"></span>
-      </a>
-    </td>    
+  
     
     </th>
   </tr>

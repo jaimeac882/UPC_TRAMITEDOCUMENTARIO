@@ -131,5 +131,25 @@ class RequisitosExpedienteDatos{
         return $rpta;       
 }
 
+
+
+
+ function obtenerRequisitosExpedientesListarGrupo(){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR_GRUPO;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_RequisitosExpediente[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_RequisitosExpediente);
+    }  
+
+
 }
 ?>

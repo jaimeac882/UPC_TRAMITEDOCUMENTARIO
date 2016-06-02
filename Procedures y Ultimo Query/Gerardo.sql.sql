@@ -1176,3 +1176,73 @@ END
 
  GO
 
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR_GRUPO 
+AS
+SELECT 
+      [tb_tip_expediente].[cod_tip_expediente],
+	  [tb_tip_expediente].[des_exp],
+      count([tb_detalle_requisitos_exp].[cod_requisitos]) as veces
+
+  FROM [tb_detalle_requisitos_exp]
+
+  right join
+  [tb_tip_expediente]
+
+  on ([tb_tip_expediente].[cod_tip_expediente]=[tb_detalle_requisitos_exp].[cod_tip_expediente])
+  
+  group by
+
+  [tb_tip_expediente].[cod_tip_expediente],
+  [tb_tip_expediente].[des_exp]
+
+  GO
+
+
+
+  ----
+
+
+  CREATE PROCEDURE SP_tb_rolf_listar_estado @estado int
+  As
+  SELECT [cod_rolf]
+      ,[anio]
+      ,[descripcion]
+      ,[ESTADO]
+  FROM [tb_rolf]
+    where
+    estado=@estado
+  
+  GO
+
+
+  -------------
+
+ CREATE PROCEDURE SP_tb_requisitos_listar_estado @estado int
+  As
+  SELECT  [cod_requisitos]
+      ,[nom_requisito]
+      ,[des_requisitos]
+      ,[fec_registro]
+      ,[usu_queregistro]
+      ,[estado]
+  FROM [tb_requisitos]
+  where
+    estado=@estado
+  
+  GO
+
+
+
+  CREATE PROCEDURE SP_tb_tupa_listar_estado @estado int
+  As
+  SELECT  [cod_tupa]
+      ,[des_tupa]
+      ,[anio]
+      ,[estado]
+  FROM [tb_tupa]
+
+    where
+    estado=@estado
+  
+  GO
