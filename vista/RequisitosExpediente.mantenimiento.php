@@ -114,61 +114,20 @@ if(isset($_GET["editar"]))
               
               <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
             </div>          
-              
-              
-            <div class="col-xs-2">
-                <br>  
-                <label class="control-label">Estado :</label>
-                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
-
-                       <?php
-                       $listaOpciones = array(
-                            1 => "Activo",
-                            0 => "Inactivo",
-                            2 => "-Ninguno-",
-                        );
-                       
-                       if(isset($requisitoExpediente->estado))  
-                       {
-                           
-                           foreach($listaOpciones as $k => $v)
-                           {
-                               if($requisitoExpediente->estado == $k)
-                               {
-                                   echo "<option selected value='".$k."'>".$v."</option>";
-                                }else{
-                                   echo "<option value='".$k."'>".$v."</option>";
-                               }
-
-                            }    
-                               
-                       }else{
-                           echo "<option selected value='3'>- Ninguno -</option>";
-                           echo "<option value='1'>Activo</option>";
-                           echo "<option value='0'>Inactivo</option>";                           
-                       }
-                       ?> 
-                        
-                    </select>
-            </div>
-
+                                      
             <div class="col-xs-1">
-              <br>  
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Nuevo</span>
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="validar()" title="Buscar">
+                <span>Buscar</span>
 	      </button>
-            </div>   
-
-            <div class="col-xs-1">
-                  <br>  
-                <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Guardar</span>
-	      </button>
-            </div>  
+            </div>
               
-
+            <div class="col-xs-1">
+            <label class="control-label">&nbsp;</label>
+            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo Requisito">
+                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
+	    </button>
+            </div> 
                       
            
                     
@@ -182,12 +141,10 @@ if(isset($_GET["editar"]))
           <table class="table table-striped table-hover " id="table_activar">
             <thead class="thead-inverse">
               <tr>
-                  <th>Cod. Requisito<br>de Expediente</th>
-                <th>Tipo Expediente</th>
-                <th>Requisito</th>
-                <th>Estado</th>                
-                <th>Editar</th>
-                
+                <th>Cod. Tipo<br>de Expediente</th>
+                <th>Descripción</th>
+                <th>Veces</th>            
+                <th>Editar</th>                
               </tr>
             </thead>
             <tbody id="body_contenedor">
@@ -279,7 +236,7 @@ function editarRequisitosExpediente(){
 
 function PrepararNuevo()
 {
-  location.href='RequisitosExpediente.mantenimiento.php';
+  location.href='RequisitosExpediente.mantenimiento2.php';
 }
 
 function validar()

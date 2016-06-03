@@ -17,49 +17,34 @@
   $objRequisito= new beanRequisito();
   
       
-  $lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpediente();
+
   
 ?>
 
 <?php 
 if (isset($_GET["listar"]))
 {
+$lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpedientesListarGrupo();
 
 foreach ($lt_RequisitoExpediente as $row) { ?>
 
   <tr>
     <td>
-      <?php echo $row['cod_detalle_requisitos_exp'];?>
+      <?php echo $row['cod_tip_expediente'];?>
     </td>
     <td>
       <?php 
-      $objTipoExpediente= $objTipoExpedienteController->getTipoExpediente($row['cod_tip_expediente']);      
-      echo utf8_encode($objTipoExpediente->des_exp);              
+      echo utf8_encode($row['des_exp']);              
       ?>
     </td>
     <td>
-      <?php      
-      $objRequisito = $objRequisitoController->getRequisito($row['cod_requisitos']);      
-      echo utf8_encode($objRequisito->nom_requisito);
+      <?php          
+      echo utf8_encode($row['veces']);
       ?>
 
     </td>
-    <td>
-      <?php 
-      
-      if($row['estado'] == 1)
-      {
-          echo "Activo";          
-      }
-      else
-      {
-          echo "Inactivo";          
-      }
-      
-      ?>
-    </td>
     <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Editar requisito" href="RequisitosExpediente.mantenimiento.php?editar=<?php echo $row['cod_detalle_requisitos_exp']; ?>">
+      <a class="btn btn-info btn-sm" title="Editar requisito" href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $row['cod_tip_expediente']; ?>">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </td>

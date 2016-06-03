@@ -68,7 +68,7 @@ class RequisitosExpedienteControlador{
         $obj = new RequisitosExpedienteDatos();       
 	return  $obj->obtenerRequisitosExpedientesListarGrupo();
     }  
-    
+        
 }
 
 ?>
