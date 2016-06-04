@@ -131,9 +131,6 @@ class RequisitosExpedienteDatos{
         return $rpta;       
 }
 
-
-
-
  function obtenerRequisitosExpedientesListarGrupo(){    
      
        $cnn = new conexion();
@@ -150,6 +147,23 @@ class RequisitosExpedienteDatos{
        return($this->lt_RequisitosExpediente);
     }  
 
+    
+ function obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR_REQUISITOS_FILTRADO '$cod_tipo_expediente';";
+
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_RequisitosExpediente[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_RequisitosExpediente);
+    }      
 
 }
+
 ?>

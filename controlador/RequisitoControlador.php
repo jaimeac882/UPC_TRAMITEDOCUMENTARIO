@@ -75,6 +75,12 @@ class RequisitoControlador{
 
     }    
     
+    //
+    function obtenerRequisitosFiltradoEstado($estado)
+    {
+        $obj = new RequisitoDatos();       
+	return  $obj->obtenerRequisitosFiltradoEstado($estado);
+    }    
     
 }
 

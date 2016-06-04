@@ -60,14 +60,20 @@ class RequisitosExpedienteControlador{
 	return  $obj->eliminarRequisitosExpediente($cod_detalle_requisitos_exp);
     }
     
-
-
     
       function obtenerRequisitosExpedientesListarGrupo()
     {
         $obj = new RequisitosExpedienteDatos();       
 	return  $obj->obtenerRequisitosExpedientesListarGrupo();
     }  
+    
+    
+      function obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente);
+    }      
+
         
 }
 

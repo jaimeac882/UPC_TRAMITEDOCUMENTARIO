@@ -20,8 +20,7 @@ $objTipoExpedienteControlador = new Tip_ExpedientesControlador();
 if(isset($_GET["editar"]))
 {
     
-    $cod_requisitoExpediente = $_GET["editar"];
-    
+    $cod_requisitoExpediente = $_GET["editar"];    
     $requisitoExpediente = $objRequisitosExpedienteControlador->getRequisitosExpediente($cod_requisitoExpediente);
     
 }
@@ -45,7 +44,7 @@ if(isset($_GET["editar"]))
           <div class="row">
               
                
-            <div class="col-xs-8">
+            <div class="col-xs-12">
               <label class="control-label">Tipo Expediente :</label>
               
                   <select id="cboTipoExpediente" class="form-control input-sm" name="marca" required="">
@@ -81,14 +80,14 @@ if(isset($_GET["editar"]))
             </div>
               
               
-            <div class="col-xs-4">
+              <div class="col-xs-4"><br>
               <label class="control-label">Tipo Requisito :</label>
               
                   <select id="cboTipoRequisito" class="form-control input-sm" name="marca" required="">
 
                        <?php
 
-                       $listaOpciones = $objRequisitosControlador->obtenerRequisitos();                                              
+                       $listaOpciones = $objRequisitosControlador->obtenerRequisitosFiltradoEstado(1);                                              
                        if(isset($requisitoExpediente->cod_requisitos))  
                        {                       
                            echo "<option selected value='0'>- Ninguno -</option>";

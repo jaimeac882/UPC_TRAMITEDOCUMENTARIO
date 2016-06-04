@@ -143,7 +143,7 @@ if(isset($_GET["editar"]))
               <tr>
                 <th>Cod. Tipo<br>de Expediente</th>
                 <th>Descripción</th>
-                <th>Veces</th>            
+                <th>Nro. Requisitos</th>            
                 <th>Editar</th>                
               </tr>
             </thead>

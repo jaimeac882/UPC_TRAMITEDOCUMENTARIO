@@ -1246,3 +1246,19 @@ SELECT
     estado=@estado
   
   GO
+
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR_REQUISITOS_FILTRADO @cod_tip_expediente char(10)
+
+AS
+
+SELECT [cod_detalle_requisitos_exp]
+      ,[cod_tip_expediente]
+      ,[cod_requisitos]
+      ,[estado]
+  FROM [munives_tramite].[dbo].[tb_detalle_requisitos_exp]
+  WHERE
+  [cod_tip_expediente]=@cod_tip_expediente
+
+
+GO
