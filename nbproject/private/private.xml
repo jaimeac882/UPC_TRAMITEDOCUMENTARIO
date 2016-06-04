@@ -12,10 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/datos/RolfDatos.php</file>
-            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/controlador/RolfControlador.php</file>
-            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/datos/TupaControlador_Datos.php</file>
-            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/controlador/TupaControlador.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/inc_requisitosExpediente.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/inc_requisitosExpediente2.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/datos/conexion.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/RequisitosExpediente.mantenimiento.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/controlador/RequisitosExpedienteControlador.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/datos/RequisitoDatos.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/vista/RequisitosExpediente.mantenimiento2.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/controlador/RequisitoControlador.php</file>
+            <file>file:/E:/xampp/htdocs/UPC_TRAMITEDOCUMENTARIO/datos/RequisitosExpedienteDatos.php</file>
         </group>
     </open-files>
 </project-private>
