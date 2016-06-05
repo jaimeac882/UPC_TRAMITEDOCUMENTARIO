@@ -67,7 +67,7 @@ foreach ($lt_RequisitoExpediente as $row) { ?>
 
 }
 
-  //$id_eliminar = ;
+
 if(isset($_GET["eliminar"]))
 {    
     $id_eliminar = $_GET["eliminar"];
@@ -110,7 +110,9 @@ if(isset($_GET["actualizar"]))
         echo $objRequisitoExpediente->actualizarRequisitosExpediente($cod_detalle_requisitos_exp, $cod_tip_expediente, $cod_requisitos, $estado);
 
     }
+
     
+}
 
 if(isset($_GET["CambiaEstado"]) && isset($_GET["estado"]))
 {    
@@ -118,17 +120,8 @@ if(isset($_GET["CambiaEstado"]) && isset($_GET["estado"]))
     $cod_detalle_requisitos_exp = $_GET["CambiaEstado"];
     $estado= $_GET["estado"];
 
-    //echo "cod_detalle_requisitos_exp = $cod_detalle_requisitos_exp;";
-    //echo "estado=$estado;";
-    
     echo $objRequisitoExpediente->cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado);
 }
     
-    
-    
-    
-}
-
-
 
 ?>
