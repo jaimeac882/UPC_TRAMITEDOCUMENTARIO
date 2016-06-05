@@ -24,28 +24,39 @@
 <?php 
 if (isset($_GET["listar"]))
 {
-$lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpedientesListarRequisitos();
+    
+$lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpedientesListarRequisitos($_GET["listar"]);
 
 foreach ($lt_RequisitoExpediente as $row) { ?>
 
   <tr>
     <td>
-      <?php echo $row['cod_tip_expediente'];?>
+      <?php echo $row['cod_detalle_requisitos_exp'];?>
     </td>
     <td>
       <?php 
-      echo utf8_encode($row['des_exp']);              
+      echo utf8_encode($row['nom_requisito']);              
       ?>
     </td>
-    <td>
-      <?php          
-      echo utf8_encode($row['veces']);
+    <td>    
+        
+      <center>  
+      <?php 
+      if($row['estado'] ==1)
+      {echo "Activo";}
+      else
+      {echo "Inactivo";}
       ?>
-
+      </center>  
+  
     </td>
-    <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Editar requisito" href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $row['cod_tip_expediente']; ?>">
-        <span class="glyphicon glyphicon-edit"></span>
+    <td align="center" style="width: 35px">
+      <a a class="btn btn-info btn-sm" title="Cambiar Estado" onclick="CambiarEstado(<?php echo $row['cod_detalle_requisitos_exp']; ?>,<?php       if($row['estado'] ==1)
+      {echo "0";}
+      else
+      {echo "1";}
+      ?>);">
+        <span  class="glyphicon glyphicon-edit"></span>
       </a>
     </td>
   
@@ -101,6 +112,21 @@ if(isset($_GET["actualizar"]))
     }
     
 
+if(isset($_GET["CambiaEstado"]) && isset($_GET["estado"]))
+{    
+
+    $cod_detalle_requisitos_exp = $_GET["CambiaEstado"];
+    $estado= $_GET["estado"];
+
+    //echo "cod_detalle_requisitos_exp = $cod_detalle_requisitos_exp;";
+    //echo "estado=$estado;";
+    
+    echo $objRequisitoExpediente->cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado);
+}
+    
+    
+    
+    
 }
 
 

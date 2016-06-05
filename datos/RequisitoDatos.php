@@ -201,7 +201,23 @@ function getRequisito($cod_Requisito){
        sqlsrv_free_stmt($consulta);          
        return($this->lt_requisitos);
     }     
+
     
+ function obtenerRequisitosExistentesAsoc($cod_tip_expediente,$estado){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_requisitos_LISTAR_EXP_ASOC_EXISTENTES '$cod_tip_expediente', $estado;";
+
+       $consulta = sqlsrv_query ($con,$sql);
+
+          while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_requisitos[] = $row;
+          }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_requisitos);
+    }     
 
 }
 

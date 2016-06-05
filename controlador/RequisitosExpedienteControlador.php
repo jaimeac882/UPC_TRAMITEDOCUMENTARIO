@@ -74,6 +74,14 @@ class RequisitosExpedienteControlador{
 	return  $obj->obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente);
     }      
 
+    
+    function cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado);
+    }          
+    //cambiarEstadoRequisitosExpediente
+    
         
 }
 

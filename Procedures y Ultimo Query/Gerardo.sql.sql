@@ -159,7 +159,7 @@ AS
 GO
 
 
-
+ 
 
 
 CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR		
@@ -174,6 +174,19 @@ CREATE PROCEDURE SP_tb_detalle_requisitos_exp_INSTANCIA
 			@cod_detalle_requisitos_exp INT  
 AS  
 SELECT * FROM tb_detalle_requisitos_exp WHERE cod_detalle_requisitos_exp = @cod_detalle_requisitos_exp 
+GO
+
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp_CAMBIAR_ESTADO
+			@cod_detalle_requisitos_exp int 
+           ,@estado int
+AS           
+
+       UPDATE [tb_detalle_requisitos_exp]
+               SET 
+                  [estado] = @estado
+                  WHERE cod_detalle_requisitos_exp = @cod_detalle_requisitos_exp
+
 GO
 
 
@@ -1248,17 +1261,77 @@ SELECT
   GO
 
 
+--EXEC SP_tb_detalle_requisitos_exp_LISTAR_REQUISITOS_FILTRADO 'EXP0000018';
+
 CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR_REQUISITOS_FILTRADO @cod_tip_expediente char(10)
 
 AS
 
-SELECT [cod_detalle_requisitos_exp]
-      ,[cod_tip_expediente]
-      ,[cod_requisitos]
-      ,[estado]
-  FROM [munives_tramite].[dbo].[tb_detalle_requisitos_exp]
+SELECT [tb_detalle_requisitos_exp].[cod_detalle_requisitos_exp]
+      ,[tb_detalle_requisitos_exp].[cod_tip_expediente]
+      ,[tb_detalle_requisitos_exp].[cod_requisitos]
+      ,[tb_detalle_requisitos_exp].[estado]
+	  ,[tb_requisitos].nom_requisito
+  FROM [tb_detalle_requisitos_exp]
+  inner join tb_requisitos
+  on tb_requisitos.cod_requisitos=[tb_detalle_requisitos_exp].[cod_requisitos]
   WHERE
   [cod_tip_expediente]=@cod_tip_expediente
 
 
 GO
+
+----
+
+CREATE PROCEDURE SP_tb_requisitos_LISTAR_EXP_ASOC_EXISTENTES @cod_tip_expediente char(10), @estado int
+AS
+
+IF @estado IS NULL
+BEGIN
+
+
+SELECT req.[cod_requisitos]
+      ,req.[nom_requisito]
+      ,req.[des_requisitos]
+      ,req.[fec_registro]
+      ,req.[usu_queregistro]
+      ,req.[estado]
+FROM [tb_requisitos] as req 
+WHERE
+  not
+  req.[cod_requisitos] in
+(SELECT       
+dbo.tb_requisitos.cod_requisitos 
+FROM 
+dbo.tb_detalle_requisitos_exp RIGHT OUTER JOIN
+dbo.tb_requisitos ON dbo.tb_detalle_requisitos_exp.cod_requisitos = dbo.tb_requisitos.cod_requisitos
+WHERE
+dbo.tb_detalle_requisitos_exp.cod_tip_expediente=@cod_tip_expediente) 
+
+
+END
+ELSE
+BEGIN
+
+SELECT req.[cod_requisitos]
+      ,req.[nom_requisito]
+      ,req.[des_requisitos]
+      ,req.[fec_registro]
+      ,req.[usu_queregistro]
+      ,req.[estado]
+FROM [tb_requisitos] as req 
+WHERE
+req.[estado] =@estado
+AND
+  not
+  req.[cod_requisitos] in
+(SELECT       
+dbo.tb_requisitos.cod_requisitos 
+FROM 
+dbo.tb_detalle_requisitos_exp RIGHT OUTER JOIN
+dbo.tb_requisitos ON dbo.tb_detalle_requisitos_exp.cod_requisitos = dbo.tb_requisitos.cod_requisitos
+WHERE
+dbo.tb_detalle_requisitos_exp.cod_tip_expediente=@cod_tip_expediente) 
+
+
+END

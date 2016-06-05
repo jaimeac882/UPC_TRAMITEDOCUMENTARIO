@@ -37,7 +37,7 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar Requisito Expediente : <?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>  </h3>
+                                    <h3 class="panel-title">Lista de Requisitos asociados a un Tipo de Expediente : <?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>  </h3>
 				</div>
 
         <div class="panel-body">
@@ -122,12 +122,12 @@ if(isset($_GET["editar"]))
 	      </button>
             </div>
               
-            <div class="col-xs-1">
+            <!--div class="col-xs-1">
             <label class="control-label">&nbsp;</label>
             <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo Requisito">
                 <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
 	    </button>
-            </div> 
+            </div--> 
                       
            
                     

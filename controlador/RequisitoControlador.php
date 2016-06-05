@@ -80,7 +80,15 @@ class RequisitoControlador{
     {
         $obj = new RequisitoDatos();       
 	return  $obj->obtenerRequisitosFiltradoEstado($estado);
+    }   
+
+    function obtenerRequisitosExistentesAsoc($cod_tip_expediente,$estado)
+    {
+        $obj = new RequisitoDatos();       
+	return  $obj->obtenerRequisitosExistentesAsoc($cod_tip_expediente,$estado);
     }    
+        
+    
     
 }
 

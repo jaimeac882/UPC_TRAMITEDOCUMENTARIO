@@ -73,6 +73,8 @@ class Tip_ExpedientesControlador_Datos{
             $objTipoExpediente = new beantTipoExpediente();
             $sql = "EXEC SP_tb_tip_expediente_INSTANCIA '".$codExpediente."';";
 
+            //echo $sql;
+            
             $consulta = sqlsrv_query ($con,$sql);
             $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
             if($fila>0){
@@ -89,7 +91,7 @@ class Tip_ExpedientesControlador_Datos{
                  return $objTipoExpediente;
 
             }else{
-                //echo 'xx';
+                
                 return null;
             }
 

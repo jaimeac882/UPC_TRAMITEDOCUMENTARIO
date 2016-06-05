@@ -46,7 +46,18 @@
         function set_estado($estado){
 		$this->estado = $estado;
 	}
-               
+
+        
+        
+        public $nom_requisito;
+	function POST_nom_requisito(){
+		return $this->nom_requisito;
+	}
+        
+        function set_nom_requisito($nom_requisito){
+		$this->nom_requisito = $nom_requisito;
+	}
+                    
         
         
  }
