@@ -107,7 +107,6 @@ EXEC SP_TB_REQUISITOS_INSTANCIA	'RE000001';
 
 -------------------------------------------------------------------------------------------------
 
-
 --tb_detalle_requisitos_exp
 --LiSTO CRUD EN PHP
 
