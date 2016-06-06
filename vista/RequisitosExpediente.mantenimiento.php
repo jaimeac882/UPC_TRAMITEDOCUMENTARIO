@@ -20,8 +20,7 @@ $objTipoExpedienteControlador = new Tip_ExpedientesControlador();
 if(isset($_GET["editar"]))
 {
     
-    $cod_requisitoExpediente = $_GET["editar"];
-    
+    $cod_requisitoExpediente = $_GET["editar"];    
     $requisitoExpediente = $objRequisitosExpedienteControlador->getRequisitosExpediente($cod_requisitoExpediente);
     
 }
@@ -45,7 +44,7 @@ if(isset($_GET["editar"]))
           <div class="row">
               
                
-            <div class="col-xs-8">
+            <!--div class="col-xs-8">
               <label class="control-label">Tipo Expediente :</label>
               
                   <select id="cboTipoExpediente" class="form-control input-sm" name="marca" required="">
@@ -55,7 +54,7 @@ if(isset($_GET["editar"]))
                        $listaOpciones = $objTipoExpedienteControlador->obtenerTipoExpediente();                                              
                        if(isset($requisitoExpediente->cod_tip_expediente))  
                        {       
-                           echo "<option value='0'>- Ninguno -</option>";
+                           echo "<option value='0'>- Todos -</option>";
                            foreach($listaOpciones as $valor)
                            {                               
                                if($requisitoExpediente->cod_tip_expediente == $valor['cod_tip_expediente'])
@@ -67,7 +66,7 @@ if(isset($_GET["editar"]))
                             }                                   
                        }else{    
                            
-                           echo "<option selected value='0'>- Ninguno -</option>";
+                           echo "<option selected value='0'>- Todos -</option>";
                            foreach($listaOpciones as $valor)
                            {
                               echo "<option value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
@@ -78,7 +77,7 @@ if(isset($_GET["editar"]))
                     </select>              
               
               
-            </div>
+            </div-->
               
               
             <div class="col-xs-4">
@@ -91,7 +90,7 @@ if(isset($_GET["editar"]))
                        $listaOpciones = $objRequisitosControlador->obtenerRequisitos();                                              
                        if(isset($requisitoExpediente->cod_requisitos))  
                        {                       
-                           echo "<option selected value='0'>- Ninguno -</option>";
+                           echo "<option selected value='0'>- Todos -</option>";
                            foreach($listaOpciones as $valor)
                            {                               
                                if($requisitoExpediente->cod_requisitos == $valor['cod_requisitos'])
@@ -102,7 +101,7 @@ if(isset($_GET["editar"]))
                                }
                             }                                   
                        }else{                           
-                           echo "<option selected value='0'>- Ninguno -</option>";
+                           echo "<option selected value='0'>- Todos -</option>";
                            foreach($listaOpciones as $valor)
                            {
                               echo "<option value='".$valor['cod_requisitos']."'>".utf8_decode($valor['nom_requisito'])."</option>";
@@ -112,12 +111,50 @@ if(isset($_GET["editar"]))
                         
                     </select>              
               
-              <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
+            <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
             </div>          
-                                      
+                
+              
+            <div class="col-xs-2">
+                <label class="control-label">Estado :</label>
+                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
+
+                       <?php
+                       $listaOpciones = array(
+                            1 => "Activo",
+                            0 => "Inactivo",
+                            2 => "-Ninguno-",
+                        );
+                       
+                       if(isset($requisitoExpediente->estado))  
+                       {
+                           
+                           foreach($listaOpciones as $k => $v)
+                           {
+                               if($requisitoExpediente->estado == $k)
+                               {
+                                   echo "<option selected value='".$k."'>".$v."</option>";
+                                }else{
+                                   echo "<option value='".$k."'>".$v."</option>";
+                               }
+
+                            }    
+                               
+                       }else{
+                           echo "<option selected value='3'>- Ninguno -</option>";
+                           echo "<option value='1'>Activo</option>";
+                           echo "<option value='0'>Inactivo</option>";                           
+                       }
+                       ?> 
+                        
+                    </select>
+            </div>              
+              
+              
+              
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="validar()" title="Buscar">
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRequsitosExpediente()" title="Buscar">
                 <span>Buscar</span>
 	      </button>
             </div>
@@ -165,11 +202,22 @@ $(function() {
   buscarRequsitosExpedienteInicial();
 });
 function buscarRequsitosExpediente(){
+
   $("#body_contenedor").html("");
 
-  $.get("inc_requisitosExpediente.php", function(data, status){
+  var cboEstado = $("#cboEstado").val();
+  var cboTipoExpediente = $("#cboTipoExpediente").val();
+
+   if(isBlank(cboEstado) && isBlank(cboTipoExpediente))
+   {
+        buscarRequsitosExpedienteInicial();       
+        return false;               
+   }
+
+  $.get("inc_requisitosExpediente.php?listar_filtrado=true&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente, function(data, status){
     $("#body_contenedor").html(data);
   });
+
 }
 
 function buscarRequsitosExpedienteInicial(){
@@ -179,20 +227,6 @@ function buscarRequsitosExpedienteInicial(){
     $("#body_contenedor").html(data);
 		$("#table_activar").DataTable();
   });
-}
-
-function eliminarRequsitosExpediente(id){
-
-        var rpta = confirm("¿Estas seguro(a) que desea eliminar el requisito?");
-        if (rpta == true) {
-              $.get("inc_requisitosExpediente.php?eliminar="+id, function(data, status){
-                alert(data);                
-                //$("#error").html(data);
-              });
-              location.href='RequisitosExpediente.mantenimiento.php';
- 
-        } 
- 
 }
 
 function editarRequisitosExpediente(){
@@ -243,16 +277,10 @@ function validar()
 {
 
     //var id = $("#txtCodigoRequisitoExpediente").val();
-    var cboTipoExpediente = $("#cboTipoExpediente").val();
     var cboTipoRequisito = $("#cboTipoRequisito").val();
     var cboEstado = $("#cboEstado").val();
         
-    if(isBlank(cboTipoExpediente))
-    {
-       alert("Debe tener definido un tipo de expediente.")
-       return false;
-    }
-    
+   
     if(isBlank(cboTipoRequisito))
     {
        alert("Debe tener definido un tipo de requisito.")
@@ -265,11 +293,6 @@ function validar()
        return false;
     }  
 
-    if(cboTipoExpediente==0)
-    {
-       alert("Debe elegir un tipo de Expediente.")
-       return false;
-    }
     
     
     if(cboTipoRequisito==0)

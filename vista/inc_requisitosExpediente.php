@@ -103,6 +103,47 @@ if(isset($_GET["actualizar"]))
 
 }
 
+if(isset($_GET["listar_filtrado"]))
+{    
+    
+    if(isset($_GET["cboEstado"]) && isset($_GET["cboTipoExpediente"]) )
+    {
+        $cod_tipo_expediente = $_GET["cboTipoExpediente"];
+        $estado= $_GET["cboEstado"];
+        
+        $lt_RequisitoExpediente = $objRequisitoExpediente->obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado);
+         
+        foreach ($lt_RequisitoExpediente as $row) { ?>
 
+          <tr>
+            <td>
+              <?php echo $row['cod_tip_expediente'];?>
+            </td>
+            <td>
+              <?php 
+              echo utf8_encode($row['des_exp']);              
+              ?>
+            </td>
+            <td>
+              <?php          
+              echo utf8_encode($row['veces']);
+              ?>
+            </td>
+            <td style="width: 35px">
+              <a class="btn btn-info btn-sm" title="Editar requisito" href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $row['cod_tip_expediente']; ?>">
+                <span class="glyphicon glyphicon-edit"></span>
+              </a>
+            </td>
+
+
+            </th>
+          </tr>
+  
+  
+<?php    
+        }
+    }
+    
+}
 
 ?>

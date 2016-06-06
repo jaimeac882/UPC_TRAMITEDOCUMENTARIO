@@ -128,7 +128,7 @@ include_once("template/cabecera.php");
                         
                     </select>              
               
-              <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
+              <input type="hidden" value="<?php echo $cod_tipoExpediente; ?>"  id="txtCodigoRequisitoExpediente"  />
             </div>          
               
               
@@ -253,33 +253,32 @@ function editarRequisitosExpediente(){
         var user = '<?php echo $_SESSION['cod_user'];?>';
 
 
-        if($("#txtCodigoRequisitoExpediente").val() == "")
-        {
+//        if($("#txtCodigoRequisitoExpediente").val() == "")
+//        {
 
             var rpta = confirm("¿Estas seguro(a) que desea guardar el requisito para el Expediente?");
             if (rpta == true) 
             {
                   $.get("inc_requisitosExpediente2.php?insertar=1&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
                     alert(data);                
-                    //$("#error").html(data);
                   });
-                location.href='RequisitosExpediente.mantenimiento.php';
+                location.href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $cod_tipoExpediente; ?>";
             } 
         
  
-        }else{
-
-            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito para el Expediente?");
-            if (rpta == true) 
-            {
-                  $.get("inc_requisitosExpediente2.php?actualizar="+id+"&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
-                    alert(data);                
-                  //  $("#error").html(data);
-                  });
-                location.href='RequisitosExpediente.mantenimiento.php';
-            }  
-
-        }
+//        }else{
+//
+//            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito para el Expediente?");
+//            if (rpta == true) 
+//            {
+//                  $.get("inc_requisitosExpediente2.php?actualizar="+id+"&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
+//                    alert(data);                
+//                  //  $("#error").html(data);
+//                  });
+//                location.href='RequisitosExpediente.mantenimiento.php';
+//            }  
+//
+//        }
  
 }
 

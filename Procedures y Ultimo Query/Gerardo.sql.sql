@@ -1213,7 +1213,41 @@ SELECT
 
 
   ----
+  /*xxx*/
+ --- exec SP_tb_detalle_requisitos_exp_LISTAR_GRUPO_FILTRADO 'RE000001',1;
 
+
+CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR_GRUPO_FILTRADO @cod_requisitos char(8), @estado int 
+AS
+
+SELECT 
+      [tb_tip_expediente].[cod_tip_expediente],
+	  [tb_tip_expediente].[des_exp],
+      count([tb_detalle_requisitos_exp].[cod_requisitos]) as veces
+
+  FROM [tb_detalle_requisitos_exp]
+  right join
+  [tb_tip_expediente]
+  on ([tb_tip_expediente].[cod_tip_expediente]=[tb_detalle_requisitos_exp].[cod_tip_expediente])
+
+  WHERE
+
+  [tb_detalle_requisitos_exp].[cod_requisitos]=@cod_requisitos
+  AND
+  [tb_detalle_requisitos_exp].estado=@estado
+  
+  group by
+  [tb_tip_expediente].[cod_tip_expediente],
+  [tb_tip_expediente].[des_exp]
+
+
+  GO
+
+
+
+
+
+  ----
 
   CREATE PROCEDURE SP_tb_rolf_listar_estado @estado int
   As
@@ -1288,7 +1322,7 @@ AS
 IF @estado IS NULL
 BEGIN
 
-
+----
 SELECT req.[cod_requisitos]
       ,req.[nom_requisito]
       ,req.[des_requisitos]
@@ -1306,12 +1340,12 @@ dbo.tb_detalle_requisitos_exp RIGHT OUTER JOIN
 dbo.tb_requisitos ON dbo.tb_detalle_requisitos_exp.cod_requisitos = dbo.tb_requisitos.cod_requisitos
 WHERE
 dbo.tb_detalle_requisitos_exp.cod_tip_expediente=@cod_tip_expediente) 
-
+-----
 
 END
 ELSE
 BEGIN
-
+-----
 SELECT req.[cod_requisitos]
       ,req.[nom_requisito]
       ,req.[des_requisitos]
@@ -1332,5 +1366,6 @@ dbo.tb_requisitos ON dbo.tb_detalle_requisitos_exp.cod_requisitos = dbo.tb_requi
 WHERE
 dbo.tb_detalle_requisitos_exp.cod_tip_expediente=@cod_tip_expediente) 
 
+----
 
 END

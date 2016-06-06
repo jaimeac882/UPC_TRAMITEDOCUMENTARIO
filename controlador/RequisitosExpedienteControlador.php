@@ -82,7 +82,15 @@ class RequisitosExpedienteControlador{
     }          
     //cambiarEstadoRequisitosExpediente
     
-        
+    
+    //
+    function obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado);
+    } 
+    
+    
 }
 
 ?>
