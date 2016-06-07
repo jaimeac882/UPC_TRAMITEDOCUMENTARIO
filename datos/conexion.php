@@ -5,8 +5,13 @@ class conexion{
 	}
 
   function conectarsql(){
+<<<<<<< HEAD
       $serverName = "(local)\SQLEXPRESS";
        $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql");
+=======
+      $serverName = "GERARDO-PC";
+       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"Gerardo50");
+>>>>>>> origin/master
 			 return sqlsrv_connect( $serverName, $connectionInfo);
 	}
 }
@@ -18,6 +23,6 @@ class conexion{
  {
       echo "Conexión no se pudo establecer.<br />";
      die( print_r( sqlsrv_errors(), true));
- }*/
-
+ }
+*/
 ?>

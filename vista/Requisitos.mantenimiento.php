@@ -25,7 +25,7 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Editar Requisito: <?php echo $objRequisito->cod_requisito; ?>  </h3>
+                                    <h3 class="panel-title">Lista Requisitos :  </h3>
 				</div>
 
         <div class="panel-body">
@@ -33,10 +33,9 @@ if(isset($_GET["editar"]))
           <div class="row">
               
               
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <label class="control-label">Nombre Requisito:</label>
-              <input type="text" class="form-control input-sm" maxlength="100" value="<?php echo $objRequisito->nom_requisito;  ?> "  id="txtNombreRequisito">
-              <input type="hidden" value="<?php echo $objRequisito->cod_requisito; ?>"  id="txtCodigoRequisito"  />
+              <input type="text" class="form-control input-sm" maxlength="100" value=""  id="txtNombreRequisito">
             </div>
 
              
@@ -67,7 +66,7 @@ if(isset($_GET["editar"]))
                             }    
                                
                        }else{
-                           echo "<option selected value='3'>-Ninguno-</option>";
+                           echo "<option selected value='2'>-Ninguno-</option>";
                            echo "<option value='1'>Activo</option>";
                            echo "<option value='0'>Inactivo</option>";
                            
@@ -77,34 +76,27 @@ if(isset($_GET["editar"]))
                     </select>
             </div>
 
-            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Nuevo</span>
-	      </button>
-            </div>   
-
-            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar" onclick="validar()" class="btn btn-primary btn-sm" title="Guardar">
-								<span>Guardar</span>
-	      </button>
-            </div>  
-              
-            <div class="col-xs-12">
-                <br>
-                    
+            <div class="col-xs-4">                    
               <label for="txtDescripcionRequisito">Descripción Requisito:</label>
-              <textarea class="form-control input-sm"  type="textarea"
+              <input class="form-control input-sm"  type="text"
                   id="txtDescripcionRequisito" name="txtDescripcionRequisito" placeholder="Definición del requisito"
-                  maxlength="500" rows="5"><?php echo $objRequisito->des_requisitos; ?></textarea>
+                  maxlength="500" rows="5">
+            </div>              
+              
+            <div class="col-xs-1">
+              <label class="control-label">&nbsp;</label>
+              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRequisitos()" title="Buscar">
+                <span>Buscar</span>
+	      </button>
             </div>
-                      
-           
-                    
-             
-             
-             
+              
+            <div class="col-xs-1">
+            <label class="control-label">&nbsp;</label>
+            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo Requisito">
+                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
+	    </button>
+            </div>                
+                                                         
           </div>
           <!-- Fin Buscador -->
           <hr>
@@ -116,8 +108,7 @@ if(isset($_GET["editar"]))
                 <th>Nombre Requisito</th>
                 <th>Desc. Requisito</th>
                 <th>Estado</th>
-                <th>Editar</th>
-                <th>Eliminar</th>                
+                <th>Editar</th>              
               </tr>
             </thead>
             <tbody id="body_contenedor">
@@ -137,10 +128,21 @@ if(isset($_GET["editar"]))
 $(function() {
   buscarRequisitosInicial();
 });
-function buscarRequsitos(){
+function buscarRequisitos(){
+
   $("#body_contenedor").html("");
 
-  $.get("inc_requisitos.php", function(data, status){
+  var nom_Req = $("#txtNombreRequisito").val();
+  var cboEstado = $("#cboEstado").val();
+  var desc_Req = $("#txtDescripcionRequisito").val();
+
+   if(isBlank(desc_Req) && isBlank(nom_Req))
+   {
+        buscarRequisitosInicial();       
+        return false;               
+   }
+
+  $.get("inc_requisitos.php?listar_filtrado=true&cboEstado="+cboEstado+"&nom_Req="+nom_Req+"&desc_Req="+desc_Req, function(data, status){
     $("#body_contenedor").html(data);
   });
 }
@@ -154,96 +156,9 @@ function buscarRequisitosInicial(){
   });
 }
 
-function eliminarRequisito(id){
-
-        var rpta = confirm("¿Estas seguro(a) que desea eliminar el requisito?");
-        if (rpta == true) {
-              $.get("inc_requisitos.php?eliminar="+id, function(data, status){
-                alert(data);                
-                //$("#error").html(data);
-              });
-              location.href='Requisitos.mantenimiento.php';
- 
-        } 
- 
-}
-
-function editarRequisito(){
-
-        var id = $("#txtCodigoRequisito").val();
-        var nom_Req = $("#txtNombreRequisito").val();
-        var desc_Req = $("#txtDescripcionRequisito").val();
-        var cboEstado = $("#cboEstado").val();
-        var user='<?php echo $_SESSION['cod_user'];?>';
-
-//        alert("nom_Req: " + nom_Req);
-//        alert("desc_Req: " + desc_Req);
-//        alert("cboEstado: " + cboEstado);
-//        alert("user: " + user);
-
-
-        if($("#txtCodigoRequisito").val()=="")
-        {
-
-            var rpta = confirm("¿Estas seguro(a) que desea guardar el requisito?");
-            if (rpta == true) 
-            {
-                  $.get("inc_requisitos.php?insertar=1&cboEstado="+cboEstado+"&nom_Req="+nom_Req+"&desc_Req="+desc_Req+"&user="+user, function(data, status){
-                    alert(data);                
-                    //$("#error").html(data);
-                  });
-                location.href='Requisitos.mantenimiento.php';
-            } 
-        
- 
-        }else{
-
-            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito?");
-            if (rpta == true) 
-            {
-                  $.get("inc_requisitos.php?actualizar="+id+"&cboEstado="+cboEstado+"&nom_Req="+nom_Req+"&desc_Req="+desc_Req+"&user="+user, function(data, status){
-                    alert(data);                
-                  //  $("#error").html(data);
-                  });
-                location.href='Requisitos.mantenimiento.php';
-            }  
-
-        }
- 
-}
-
 function PrepararNuevo()
 {
-  location.href='Requisitos.mantenimiento.php';
-}
-
-function validar()
-{
-        //var id = $("#txtCodigoRequisito").val();
-    var nom_Req = $("#txtNombreRequisito").val();
-    var desc_Req = $("#txtDescripcionRequisito").val();
-    var cboEstado = $("#cboEstado").val();  
-        
-    if(isBlank(nom_Req))
-    {
-       alert("Debe escribir el nombre del requisito.")
-       return false;
-    }
-    
-    if(isBlank(desc_Req))
-    {
-       alert("Debe escribir alguna descripción.")
-       return false;
-    }    
-    
-    if(cboEstado==3)
-    {
-       alert("Debe elegir una opción de estado del requisito.")
-       return false;
-    }  
-    
-    editarRequisito();
-    
+  location.href='Requisitos.mantenimiento2.php';
 }
 
 </script>

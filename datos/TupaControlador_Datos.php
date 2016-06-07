@@ -119,14 +119,18 @@ function getTupa($cod_tupa){
       $tupa = new beanTupa();
 
       if($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)){
+          
           $tupa->cod_tupa = trim($row['cod_tupa']);
           $tupa->des_tupa = trim($row['des_tupa']);
           $tupa->estado = trim($row['estado']);
           $tupa->anio = trim($row['anio']);
-
+          return $tupa;
+        }else{
+            //echo 'xx';
+            return null;                    
       }
 
-      return $tupa;
+
       
     }
     
@@ -146,6 +150,63 @@ function obtenerTupas(){
       return($this->lt_tupas);
       
     }    
+//
+function activarTupa($cod_tupa)
+{
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="exec SP_tb_tupa_ActivarEstado ".$cod_tupa.";";       
+       $consulta = sqlsrv_query ($con, $sql);
+        
+       if( $consulta === false ) {
+          $rpta = "No se pudo activar.";            
+        }else{
+          $rpta = "Se activó.";
+        }        
+        return $rpta;        
+}
+
+
+ function existeEstadoActivoTupa()
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql = "exec SP_tbl_tupa_EXISTE_ESTADO_ACTIVO;";     
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
+        if($fila>0){
+           return $fila['EXISTE_ACTIVO'];
+        }else{
+            return null;
+        }
+}      
+        
+
+ function obtenerTupasFiltrado($descripcion,$anio,$estado){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_TBL_TUPA_LISTAR_FILTRADO '$descripcion',$anio,$estado;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+          while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_tupas[] = $row;
+          }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_tupas);
+    }    
+    
+
+
+
+
+
     
 }
 

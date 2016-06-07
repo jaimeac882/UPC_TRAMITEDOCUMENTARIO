@@ -61,6 +61,36 @@ class RequisitosExpedienteControlador{
     }
     
     
+      function obtenerRequisitosExpedientesListarGrupo()
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->obtenerRequisitosExpedientesListarGrupo();
+    }  
+    
+    
+      function obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente);
+    }      
+
+    
+    function cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado);
+    }          
+    //cambiarEstadoRequisitosExpediente
+    
+    
+    //
+    function obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado)
+    {
+        $obj = new RequisitosExpedienteDatos();       
+	return  $obj->obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado);
+    } 
+    
+    
 }
 
 ?>

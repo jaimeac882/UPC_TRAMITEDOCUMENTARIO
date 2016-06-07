@@ -14,3 +14,18 @@ select cod_user as cod_user,
  				where u.nom_user=@usuario and u.clave_user=@clave
 go
 
+
+
+CREATE PROCEDURE SP_tb_tip_expedientevalorizados_PorTupaActivo_LISTAR		
+			@cod_tip_expediente char(10)
+AS  
+
+
+              select cod_tip_expediente , des_exp from tb_tip_expediente
+              WHERE cod_tupa = @cod_tip_expediente
+			  and des_exp like '%VALORA%'
+
+
+go
+
+

@@ -131,5 +131,80 @@ class RequisitosExpedienteDatos{
         return $rpta;       
 }
 
+ function obtenerRequisitosExpedientesListarGrupo(){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR_GRUPO;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_RequisitosExpediente[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_RequisitosExpediente);
+    }  
+
+    
+ function obtenerRequisitosExpedientesListarRequisitos($cod_tipo_expediente){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR_REQUISITOS_FILTRADO '$cod_tipo_expediente';";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_RequisitosExpediente[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_RequisitosExpediente);
+    }      
+
+ function cambiarEstadoRequisitosExpediente($cod_detalle_requisitos_exp,$estado)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="EXEC SP_tb_detalle_requisitos_exp_CAMBIAR_ESTADO "
+               . "  $cod_detalle_requisitos_exp"
+               . ", $estado;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+       
+       if( $consulta === false ) {
+           $rpta = "No se pudo cambiar el estado.";
+        }else{
+           $rpta = "Se actualizó el estado.";
+        }
+       
+        return $rpta;      
+ 
+}    
+    
+
+ function obtenerRequisitosExpedientesListarRequisitosGrupoFiltrados($cod_tipo_expediente,$estado){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_tb_detalle_requisitos_exp_LISTAR_GRUPO_FILTRADO '$cod_tipo_expediente',$estado;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_RequisitosExpediente[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_RequisitosExpediente);
+    }
+
+
+
+
 }
+
 ?>

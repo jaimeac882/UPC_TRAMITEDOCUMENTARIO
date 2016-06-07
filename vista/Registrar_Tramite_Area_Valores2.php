@@ -13,7 +13,7 @@
 	$beantupa= new beanTupa();
 	$beantupa = $objTupa->getTupaActivo();
 
-	$lt_tip_Expedientes = $objTipExpedientes->getExpedientesPorTupaActivo($beantupa->POST_cod_tupa());
+	$lt_tip_Expedientes = $objTipExpedientes->getExpedientesValorizacionPorTupaActivo($beantupa->POST_cod_tupa());
 	$lt_tip_documento_identidad = $objTipoCategoria->getTipoDocumentoIdentidad();
 ?>
 <!-- Accordion - START -->
@@ -24,7 +24,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						Registrar Tramite : <a style="color: blue; font-weight: bold">
+						Registrar Tramite - Área de Valores : <a style="color: blue; font-weight: bold">
 						</a>
 					</h3>
 				</div>
@@ -74,6 +74,28 @@
 							</div>
 						</div>
 					</div>
+                                        
+                                        <div class="panel panel-default">
+						<div class="panel-heading">Datos Valores Registrados por Administrado</div>
+						<div class="panel-body">
+							<div class="form-group row">
+								<div class="col-xs-2">
+									<label for="formGroupExampleInput2">Codigo</label>
+									<input id="codigoValor" disabled="true" value="" name="codigoValor" placeholder="" class="form-control input-sm" required="">
+								</div>
+								<div class="col-xs-3">
+									<label for="ejemplo_email_1">Monto</label>
+									<input type="text" disabled="true" class="form-control input-sm" id="monto" name="monto"  />
+								</div>
+								<div class="col-xs-1">
+									<label class="control-label">&nbsp;</label>
+									<button id="btnbuscar" data-toggle="modal" data-target="#searchValores" class="btn btn-primary btn-sm" title="Buscar">Buscar Valores</button>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+                                        
 					<div class="form-group row">
 						<div class="col-xs-12">
 							<label for="formGroupExampleInput2">Asunto</label>
@@ -240,6 +262,82 @@
 	</div>
 	</form>
 </div>
+
+
+<div class="modal fade" id="searchValores" role="dialog">
+	<form id="frm_search_Valores" >
+	<div class="modal-dialog">Modal content
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Valores</h4>
+			</div>
+			<div class="modal-body">
+                            
+                            <div id="div_formulario_valores">
+					<div class="form-group row">
+                                            <div class="col-xs-12">
+							<label for="recipient-name" class="control-label">Tipo Expediente:</label>
+							<input type="text" class="form-control input-sm" id="searchNomExpedi" name="searchNomExpedi">
+						</div>
+                                            
+						
+						<div class="col-xs-1" style="display: none;" >
+							<label for="recipient-name" class="control-label">Codigo:</label>
+                                                        <input type="text" class="form-control input-sm" id="searchCodadmin" name="searchCodadmin">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-xs-8">
+							<label for="recipient-name" class="control-label">Administrado:</label>
+							<input type="text" class="form-control input-sm" id="searchNombresadmin" name="searchNombresadmin">
+						</div>
+                                            
+                                            		<div class="col-xs-2">
+                                                            <label for="recipient-name" class="control-label">-</label>
+					            	<button type="button" onclick="buscarValores()" class="btn btn-primary btn-sm"  id="btn_buscar_administrado" >Buscar</button>
+			
+                                                </div>
+					</div>
+                                
+                                       <div class="form-group row">
+				
+					</div>
+					
+				</div>
+                            
+				<div class="form-group row" id="div_resultado_valores">
+					<table class="table table-bordered table-striped table-hover table-condensed">
+						<thead>
+							<tr>
+								<th>Codigo Valor</th>
+								<th>Monto</th>
+							</tr>
+						</thead>
+						<tbody id="body_contenedor_valores">
+						</tbody>
+					</table>
+				</div>
+                            
+                            <div class="alert alert-error" style="color: red" id="alertaAdm" hidden="true">
+                            <span>
+                              <p>Debe Elegir un Administrado</p>
+                            </span>
+                          </div>
+
+				
+			</div>
+                    
+                       <div class="modal-footer">
+				<button type="button" style="display: none;" onclick="regresarBusquedaVal()" class="btn btn-primary btn-sm"  id="btn_regresarVal" >Regresar</button>
+			</div>
+
+		</div>
+	</div>
+	</form>
+</div>
+
+
 <!-- Modal End -->
 <!-- Modal Nuevo Init -->
 <div class="modal fade" id="newAdministrator" role="dialog">
@@ -359,6 +457,20 @@
 <!-- Accordion - END -->
 <?php include_once("template/pie.php"); ?>
 <script>
+$('#searchValores').on('show.bs.modal', function () {
+var codigoadmin = $("#codigoAdmin").val();
+var nombre = $("#nombreAdmin").val();
+var terminal = document.getElementById("cboExpedientes");
+var selectedText = terminal.options[terminal.selectedIndex].text;
+
+
+$("#searchNombresadmin").val(nombre);
+$("#searchNomExpedi").val(selectedText);
+$("#searchCodadmin").val(codigoadmin);
+}); 
+    
+    
+    
 	$(function() {
 		$("#input-4").fileinput(
 				{
@@ -519,6 +631,15 @@
 		$("#div_resultado").css("display","none");
 		$("#div_formulario").css("display","");
 	}
+        
+        function regresarBusquedaVal(){
+		//$("#btn_buscar_administrado").css("display","");
+		$("#btn_regresarVal").css("display","none");
+		$("#div_resultado_valores").css("display","none");
+		$("#div_formulario_valores").css("display","");
+	}
+        
+        
 	function buscarAdministrado(){
 		$.post("inc_buscar_administrado.php",
 				$('#frm_search_administrado').serialize(),
@@ -530,6 +651,31 @@
 				$("#body_contenedor_administrado").html(data);
 		});
 	}
+      	function buscarValores(){
+            
+            
+
+	var adminis = $("#search_admint").val();
+	if (adminis  == ''){
+    $('#alertaAdm').show();
+	}else{
+    $('#alertaAdm').hide();
+        
+            
+            
+		$.post("inc_buscar_valores.php",
+				$('#frm_search_Valores').serialize(),
+			function(data, status){
+				$("#div_resultado_valores").css("display","");
+				$("#div_formulario_valores").css("display","none");
+				$("#btn_buscar_administrado").css("display","none");
+				$("#btn_regresarVal").css("display","");
+				$("#body_contenedor_valores").html(data);
+		});
+                
+                 }
+	}  
+        
 	function seleccionaTipoExpediente(combo){
 		$.post("inc_buscar_requisito_expediente.php",
 				{codigoTipoExpediente:combo.value},
@@ -547,9 +693,20 @@
 	function seleccionaAdministrado(codigo, administrado){
 		$("#codigoAdmin").val(codigo);
 		$("#nombreAdmin").val(administrado);
+                $("#monto").val('');
+                $("#codigoValor").val('');
 		$('#searchAdministrator').modal('toggle');
 	}
 
+
+	function seleccionaValores(codval, monto){
+		$("#codigoValor").val(codval);
+		$("#monto").val(monto);
+                $("#div_resultado_valores").css("display","none");
+                $("#btn_regresarVal").css("display","none");
+		$("#div_formulario_valores").css("display","");
+		$('#searchValores').modal('toggle');
+	}
 
 
 
@@ -567,7 +724,9 @@
 		var folio = $("#folio").val();
 		var asunto = $("#asunto").val();
 		var recibo = $("#recibo").val();
-		$.post("inc_insertar_tramite.php",
+                var codval = $("#codigoValor").val();
+                alert(codval);
+		$.post("inc_insertar_tramite_ar_val.php",
 			{
 				codAdministrado: codigoAdmin,
 				desTramite: descripcion,
@@ -575,6 +734,7 @@
 				folio: folio,
 				asunto: asunto,
 				recibo: recibo,
+                                cod_val: codval,
 				cod_user : "<?php echo $_SESSION["cod_user"];?>",
 				cod_area : "<?php echo $_SESSION["cod_area"];?>",
 				cod_tipo_tramite: codigoTipoTramite,
@@ -586,7 +746,7 @@
 						codUsu: "<?php echo $_SESSION['cod_user'];?>",
 					},
 					function(data, status){
-						document.location.href='Registrar_Tramite.php';
+						document.location.href='Registrar_Tramite_Area_Valores.php';
 					});
 		});
 	}
@@ -604,7 +764,14 @@
 		var folio = $("#folio").val();
 		var asunto = $("#asunto").val();
 		var recibo = $("#recibo").val();
-
+                
+                var cvalor = $("#codigoValor").val();
+             
+             
+               if(!isBlank(cvalor)){
+                   
+            
+             
 		if(!isBlank(codigoAdmin)){
 			if(!isBlank(asunto)){
 				if(!isBlank(descripcion)){
@@ -626,6 +793,11 @@
 		}else{
 			alert("Debe de seleccionar un administrado.");
 		}
+                
+        }else{
+            	alert("Debe ingresar el Valor por el cual esta reclamando.");
+            
+        }
 
 	}
 </script>

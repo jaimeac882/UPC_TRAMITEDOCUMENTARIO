@@ -1,7 +1,5 @@
 <?php
 session_start();
-include_once("template/cabecera.php");
-
 
 require_once('../controlador/TupaControlador.php');
 $objTupaController= new TupaControlador();  
@@ -9,15 +7,20 @@ $objTupaController= new TupaControlador();
 require_once('../entidades/beanTupa.php');
 $objTupa = new beanTupa();
 
-//$lt_Tupas = $objTupaController->obtenerTupas();
 
 
 if(isset($_GET["editar"]))
 {    
     $cod_tupa = $_GET["editar"];    
-    $objTupa = $objTupaController->getTupa($cod_tupa);    
+    $objTupa = $objTupaController->getTupa($cod_tupa); 
+    
+    if(!isset($objTupa))
+    {
+        header('Location: tupa.mantenimiento.php');    
+    }    
 }
 
+include_once("template/cabecera.php");
 
 ?>
 
@@ -29,7 +32,19 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Lista TUPA : <?php echo $objTupa->cod_tupa; ?>  </h3>
+                                    <h3 class="panel-title">
+                                        
+                                        <?php                                         
+                                        if(isset($objTupa->cod_tupa))
+                                        {
+                                            echo "Editar ";
+                                        }else{
+                                            echo "Registrar ";                                            
+                                        }
+                                        ?>                                                                                                                        
+                                        TUPA : <?php echo $objTupa->cod_tupa; ?>                                          
+
+                                    </h3>
 				</div>
 
         <div class="panel-body">
@@ -37,10 +52,10 @@ if(isset($_GET["editar"]))
           <div class="row">
                                           
               
-            <div class="col-xs-2">
+            <div class="col-xs-3">
               <label class="control-label">Año :</label>
               
-              <input type="text" class="form-control input-sm" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
+              <input placeholder="Número de año" class="form-control input-sm" type="text" value="<?php echo $objTupa->anio; ?>"  id="txtAnio"  />              
               <input type="hidden" value="<?php echo $objTupa->cod_tupa; ?>"  id="txtCodigoTupa"  />
               
             </div>          
@@ -48,8 +63,15 @@ if(isset($_GET["editar"]))
               
             <div class="col-xs-2">
                 <label class="control-label">Estado :</label>
-                   <select id="cboEstado" class="form-control input-sm" name="marca" required="">
-
+                   <select id="cboEstado" class="form-control input-sm" name="marca" required=""
+                        <?php    
+                        if( $objTupa->estado==1)
+                        {
+                            echo 'disabled="disabled"';                                            
+                        }
+                        ?>                             
+                       
+                           >
                        <?php
                        $listaOpciones = array(
                             1 => "Activo",
@@ -58,8 +80,7 @@ if(isset($_GET["editar"]))
                         );
                        
                        if(isset($objTupa->estado))  
-                       {
-                           
+                       {                           
                            foreach($listaOpciones as $k => $v)
                            {
                                if($objTupa->estado == $k)
@@ -68,7 +89,6 @@ if(isset($_GET["editar"]))
                                 }else{
                                    echo "<option value='".$k."'>".$v."</option>";
                                }
-
                             }    
                                
                        }else{
@@ -76,59 +96,47 @@ if(isset($_GET["editar"]))
                            echo "<option value='1'>Activo</option>";
                            echo "<option value='0'>Inactivo</option>";                           
                        }
-                       ?> 
-                        
+                       ?>                         
                     </select>
             </div>
-              
-            <div class="col-xs-4"> 
-              <label for="txtDescripcionTupa">Descripción :</label> 
-              <input type="text" maxlength="200" class="form-control input-sm"  
-                  id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"   >
-            </div>   
-              
 
-           
-            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarTupa()" title="Buscar">
-								<span>Buscar</span>
-							</button>
-            </div>
-            <div class="col-xs-1">
-            <label class="control-label">&nbsp;</label>
-            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo TUPA">
-                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
-	    </button>
-            </div>   
               
               
+            <div class="col-xs-12">
+              <label for="txtDescripcionTupa">Descripción :</label>
+              <textarea maxlength="400" class="form-control input-sm"  type="textarea"
+                  id="txtDescripcionTupa"  name="txtDescripcionTupa" placeholder="Definición la publicación TUPA anual"
+                  rows="5"><?php echo utf8_encode($objTupa->des_tupa); ?></textarea></br>
+            </div>      
               
+             
           </div>
+          
+          
+          <div class="form-group row">
+                <div class="col-xs-1">
+                        <button type="button" onclick="validar()" class="btn btn-success btn-sm">Guardar</button>
+                </div>
+                <div class="col-xs-1" style="margin-left: 10px">
+                        <button type="button" data-toggle="modal" onclick="Cancelar()" data-target="#searchAdministrator" class="btn btn-danger btn-sm">Cancelar</button>
+                </div>
+          </div>           
+
+          
           <!-- Fin Buscador -->
-          <hr>
-          <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
-          <table class="table table-striped table-hover " id="table_activar">
-            <thead class="thead-inverse">
-              <tr>
-                <th>Cod. Tupa</th>
-                <th>Año</th>
-                <th>Estado</th>
-                <th>Descripción</th>                
-                <th>Editar</th>
-                <!--th>Eliminar</th-->                   
-              </tr>
-            </thead>
-            <tbody id="body_contenedor">
-            </tbody>
-          </table>
-          <!-- Fin Grilla -->
+          
         </div>
 			</div>
 		</div>
 	</div>
+    
+   
+    
 </div>
 <div id="error"></div>
+
+         
+
 <!-- Accordion - END -->
 
 <?php include_once("template/pie.php"); ?>
@@ -137,47 +145,11 @@ $(function() {
   buscarTupaInicial();
 });
 function buscarTupa(){
-    
-//  $("#body_contenedor").html("");
-//
-//  $.get("inc_tupa.php", function(data, status){
-//    $("#body_contenedor").html(data);
-//  });
-
   $("#body_contenedor").html("");
 
-  var DescripcionTupa = $("#txtDescripcionTupa").val();
-  var Estado = $("#cboEstado").val();
-  var Anio = $("#txtAnio").val();
-
-   if(isBlank(DescripcionTupa) && isBlank(Anio))
-   {
-        buscarTupaInicial();       
-        return false;        
-   }else{
-       
-        if(!$.isNumeric(Anio))
-        {
-           alert("El año debe ser un valor numérico.");
-           return false;
-        }else{
-
-            if(!(Anio >= 2015 && Anio <= 2050))
-            {
-               alert("El año debe estar comprendido entre 2015 al 2050.");
-               return false;            
-            }                
-        }
-       
-       
-   }
-  
-  $.get("inc_tupa.php?listar_filtrado=true&Estado="+Estado+"&Anio="+Anio+"&DescripcionTupa="+DescripcionTupa, function(data, status){
+  $.get("inc_tupa.php", function(data, status){
     $("#body_contenedor").html(data);
   });
-
-
-
 }
 
 function buscarTupaInicial(){
@@ -198,6 +170,7 @@ function eliminarTupa(id){
                 //$("#error").html(data);
               });
               location.href='Tupa.mantenimiento.php';
+ 
         } 
  
 }
@@ -242,9 +215,9 @@ function editarTupa(){
  
 }
 
-function PrepararNuevo()
+function Cancelar()
 {
-  location.href='Tupa.mantenimiento2.php';
+  location.href='Tupa.mantenimiento.php';
 }
 
 function validar()
@@ -291,7 +264,14 @@ function validar()
        return false;
     }  
 
-   
+
+    //alert("estado"+estado);
+    if(estado==2)
+    {
+       alert("Debe elegir un tipo de Estado.");
+       return false;
+    }  
+           
 
     editarTupa();
     

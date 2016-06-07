@@ -30,6 +30,23 @@ class Tip_ExpedientesControlador_Datos{
       return($this->lt_Expedientes);
 
     }
+    
+    
+     function getExpedientesValorizacionPorTupaActivo($cod_tupa){
+        
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "EXEC SP_tb_tip_expedientevalorizados_PorTupaActivo_LISTAR  '".$cod_tupa."'";
+      $consulta = sqlsrv_query ($con,$sql);
+
+      while( $row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Expedientes[] = $row;
+      }
+
+      return($this->lt_Expedientes);
+
+    }
 
     function getRequisitosExpediente($codExpediente){
         
@@ -56,6 +73,8 @@ class Tip_ExpedientesControlador_Datos{
             $objTipoExpediente = new beantTipoExpediente();
             $sql = "EXEC SP_tb_tip_expediente_INSTANCIA '".$codExpediente."';";
 
+            //echo $sql;
+            
             $consulta = sqlsrv_query ($con,$sql);
             $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
             if($fila>0){
@@ -72,7 +91,7 @@ class Tip_ExpedientesControlador_Datos{
                  return $objTipoExpediente;
 
             }else{
-                //echo 'xx';
+                
                 return null;
             }
 

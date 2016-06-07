@@ -1,13 +1,11 @@
 <?php
 session_start();
-include_once("template/cabecera.php");
 
 require_once('../controlador/RequisitosExpedienteControlador.php');
 require_once('../entidades/beanRequisitosExpediente.php');
 
 $objRequisitosExpedienteControlador = new RequisitosExpedienteControlador();
 $requisitoExpediente= new beanRequisitosExpediente();
-
 
 require_once('../controlador/RequisitoControlador.php');
 $objRequisitosControlador = new RequisitoControlador();
@@ -16,16 +14,32 @@ $objRequisitosControlador = new RequisitoControlador();
 require_once('../controlador/Tip_ExpedientesControlador.php');
 $objTipoExpedienteControlador = new Tip_ExpedientesControlador();
 
+require_once('../entidades/beanTipoExpediente.php');
+$objTipoExpediente = new beantTipoExpediente();
 
-if(isset($_GET["editar"]))
+
+
+
+if(!isset($_GET["editar"]))
 {
+    header('Location: RequisitosExpediente.mantenimiento.php');    
+
+}else{    
+ 
+    $cod_tipoExpediente = $_GET["editar"];    
+    $objTipoExpediente = $objTipoExpedienteControlador->getTipoExpediente($cod_tipoExpediente);
+            
+    if(!isset($objTipoExpediente))
+    {
+        header('Location: RequisitosExpediente.mantenimiento.php');    
+    }  
     
-    $cod_requisitoExpediente = $_GET["editar"];    
-    $requisitoExpediente = $objRequisitosExpedienteControlador->getRequisitosExpediente($cod_requisitoExpediente);
-    
+    $cod_tipoExpediente= $objTipoExpediente->cod_tip_expediente;              
+    $requisitoExpediente = $objRequisitosExpedienteControlador->obtenerRequisitosExpedientesListarRequisitos($cod_tipoExpediente);
+         
 }
 
-
+include_once("template/cabecera.php");
 ?>
 
 <!-- Accordion - START -->
@@ -36,7 +50,9 @@ if(isset($_GET["editar"]))
 		<div class="col-sm-9 col-md-9">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-                                    <h3 class="panel-title">Lista de Requisitos asociados a un Tipo de Expediente : <?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>  </h3>
+                                    <h3 class="panel-title"> Editar Requisito Expediente :
+                                    <?php echo $objTipoExpediente->cod_tip_expediente; ?>  
+                                    </h3>
 				</div>
 
         <div class="panel-body">
@@ -44,20 +60,20 @@ if(isset($_GET["editar"]))
           <div class="row">
               
                
-            <!--div class="col-xs-8">
+            <div class="col-xs-12">
               <label class="control-label">Tipo Expediente :</label>
               
-                  <select id="cboTipoExpediente" class="form-control input-sm" name="marca" required="">
+                  <select disabled id="cboTipoExpediente" class="form-control input-sm" name="marca" required="">
 
                        <?php
 
                        $listaOpciones = $objTipoExpedienteControlador->obtenerTipoExpediente();                                              
-                       if(isset($requisitoExpediente->cod_tip_expediente))  
+                       if(isset($objTipoExpediente->cod_tip_expediente))  
                        {       
-                           echo "<option value='0'>- Todos -</option>";
+                           echo "<option value='0'>- Ninguno -</option>";
                            foreach($listaOpciones as $valor)
                            {                               
-                               if($requisitoExpediente->cod_tip_expediente == $valor['cod_tip_expediente'])
+                               if($objTipoExpediente->cod_tip_expediente == $valor['cod_tip_expediente'])
                                {
                                    echo "<option SELECTED value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
                                 }else{
@@ -66,7 +82,7 @@ if(isset($_GET["editar"]))
                             }                                   
                        }else{    
                            
-                           echo "<option selected value='0'>- Todos -</option>";
+                           echo "<option selected value='0'>- Ninguno -</option>";
                            foreach($listaOpciones as $valor)
                            {
                               echo "<option value='".$valor['cod_tip_expediente']."'>".utf8_encode($valor['des_exp'])."</option>";
@@ -77,20 +93,21 @@ if(isset($_GET["editar"]))
                     </select>              
               
               
-            </div-->
+            </div>
               
               
-            <div class="col-xs-4">
+              <div class="col-xs-4"><br>
               <label class="control-label">Tipo Requisito :</label>
               
                   <select id="cboTipoRequisito" class="form-control input-sm" name="marca" required="">
 
                        <?php
 
-                       $listaOpciones = $objRequisitosControlador->obtenerRequisitos();                                              
+                       //$listaOpciones = $objRequisitosControlador->obtenerRequisitosFiltradoEstado(1);                                              
+                       $listaOpciones = $objRequisitosControlador->obtenerRequisitosExistentesAsoc($objTipoExpediente->cod_tip_expediente,1);                                              
                        if(isset($requisitoExpediente->cod_requisitos))  
                        {                       
-                           echo "<option selected value='0'>- Todos -</option>";
+                           echo "<option selected value='0'>- Ninguno -</option>";
                            foreach($listaOpciones as $valor)
                            {                               
                                if($requisitoExpediente->cod_requisitos == $valor['cod_requisitos'])
@@ -101,7 +118,7 @@ if(isset($_GET["editar"]))
                                }
                             }                                   
                        }else{                           
-                           echo "<option selected value='0'>- Todos -</option>";
+                           echo "<option selected value='0'>- Ninguno -</option>";
                            foreach($listaOpciones as $valor)
                            {
                               echo "<option value='".$valor['cod_requisitos']."'>".utf8_decode($valor['nom_requisito'])."</option>";
@@ -111,11 +128,12 @@ if(isset($_GET["editar"]))
                         
                     </select>              
               
-            <input type="hidden" value="<?php echo $requisitoExpediente->cod_detalle_requisitos_exp; ?>"  id="txtCodigoRequisitoExpediente"  />
+              <input type="hidden" value="<?php echo $cod_tipoExpediente; ?>"  id="txtCodigoRequisitoExpediente"  />
             </div>          
-                
+              
               
             <div class="col-xs-2">
+                <br>  
                 <label class="control-label">Estado :</label>
                    <select id="cboEstado" class="form-control input-sm" name="marca" required="">
 
@@ -148,40 +166,34 @@ if(isset($_GET["editar"]))
                        ?> 
                         
                     </select>
-            </div>              
-              
-              
-              
-            <div class="col-xs-1">
-              <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar"  class="btn btn-primary btn-sm" onclick="buscarRequsitosExpediente()" title="Buscar">
-                <span>Buscar</span>
-	      </button>
             </div>
+
               
-            <!--div class="col-xs-1">
-            <label class="control-label">&nbsp;</label>
-            <button id="btnNuevo" name="btnNuevo" onclick="PrepararNuevo()" class="btn btn-primary btn-sm" title="Nuevo Requisito">
-                <span class="glyphicon glyphicon-new-window"></span>&nbsp; Nuevo
-	    </button>
-            </div--> 
-                      
+
+          <div class="form-group row">
+                <div class="col-xs-1"><br> 
+                    <label class="control-label">&nbsp;</label>
+                        <button type="button" onclick="validar()" class="btn btn-success btn-sm">Agregar</button>
+                </div>
+                <div class="col-xs-1" style="margin-left: 10px"><br>  
+                    <label class="control-label">&nbsp;</label>
+                        <button type="button" data-toggle="modal" onclick="Cancelar()" data-target="#searchAdministrator" class="btn btn-danger btn-sm">Cancelar</button>
+                </div>
+          </div>                        
            
-                    
-             
-             
              
           </div>
           <!-- Fin Buscador -->
+
           <hr>
           <!-- Inicio Grilla --> <!-- http://bootswatch.com/flatly/#navbar-->
           <table class="table table-striped table-hover " id="table_activar">
             <thead class="thead-inverse">
               <tr>
-                <th>Cod. Tipo<br>de Expediente</th>
-                <th>Descripción</th>
-                <th>Nro. Requisitos</th>            
-                <th>Editar</th>                
+                  <th>Cod. Requisito<br>Expediente</th>
+                <th>Tipo Requisito</th>
+                <th>Estado</th>            
+                <th><center>¿Cambiar<br> Estado?</center></th>                
               </tr>
             </thead>
             <tbody id="body_contenedor">
@@ -202,31 +214,34 @@ $(function() {
   buscarRequsitosExpedienteInicial();
 });
 function buscarRequsitosExpediente(){
-
   $("#body_contenedor").html("");
 
-  var cboEstado = $("#cboEstado").val();
-  var cboTipoExpediente = $("#cboTipoExpediente").val();
-
-   if(isBlank(cboEstado) && isBlank(cboTipoExpediente))
-   {
-        buscarRequsitosExpedienteInicial();       
-        return false;               
-   }
-
-  $.get("inc_requisitosExpediente.php?listar_filtrado=true&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente, function(data, status){
+  $.get("inc_requisitosExpediente2.php", function(data, status){
     $("#body_contenedor").html(data);
   });
-
 }
 
 function buscarRequsitosExpedienteInicial(){
 	$("#body_contenedor").html("");
 
-  $.get("inc_requisitosExpediente.php?listar=true", function(data, status){
+  $.get("inc_requisitosExpediente2.php?listar=<?php echo $cod_tipoExpediente; ?>", function(data, status){
     $("#body_contenedor").html(data);
 		$("#table_activar").DataTable();
   });
+}
+
+function eliminarRequsitosExpediente(id){
+
+        var rpta = confirm("¿Estas seguro(a) que desea eliminar el requisito?");
+        if (rpta == true) {
+              $.get("inc_requisitosExpediente2.php?eliminar="+id, function(data, status){
+                alert(data);                
+                //$("#error").html(data);
+              });
+              location.href='RequisitosExpediente.mantenimiento.php';
+ 
+        } 
+ 
 }
 
 function editarRequisitosExpediente(){
@@ -238,49 +253,72 @@ function editarRequisitosExpediente(){
         var user = '<?php echo $_SESSION['cod_user'];?>';
 
 
-        if($("#txtCodigoRequisitoExpediente").val() == "")
-        {
+//        if($("#txtCodigoRequisitoExpediente").val() == "")
+//        {
 
             var rpta = confirm("¿Estas seguro(a) que desea guardar el requisito para el Expediente?");
             if (rpta == true) 
             {
-                  $.get("inc_requisitosExpediente.php?insertar=1&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
+                  $.get("inc_requisitosExpediente2.php?insertar=1&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
                     alert(data);                
-                    //$("#error").html(data);
                   });
-                location.href='RequisitosExpediente.mantenimiento.php';
+                location.href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $cod_tipoExpediente; ?>";
             } 
         
  
-        }else{
-
-            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito para el Expediente?");
-            if (rpta == true) 
-            {
-                  $.get("inc_requisitosExpediente.php?actualizar="+id+"&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
-                    alert(data);                
-                  //  $("#error").html(data);
-                  });
-                location.href='RequisitosExpediente.mantenimiento.php';
-            }  
-
-        }
+//        }else{
+//
+//            var rpta = confirm("¿Estas seguro(a) que desea modificar el requisito para el Expediente?");
+//            if (rpta == true) 
+//            {
+//                  $.get("inc_requisitosExpediente2.php?actualizar="+id+"&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente+"&cboTipoRequisito="+cboTipoRequisito+"&user="+user, function(data, status){
+//                    alert(data);                
+//                  //  $("#error").html(data);
+//                  });
+//                location.href='RequisitosExpediente.mantenimiento.php';
+//            }  
+//
+//        }
  
 }
 
-function PrepararNuevo()
+function CambiarEstado(id,estado)
 {
-  location.href='RequisitosExpediente.mantenimiento2.php';
+    var rpta = confirm("¿Estas seguro(a) que desea cambiar de estado?");
+    if (rpta == true) 
+    {
+          //alert("inc_requisitosExpediente2.php?CambiaEstado="+id+"&estado="+estado);
+          $.get("inc_requisitosExpediente2.php?CambiaEstado="+id+"&estado="+estado, function(data, status){
+            alert(data);                
+          //  $("#error").html(data);
+          });
+        location.href="RequisitosExpediente.mantenimiento2.php?editar=<?php echo $cod_tipoExpediente; ?>";
+        
+    }  
+}
+
+
+
+
+function Cancelar()
+{
+  location.href='RequisitosExpediente.mantenimiento.php';
 }
 
 function validar()
 {
 
     //var id = $("#txtCodigoRequisitoExpediente").val();
+    var cboTipoExpediente = $("#cboTipoExpediente").val();
     var cboTipoRequisito = $("#cboTipoRequisito").val();
     var cboEstado = $("#cboEstado").val();
         
-   
+    if(isBlank(cboTipoExpediente))
+    {
+       alert("Debe tener definido un tipo de expediente.")
+       return false;
+    }
+    
     if(isBlank(cboTipoRequisito))
     {
        alert("Debe tener definido un tipo de requisito.")
@@ -293,6 +331,11 @@ function validar()
        return false;
     }  
 
+    if(cboTipoExpediente==0)
+    {
+       alert("Debe elegir un tipo de Expediente.")
+       return false;
+    }
     
     
     if(cboTipoRequisito==0)

@@ -15,19 +15,26 @@ class RolfControlador{
     
     public function __construct() {
         $this->lt_Rolfs = array();
-    }
-    
+    }    
     
     function getAreaxExpediente($codigo_expediente){
       $obj = new RolfDatos();
       return $obj->getAreaxExpediente($codigo_expediente);
     }
     
+    
+     function obtenerRolfsFiltrado($descripcion, $anio,$estado)
+    {
+        $obj = new RolfDatos();
+	return $obj->obtenerRolfsFiltrado($descripcion, $anio,$estado);
+    }
+
+    
      function obtenerRolfs()
     {
         $obj = new RolfDatos();
 	return $obj->obtenerRolfs();
-    }
+    }    
     
     function crearRolf($anio, $descripcion, $estado)
     {
@@ -51,7 +58,20 @@ class RolfControlador{
     {
         $obj = new RolfDatos();
 	return $obj->actualizarRolf($cod_rolf, $anio, $descripcion, $estado);
-    }      
+    }   
+    
+    function activarRolf($cod_rolf)
+    {
+        $obj = new RolfDatos();
+	return $obj->activarRolf($cod_rolf);
+    }     
+
+    function existeEstadoActivoRolf()
+    {
+        $obj = new RolfDatos();
+	return $obj->existeEstadoActivoRolf();
+    }     
+           
     
 }
 

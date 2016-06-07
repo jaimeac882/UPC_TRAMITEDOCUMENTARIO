@@ -60,6 +60,23 @@ function getRolf($cod_rolf){
        return($this->lt_Rolfs);
     }
     
+ function obtenerRolfsFiltrado($descripcion,$anio,$estado){    
+     
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+
+       $sql = "EXEC SP_TBL_ROLF_LISTAR_FILTRADO '$descripcion',$anio,$estado;";
+       //echo $sql;
+       $consulta = sqlsrv_query ($con,$sql);
+
+       while($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC) ) {
+            $this->lt_Rolfs[] = $row;
+       }
+       sqlsrv_free_stmt($consulta);          
+       return($this->lt_Rolfs);
+    }    
+    
+    
  function crearRolf(
             $anio
            ,$descripcion
@@ -111,6 +128,43 @@ function getRolf($cod_rolf){
         }        
         return $rpta;
 }
+
+ function activarRolf($cod_rolf)
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql="exec SP_tb_rolf_ActivarEstado ".$cod_rolf.";";       
+       $consulta = sqlsrv_query ($con, $sql);
+        
+       if( $consulta === false ) {
+          $rpta = "No se pudo activar.";            
+        }else{
+          $rpta = "Se activó.";
+        }        
+        return $rpta;
+        
+}
+
+
+ function existeEstadoActivoRolf()
+ {
+       $cnn = new conexion();
+       $con = $cnn->conectarsql();
+       
+       $sql = "exec SP_tbl_rolf_EXISTE_ESTADO_ACTIVO;";     
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);
+        
+        if($fila>0){
+           return $fila['EXISTE_ACTIVO'];
+        }else{
+            return null;
+        }
+}
+
+
 
 }
 

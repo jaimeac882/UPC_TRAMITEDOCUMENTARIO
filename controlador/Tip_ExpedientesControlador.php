@@ -14,6 +14,11 @@ class Tip_ExpedientesControlador{
       $obj = new Tip_ExpedientesControlador_Datos();
       return $obj->getExpedientesPorTupaActivo($cod_tupa);
     }
+    
+        function getExpedientesValorizacionPorTupaActivo($cod_tupa){
+      $obj = new Tip_ExpedientesControlador_Datos();
+      return $obj->getExpedientesValorizacionPorTupaActivo($cod_tupa);
+    }
 
     function getRequisitosExpediente($codExpediente){
       $obj = new Tip_ExpedientesControlador_Datos();

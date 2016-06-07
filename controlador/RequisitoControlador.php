@@ -68,6 +68,27 @@ class RequisitoControlador{
 	return  $obj->eliminarRequisito($cod_requisitos);
     }
     
+    function obtenerRequisitosFiltrado($descripcion, $nombre, $estado)
+    {
+        $obj = new RequisitoDatos();       
+	return  $obj->obtenerRequisitosFiltrado($descripcion, $nombre, $estado);
+
+    }    
+    
+    //
+    function obtenerRequisitosFiltradoEstado($estado)
+    {
+        $obj = new RequisitoDatos();       
+	return  $obj->obtenerRequisitosFiltradoEstado($estado);
+    }   
+
+    function obtenerRequisitosExistentesAsoc($cod_tip_expediente,$estado)
+    {
+        $obj = new RequisitoDatos();       
+	return  $obj->obtenerRequisitosExistentesAsoc($cod_tip_expediente,$estado);
+    }    
+        
+    
     
 }
 
