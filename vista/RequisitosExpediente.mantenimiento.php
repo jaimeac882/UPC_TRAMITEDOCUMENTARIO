@@ -121,9 +121,9 @@ if(isset($_GET["editar"]))
 
                        <?php
                        $listaOpciones = array(
-                            1 => "Activo",
-                            0 => "Inactivo",
-                            2 => "-Ninguno-",
+                            1 => "Activox",
+                            0 => "Inactivox",
+                            2 => "-Ningunox-",
                         );
                        
                        if(isset($requisitoExpediente->estado))  
@@ -142,8 +142,8 @@ if(isset($_GET["editar"]))
                                
                        }else{
                            echo "<option selected value='3'>- Ninguno -</option>";
-                           echo "<option value='1'>Activo</option>";
-                           echo "<option value='0'>Inactivo</option>";                           
+                           echo "<option value='1'>Activox</option>";
+                           echo "<option value='0'>Inactivox</option>";                           
                        }
                        ?> 
                         
@@ -206,15 +206,18 @@ function buscarRequsitosExpediente(){
   $("#body_contenedor").html("");
 
   var cboEstado = $("#cboEstado").val();
-  var cboTipoExpediente = $("#cboTipoExpediente").val();
+  var cboTipoExpediente = $("#cboTipoRequisito").val();
 
+ alert(cboEstado);
+ alert(cboTipoExpediente);
    if(isBlank(cboEstado) && isBlank(cboTipoExpediente))
    {
         buscarRequsitosExpedienteInicial();       
         return false;               
    }
 
-  $.get("inc_requisitosExpediente.php?listar_filtrado=true&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente, function(data, status){
+
+  $.get("inc_requisitosExpediente.php?listar_filtrado=1&cboEstado="+cboEstado+"&cboTipoExpediente="+cboTipoExpediente, function(data, status){
     $("#body_contenedor").html(data);
   });
 

@@ -1219,7 +1219,9 @@ SELECT
 
 CREATE PROCEDURE SP_tb_detalle_requisitos_exp_LISTAR_GRUPO_FILTRADO @cod_requisitos char(8), @estado int 
 AS
-
+begin
+if @cod_requisitos <> '0' and @estado <> 3
+begin
 SELECT 
       [tb_tip_expediente].[cod_tip_expediente],
 	  [tb_tip_expediente].[des_exp],
@@ -1239,7 +1241,46 @@ SELECT
   group by
   [tb_tip_expediente].[cod_tip_expediente],
   [tb_tip_expediente].[des_exp]
+  
+end
+else if @cod_requisitos = '0' and @estado <> 3
+begin
+SELECT 
+      [tb_tip_expediente].[cod_tip_expediente],
+	  [tb_tip_expediente].[des_exp],
+      count([tb_detalle_requisitos_exp].[cod_requisitos]) as veces
 
+  FROM [tb_detalle_requisitos_exp]
+  right join
+  [tb_tip_expediente]
+  on ([tb_tip_expediente].[cod_tip_expediente]=[tb_detalle_requisitos_exp].[cod_tip_expediente])
+where  [tb_detalle_requisitos_exp].estado=@estado
+   
+  group by
+  [tb_tip_expediente].[cod_tip_expediente],
+  [tb_tip_expediente].[des_exp]
+
+end
+
+
+else
+begin
+SELECT 
+      [tb_tip_expediente].[cod_tip_expediente],
+	  [tb_tip_expediente].[des_exp],
+      count([tb_detalle_requisitos_exp].[cod_requisitos]) as veces
+
+  FROM [tb_detalle_requisitos_exp]
+  right join
+  [tb_tip_expediente]
+  on ([tb_tip_expediente].[cod_tip_expediente]=[tb_detalle_requisitos_exp].[cod_tip_expediente])
+
+   
+  group by
+  [tb_tip_expediente].[cod_tip_expediente],
+  [tb_tip_expediente].[des_exp]
+end
+end
 
   GO
 

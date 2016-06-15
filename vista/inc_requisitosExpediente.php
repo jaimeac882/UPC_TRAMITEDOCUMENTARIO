@@ -105,9 +105,12 @@ if(isset($_GET["actualizar"]))
 
 if(isset($_GET["listar_filtrado"]))
 {    
-    
+
+      
     if(isset($_GET["cboEstado"]) && isset($_GET["cboTipoExpediente"]) )
     {
+      
+        
         $cod_tipo_expediente = $_GET["cboTipoExpediente"];
         $estado= $_GET["cboEstado"];
         
