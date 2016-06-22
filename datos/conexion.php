@@ -5,13 +5,13 @@ class conexion{
 	}
 
   function conectarsql(){
-<<<<<<< HEAD
-      $serverName = "(local)\SQLEXPRESS";
-       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql");
-=======
+/*<<<<<<< HEAD*/
+ /*     $serverName = "(local)\SQLEXPRESS";
+       $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"sql");*/
+/*=======*/
       $serverName = "GERARDO-PC";
        $connectionInfo = array( "Database"=>"munives_tramite", "UID"=>"sa", "PWD"=>"Gerardo50");
->>>>>>> origin/master
+/*>>>>>>> origin/master*/
 			 return sqlsrv_connect( $serverName, $connectionInfo);
 	}
 }
