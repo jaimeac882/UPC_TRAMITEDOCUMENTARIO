@@ -774,22 +774,22 @@ private $lt_TipTramite;
 		$tramite->cod_tramite=$codigo;
                 //mssql_select_db('TramiteDocumentario',$con);
                $sql = "select t.cod_tramite ,
-       t.des_tramite , t.ind_confir_jefe,
-       t.cod_administrado,
-       (
-select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
-from tb_administrado as a where a.cod_administrado = t.cod_administrado )
-as administrado,
+                       t.des_tramite , t.ind_confir_jefe,
+                       t.cod_administrado,
+                       (
+                select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
+                from tb_administrado as a where a.cod_administrado = t.cod_administrado )
+                as administrado,
 
-CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
-observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
-   CASE
-      WHEN cod_tipo_tramite = 'TDT001' THEN 1
-      WHEN cod_tipo_tramite = 'TDT002' THEN 0
-   END  as indicador_tramite
+                CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
+                observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
+                   CASE
+                      WHEN cod_tipo_tramite = 'TDT001' THEN 1
+                      WHEN cod_tipo_tramite = 'TDT002' THEN 0
+                   END  as indicador_tramite
 
-from tb_tramite as t
- where t.cod_tramite='".$tramite->cod_tramite."'";
+                from tb_tramite as t
+                 where t.cod_tramite='".$tramite->cod_tramite."'";
 
                $consulta = sqlsrv_query ($con,$sql);
         $fila = sqlsrv_fetch_array ($consulta,SQLSRV_FETCH_ASSOC);

@@ -1410,3 +1410,106 @@ dbo.tb_detalle_requisitos_exp.cod_tip_expediente=@cod_tip_expediente)
 ----
 
 END
+
+
+
+CREATE PROCEDURE SP_tb_tramite_INSTANCIA @codtramite char(10)
+AS
+BEGIN
+
+select t.cod_tramite ,
+                       t.des_tramite , t.ind_confir_jefe,
+                       t.cod_administrado,
+                       (
+                select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
+                from tb_administrado as a where a.cod_administrado = t.cod_administrado )
+                as administrado,
+
+                CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
+                observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
+                   CASE
+                      WHEN cod_tipo_tramite = 'TDT001' THEN 1
+                      WHEN cod_tipo_tramite = 'TDT002' THEN 0
+                   END  as indicador_tramite
+
+                from tb_tramite as t
+                 where t.cod_tramite=@codtramite
+
+END
+
+
+CREATE PROCEDURE SP_tb_tramite_iteracion_LISTAR
+AS
+BEGIN
+select * from tb_tramite_iteracion
+END 
+
+
+
+CREATE PROCEDURE SP_tb_tramite_iteracion_LISTAR_X_CODTRAMITE @codtramite char(10)
+AS
+BEGIN
+
+ select 
+  tb.cod_tramite_adjuntos,
+  tb.cod_tramite,
+  (select des_user from tb_user as u where u.cod_user=tb.cod_usu) as registradopor,
+  tb.des_adj,
+  tb.nom_docu,
+  tb.ruta_doc_adjunta 
+  
+  from tb_tramite_adjuntos as tb
+  where tb.cod_tramite=@codtramite;
+
+END
+
+
+
+CREATE PROCEDURE SP_tb_tramite_LISTAR_TIPO_SOLICITUD 
+AS
+BEGIN
+
+select t.cod_tramite ,
+                       t.des_tramite , t.ind_confir_jefe,
+                       t.cod_administrado,
+                       (
+                select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
+                from tb_administrado as a where a.cod_administrado = t.cod_administrado )
+                as administrado,
+
+                CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
+                observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
+                   CASE
+                      WHEN cod_tipo_tramite = 'TDT001' THEN 1
+                      WHEN cod_tipo_tramite = 'TDT002' THEN 0
+                   END  as indicador_tramite
+
+                from tb_tramite as t
+                 where cod_tipo_tramite='TDT002'
+
+END
+
+
+CREATE PROCEDURE SP_tb_tramite_LISTAR_EXPEDIENTE 
+AS
+BEGIN
+
+select t.cod_tramite ,
+                       t.des_tramite , t.ind_confir_jefe,
+                       t.cod_administrado,
+                       (
+                select rtrim(ltrim(nom +' '+ape_pat+' '+ape_mat))
+                from tb_administrado as a where a.cod_administrado = t.cod_administrado )
+                as administrado,
+
+                CONVERT(VARCHAR(10), t.fec_recepcion, 101) as fec_recepcion,
+                observaciones,folio,asunto,cod_tipo_tramite,cod_exp,
+                   CASE
+                      WHEN cod_tipo_tramite = 'TDT001' THEN 1
+                      WHEN cod_tipo_tramite = 'TDT002' THEN 0
+                   END  as indicador_tramite
+
+                from tb_tramite as t
+                 where cod_tipo_tramite='TDT001'
+
+END

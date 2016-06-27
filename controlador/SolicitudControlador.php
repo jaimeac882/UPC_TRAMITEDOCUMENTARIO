@@ -9,6 +9,14 @@
       return $obj->insertarSolicitud($codArea);
     }
 
+    //extendiendo más código
+    
+    
+    
+    
+    
+    
+    
   }
 
 ?>

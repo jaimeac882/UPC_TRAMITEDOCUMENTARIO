@@ -34,16 +34,10 @@
       <?php echo $row['fec_recepcion'];?>
     </td>
     <td>
-      <?php echo $row['desexpediente'];?>
-    </td>
-    <td>
-      <?php echo $row['diastupa'];?>
-    </td>
-    <td>
       <?php echo $row['diasTrans'];?>
     </td>
     <td style="width: 35px">
-      <a class="btn btn-info btn-sm" title="Delegar Tramite" href="Delegar_Tramite2.php?id=<?php echo $row['cod_tramite']; ?>">
+      <a class="btn btn-info btn-sm" title="Delegar Solicitud" href="Delegar_Solicitud2.php?id=<?php echo $row['cod_tramite']; ?>">
         <span class="glyphicon glyphicon-edit"></span>
       </a>
     </th>

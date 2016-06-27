@@ -96,35 +96,38 @@
                     <td>
                       <?php echo $row['nom_docu'];?>
                     </td>
-                    <?php if(strrpos($row['ruta_doc_adjunta'],'.xls') || strrpos($row['ruta_doc_adjunta'],'.xlsx') ||
-															strrpos($row['ruta_doc_adjunta'],'.doc') || strrpos($row['ruta_doc_adjunta'],'.docx')){ ?>
-											<td style="width: 35px">
-												<a class="btn btn-info btn-sm" href="../<?php echo $row['ruta_doc_adjunta'];?>">
-													<span class="glyphicon glyphicon-zoom-in"></span>
-												</a>
-											</td>
-										<?php	}else{ ?>
-                    <td style="width: 35px">
-											<a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
-												<span class="glyphicon glyphicon-zoom-in"></span>
-                      </a>
-											<div class="modal fade" id="dialog_<?php echo $key;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-											  <div class="modal-dialog modal-lg" role="document">
-											    <div class="modal-content">
-											      <div class="modal-header">
-											      </div>
-											      <div class="modal-body">
-															<center>
-																<div class="embed-responsive embed-responsive-4by3">
-																  <embed src="../<?php echo $row['ruta_doc_adjunta'];?>">
-																</div>
-															</center>
-											      </div>
-											      <div class="modal-footer">
-											      </div>
-											    </div>
-											  </div>
-											</div>
+                    <?php if(strrpos($row['ruta_doc_adjunta'],'.xls') || 
+                             strrpos($row['ruta_doc_adjunta'],'.xlsx') ||                            
+                             strrpos($row['ruta_doc_adjunta'],'.doc') || 
+                             strrpos($row['ruta_doc_adjunta'],'.docx')){ ?>
+                                <td style="width: 35px">
+                                        <a class="btn btn-info btn-sm" href="../<?php echo $row['ruta_doc_adjunta'];?>">
+                                                <span class="glyphicon glyphicon-zoom-in"></span>
+                                        </a>
+                                </td>
+                        <?php	}else{ ?>
+                                
+                        <td style="width: 35px">
+                                <a class="btn btn-info btn-sm" href="JavaScript:void(0);" data-toggle="modal" data-target="#dialog_<?php echo $key;?>">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>
+                                </a>
+                                <div class="modal fade" id="dialog_<?php echo $key;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                  <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                      </div>
+                                      <div class="modal-body">
+                                            <center>
+                                                    <div class="embed-responsive embed-responsive-4by3">
+                                                      <embed src="../<?php echo $row['ruta_doc_adjunta'];?>">
+                                                    </div>
+                                            </center>
+                                      </div>
+                                      <div class="modal-footer">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                     </td>
                     <?php	} ?>
                   </tr>
