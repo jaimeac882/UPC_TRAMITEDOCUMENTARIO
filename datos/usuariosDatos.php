@@ -7,6 +7,28 @@ require_once "../entidades/usuarios.php";
 require_once "../datos/conexion.php";
 
 class usuariosDatos{
+    
+    
+      function obtenerusuario($codusu){
+      $cnn = new conexion();
+      $con = $cnn->conectarsql();
+
+      $sql = "select * from tb_user WHERE cod_user = '".$codusu."'";
+
+      $consulta = sqlsrv_query ($con,$sql);
+
+      $usuarios = new usuarios();
+
+      if($row = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)){
+          $usuarios->id = trim($row['cod_user']);
+          $usuarios->contrasena = trim($row['clave_user']);
+
+      }
+
+      return $usuarios;
+    }
+    
+    
 	function insertarUsuarios($usuario,$pass){
 		$cnn = new conexion();
 		$con = $cnn->conectar();
@@ -81,6 +103,39 @@ class usuariosDatos{
 
     }
     
+    
+     function cambiClave($codigousu,$clave){
+         $cnn = new conexion();
+		$con = $cnn->conectarsql();
+
+		
+                
+              /*     $params = array( 
+                 array($codid, SQLSRV_PARAM_IN),
+                 array($pass, SQLSRV_PARAM_IN)
+                         );
+                       
+                          $tsql_callSP = "{call sp_actualizar_clave( ?, ? )}";
+                   
+                            $consulta = sqlsrv_query( $con, $tsql_callSP, $params);
+ 
+            */
+       $sql="EXEC sp_actualizar_clave '".$codigousu."'
+               ,'".$clave."'";
+       
+       $consulta = sqlsrv_query ($con,$sql);
+       
+                  
+                            
+       if( $consulta === false ) {
+           $rpta = "No se puedo actualizar la clave";
+        }else{
+           $rpta = "Se actualizo la clave";
+        }
+       
+        return $rpta; 
+         
+     }
     
      function validarsqlSP($usuario,$pass){
         $cnn = new conexion();

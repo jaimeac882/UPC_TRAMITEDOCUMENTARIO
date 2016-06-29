@@ -17,7 +17,16 @@ class usuariosControlador{
         $obj = new usuariosDatos();
 		return $obj->validar($usuario,$pass);
       }
+          function obtenerusuario($codusu){
+        $obj = new usuariosDatos();
+		return $obj->obtenerusuario($codusu);
+      }
       
+      
+            function cambiClave($codigousu,$clave){
+        $obj = new usuariosDatos();
+		return $obj->cambiClave($codigousu,$clave);
+      }
        function validarsql($usuario,$pass){
         $obj = new usuariosDatos();
         $usu = new usuarios();

@@ -29,3 +29,13 @@ AS
 go
 
 
+create procedure [dbo].[sp_actualizar_clave]
+@co_user varchar(100),
+@clave varchar(100)
+as
+
+
+update tb_user 
+set clave_user = @clave
+where cod_user= @co_user 
+go

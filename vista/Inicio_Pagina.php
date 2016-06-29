@@ -18,7 +18,7 @@ include_once("template/cabecera.php"); ?>
         <div class="col-sm-9 col-md-9">
             <div class="panel panel-default" >
                 <div class="panel-heading">
-                    <h3 class="panel-title">Intraner SISDOC</h3>
+                    <h3 class="panel-title">Intranet SISDOC</h3>
                 </div>
                
     <form id="form1" name="form1" method="POST" class="form-horizontal" autocomplete="Off" action="" style="padding-top: 20px">
