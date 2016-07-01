@@ -640,33 +640,53 @@ private $lt_TipTramite;
 
 
     function obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
+        
       $cnn = new conexion();
   		$con = $cnn->conectarsql();
 
-
-                /*ESTA VALIDACION LLEGA VERIFICANDO QUE EL EMPLEADO QUE INGRESA ES JEFE DEL AREA INDICADA... Y SOLO LOS TRAMIES ASIGNADOS A ESA AREA*/
+                /*ESTA VALIDACION LLEGA VERIFICANDO QUE EL EMPLEADO QUE
+                 *  INGRESA ES JEFE DEL AREA INDICADA... Y SOLO LOS TRAMIES
+                 *  ASIGNADOS A ESA AREA*/
+                
       $sql = "SELECT tb_1.*
+          
               FROM (SELECT cod_tramite,
                      (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
                       FROM   tb_administrado AS a
                       WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                      
                      t.des_tramite,
+                     
                      CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                     
                      (SELECT des_exp
                       FROM   tb_tip_expediente te
                       WHERE  te.cod_tip_expediente = t.cod_exp)       AS desexpediente,
+                      
                      (SELECT tex.dias_maximo
                       FROM   tb_tip_expediente tex
                       WHERE  tex.cod_tip_expediente = t.cod_exp)      AS diastupa,
+                      
                       DAY(GETDATE()-t.fec_recepcion) AS diasTrans
+                      
               FROM   tb_tramite AS t
-              WHERE  t.cod_estado = 'EST004') tb_1
-                inner join tb_tramite_area_asignada as tra on tb_1.cod_tramite = tra.cod_tramite
-			          inner join tb_area as are on are.cod_area = tra.cod_area
+              WHERE  
+              t.cod_estado = 'EST004') tb_1 
+              
+                inner join 
+                tb_tramite_area_asignada as tra  
+                on 
+                tb_1.cod_tramite = tra.cod_tramite
+            
+		inner join tb_area as are 
+                on 
+                are.cod_area = tra.cod_area
+                
               WHERE tb_1.administrado LIKE '%".$ad."%'
                 AND tra.cod_area LIKE '%".$cod_are_em."%'
                 AND are.cod_jefe LIKE '%".$id_emple."%'
                         AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."')
+                            
                         ORDER BY tb_1.diasTrans";
 
       $consulta = sqlsrv_query ($con,$sql);
@@ -682,6 +702,77 @@ private $lt_TipTramite;
       return($this->lt_Tramite);
     }
 
+    
+/*inicio :  Nuevo para manejo de solicitudes gmv //*/    
+    
+    function obtenerSolicitudesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
+        
+      $cnn = new conexion();
+  		$con = $cnn->conectarsql();
+
+                /*ESTA VALIDACION LLEGA VERIFICANDO QUE EL EMPLEADO QUE
+                 *  INGRESA ES JEFE DEL AREA INDICADA... Y SOLO LOS TRAMIES
+                 *  ASIGNADOS A ESA AREA*/
+                
+       $sql = "SELECT tb_1.*
+          
+              FROM (SELECT cod_tramite,
+                     (SELECT Rtrim(Ltrim(nom + ' ' + ape_pat + ' ' + ape_mat))
+                      FROM   tb_administrado AS a
+                      WHERE  a.cod_administrado = t.cod_administrado) AS administrado,
+                      
+                     t.des_tramite,
+                     
+                     CONVERT(VARCHAR(10), t.fec_recepcion, 101)       AS fec_recepcion,
+                     
+                     (SELECT des_exp
+                      FROM   tb_tip_expediente te
+                      WHERE  te.cod_tip_expediente = t.cod_exp)       AS desexpediente,
+                      
+                      t.cod_exp,
+                      
+                      DAY(GETDATE()-t.fec_recepcion) AS diasTrans
+                      
+              FROM   tb_tramite AS t
+              
+              WHERE  
+              t.cod_estado = 'EST004') tb_1 
+              
+                inner join 
+                tb_tramite_area_asignada as tra  
+                on 
+                tb_1.cod_tramite = tra.cod_tramite
+            
+		inner join tb_area as are 
+                on 
+                are.cod_area = tra.cod_area
+                
+              WHERE tb_1.administrado LIKE '%".$ad."%'
+                AND tra.cod_area LIKE '%".$cod_are_em."%'
+                AND are.cod_jefe LIKE '%".$id_emple."%'
+                        AND convert(date,tb_1.fec_recepcion) BETWEEN convert(date,'".$f1."') AND convert(date,'".$f2."') 
+                        AND tb_1.cod_exp=''    
+                            
+                        ORDER BY tb_1.diasTrans";
+
+      $consulta = sqlsrv_query ($con,$sql);
+      
+    //echo $sql;
+
+
+      while( $row = sqlsrv_fetch_array( $consulta, SQLSRV_FETCH_ASSOC) ) {
+        $this->lt_Tramite[] = $row;
+      }
+
+      sqlsrv_free_stmt( $consulta);
+
+      return($this->lt_Tramite);
+    }    
+    
+    
+/*Fin: Nuevo para manejo de solicitudes //gmv */    
+    
+    
     function obtenerTramitesAdjuntosIteracion($codigo){
       $cnn = new conexion();
       $con = $cnn->conectarsql();

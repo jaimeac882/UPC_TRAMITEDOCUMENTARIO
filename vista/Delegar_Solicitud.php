@@ -2,15 +2,15 @@
 session_start();
 include_once("template/cabecera.php");
 
-  require_once('../controlador/EmpleadoControlador.php');
-  require_once('../entidades/empleado.php');
+require_once('../controlador/EmpleadoControlador.php');
+require_once('../entidades/empleado.php');
 
 
 
-    $objEmpleadoControlador = new EmpleadoControlador();
-     $beanEmpleado= new empleado();
+$objEmpleadoControlador = new EmpleadoControlador();
+$beanEmpleado= new empleado();
 
-       $beanEmpleado = $objEmpleadoControlador->getEmpleadoxUsuario($_SESSION["cod_user"]);
+$beanEmpleado = $objEmpleadoControlador->getEmpleadoxUsuario($_SESSION["cod_user"]);
 
 //       echo $_SESSION["cod_area"];
 //       echo $beanEmpleado->POST_id();
@@ -25,30 +25,27 @@ include_once("template/cabecera.php");
 
 		<?php include_once("template/menu.php"); ?>
 
-		<div class="col-sm-9 col-md-9">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Consulta de Solicitudes a Delegar</h3>
-				</div>
+    <div class="col-sm-9 col-md-9">
+     <div class="panel panel-default">
+        <div class="panel-heading">
+                <h3 class="panel-title">Consulta de Solicitudes a Delegar</h3>
+        </div>
 
         <div class="panel-body">
           <!-- Inicio Buscador -->
           <div class="row">
             <div class="col-xs-3">
               <label class="control-label">Fecha Ingreso:</label>
-              <div id="datepicker1" class="input-group date"
-								data-date-format="mm/dd/yyyy">
-								<input class="form-control input-sm" id="va_datepicker1" type="text"
-									readonly /> <span class="input-group-addon input-sm"><i
-									class="glyphicon glyphicon-calendar"></i></span>
-							</div>
+              <div id="datepicker1" class="input-group date" data-date-format="mm/dd/yyyy">
+                    <input class="form-control input-sm" id="va_datepicker1" type="text" readonly /> 
+                    <span class="input-group-addon input-sm"><i class="glyphicon glyphicon-calendar"></i></span>
+	      </div>
             </div>
             <div class="col-xs-3">
               <label class="control-label">Fecha Hasta:</label>
-              <div id="datepicker2" class="input-group date" data-date-format="mm/dd/yyyy">
-								<input class="form-control input-sm" id="va_datepicker2" type="text"
-									readonly /> <span class="input-group-addon input-sm"><i
-									class="glyphicon glyphicon-calendar"></i></span>
+                 <div id="datepicker2" class="input-group date" data-date-format="mm/dd/yyyy">
+                    <input class="form-control input-sm" id="va_datepicker2" type="text" readonly /> 
+                    <span class="input-group-addon input-sm"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
             </div>
             <div class="col-xs-5">
@@ -57,11 +54,9 @@ include_once("template/cabecera.php");
             </div>
             <div class="col-xs-1">
               <label class="control-label">&nbsp;</label>
-              <button id="btnbuscar" name="btnbuscar"
-								onclick="buscarSolicitudes()" class="btn btn-primary btn-sm"
-								title="Buscar">
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
+              <button id="btnbuscar" name="btnbuscar" onclick="buscarSolicitudes()" class="btn btn-primary btn-sm" title="Buscar">
+		<span class="glyphicon glyphicon-search"></span>
+	      </button>
             </div>
           </div>
           <!-- Fin Buscador -->
@@ -75,8 +70,8 @@ include_once("template/cabecera.php");
                 <th>Desc. Tramite</th>
                 <th>Fec. Recep</th>
                 <th>Des. Exp</th>
-                <th>DiasTupa</th>
-								<th>DiasTrans</th>
+                <!--th>DiasTupa</th-->
+		<th>DiasTrans</th>
                 <th>&nbsp;</th>
               </tr>
             </thead>
@@ -96,21 +91,24 @@ $(function() {
   buscarSolicitudesInicial();
 });
 function buscarSolicitudes(){
+    
   $("#body_contenedor").html("");
   var fecha1 = $("#va_datepicker1").val();
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();
-    var area = "<?php echo $_SESSION["cod_area"];?>";
+  
+  var area = "<?php echo $_SESSION["cod_area"];?>";
   var id_emp = "<?php echo $beanEmpleado->POST_id();?>";
-
 
  $.get("inc_delegar_solicitud.php?fecha1="+fecha1+"&fecha2="+fecha2+"&ad="+administrado+"&cod_area_emp="+area+"&cod_emp="+id_emp, function(data, status){
 
     $("#body_contenedor").html(data);
   });
 }
+
 function buscarSolicitudesInicial(){
-	$("#body_contenedor").html("");
+    
+  $("#body_contenedor").html("");
   var fecha1 = '01/01/1900';
   var fecha2 = $("#va_datepicker2").val();
   var administrado = $("#buscar").val();

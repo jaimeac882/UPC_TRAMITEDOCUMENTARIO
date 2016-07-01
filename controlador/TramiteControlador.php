@@ -139,6 +139,11 @@
 		  return $obj->obtenerTramitesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple);
     }
 
+    function obtenerSolicitudesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple){
+      $obj = new TramiteDatos();
+		  return $obj->obtenerSolicitudesPorAsignar($f1,$f2,$ad,$cod_are_em,$id_emple);
+    }    
+    
     function obtenerTramitesAdjuntosIteracion($codigoTramite){
       $obj = new TramiteDatos();
       return $obj->obtenerTramitesAdjuntosIteracion($codigoTramite);
