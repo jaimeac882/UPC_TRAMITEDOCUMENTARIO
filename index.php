@@ -66,7 +66,7 @@
         <div class="form-signin" role="form">
             <h2 class="form-signin-heading">Acceder a SISDOC</h2>
             <input type="email" id="usuario" value="rcadenas@munives.edu.pe" class="form-control" placeholder="usuario" required autofocus>
-            <input type="password" id="pass" value="1234" class="form-control" placeholder="contraseña" required>
+            <input type="password" id="pass" value="123" class="form-control" placeholder="contraseña" required>
             <button class="btn btn-lg btn-primary btn-block" id="singin" type="button">ingresar</button>
         </div>
     </div>

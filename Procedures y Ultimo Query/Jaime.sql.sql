@@ -39,3 +39,45 @@ update tb_user
 set clave_user = @clave
 where cod_user= @co_user 
 go
+
+
+/*PROCEDURE CREADOS 01 07 2016*/ 
+
+create procedure sp_get_modulo
+@cod_modulo varchar(100)
+as
+select * from tb_modulo WHERE COD_MODULO = @cod_modulo
+go
+
+
+create procedure SP_tb_modulo_listar
+as
+select * from tb_modulo
+go
+
+
+
+ 
+create procedure SP_tb_modulo_listar_filtro
+@cod_modulo varchar(100),
+@des varchar(100)
+as
+if @cod_modulo <> '' and @des <> '' 
+begin
+select * from tb_modulo where cod_modulo = @cod_modulo
+and NOM_MODULO like '%'+@des+'%'
+end
+else if @des <> ''  and @cod_modulo = ''
+begin
+select * from tb_modulo where NOM_MODULO like '%'+@des+'%'
+end
+else if @des = ''  and @cod_modulo <> ''
+begin
+select * from tb_modulo where cod_modulo like '%'+@cod_modulo+'%' 
+end
+else
+begin
+select * from tb_modulo 
+end
+
+go

@@ -138,6 +138,26 @@
                       -->
                          </ul>
                     </div>
+                    
+                    
+                    
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"><span class="glyphicon glyphicon-plus"></span> Administrado</a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse in">
+                        <ul class="list-group">
+                                <ul class="list-group">
+                               
+                                     <li   class="list-group-item"><span class="glyphicon glyphicon-pencil text-primary"></span><a href="../vista/Gestionar_Modulos.php">Gestionar Módulos</a>
+                                 </ul>
+
+                            <!-- <li class="list-group-item"><span class="glyphicon glyphicon-share-alt text-info"></span> <a>Share</a></li>
+                            <li class="list-group-item"><span class="glyphicon glyphicon-bell text-success"></span> <a>Users online</a><span class="badge">7</span></li>
+                           -->
+                           </ul>
+                    </div>
 
                 </div>
             </div>
